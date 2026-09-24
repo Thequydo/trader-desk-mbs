@@ -153,6 +153,20 @@
     .badge-price-down { background: rgba(255, 59, 48, 0.18); color: #ff3b30; border: 1px solid rgba(255, 59, 48, 0.4); }
     .badge-price-ref { background: rgba(255, 184, 0, 0.18); color: #ffb800; border: 1px solid rgba(255, 184, 0, 0.4); }
 
+    .badge-market {
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 4px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .badge-hose { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+    .badge-hnx { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+    .badge-upcom { background: rgba(249, 115, 22, 0.2); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.4); }
+
     .live-dot {
       width: 7px;
       height: 7px;
@@ -1278,23 +1292,50 @@
       if (liveQuotes[sym] && liveQuotes[sym].price > 0) {
         return liveQuotes[sym];
       }
-      if (globalRadar && globalRadar.radar) {
-        const found = globalRadar.radar.find(r => r.symbol === sym);
-        if (found) {
-          const p = found.price || 40.0;
-          return { sym: sym, price: p, ref: p, ceil: p * 1.07, floor: p * 0.93, ot: 0, chg: 0, vol: (found.vol_surge ? found.vol_surge * 250000 : 0) };
-        }
+      const market = (sym === 'ACV') ? 'UPCoM' : ((sym === 'IDC') ? 'HNX' : 'HOSE');
+      const defaults = { 
+        ACV: { price: 39.4, ave: 39.18, ref: 39.4, ceil: 45.3, floor: 33.5, market: 'UPCoM', vol: 24970 },
+        VHM: { price: 65.4, ave: 66.13, ref: 68.2, ceil: 72.9, floor: 63.5, market: 'HOSE', vol: 1826010 },
+        VTP: { price: 52.6, ave: 52.05, ref: 49.25, ceil: 52.6, floor: 45.85, market: 'HOSE', vol: 258880 },
+        GEX: { price: 24.1, ave: 24.25, ref: 24.35, ceil: 26.05, floor: 22.65, market: 'HOSE', vol: 510370 },
+        VIX: { price: 12.75, ave: 12.8, ref: 12.95, ceil: 13.85, floor: 12.05, market: 'HOSE', vol: 2661390 },
+        GEE: { price: 70.9, ave: 70.81, ref: 70.9, ceil: 75.8, floor: 66.0, market: 'HOSE', vol: 209640 },
+        VGC: { price: 42.4, ave: 42.58, ref: 42.0, ceil: 44.9, floor: 39.1, market: 'HOSE', vol: 63390 },
+        IDC: { price: 33.6, ave: 33.65, ref: 33.6, ceil: 36.9, floor: 30.3, market: 'HNX', vol: 149100 },
+        SSI: { price: 20.85, ave: 20.83, ref: 20.85, ceil: 22.3, floor: 19.4, market: 'HOSE', vol: 2243990 },
+        HPG: { price: 20.8, ave: 20.88, ref: 21.05, ceil: 22.5, floor: 19.6, market: 'HOSE', vol: 1552850 },
+        FPT: { price: 65.3, ave: 65.36, ref: 66.1, ceil: 70.7, floor: 61.5, market: 'HOSE', vol: 435090 },
+        MWG: { price: 72.9, ave: 72.65, ref: 73.2, ceil: 78.3, floor: 68.1, market: 'HOSE', vol: 166460 }
+      };
+      if (defaults[sym]) {
+        const d = defaults[sym];
+        return { 
+          sym: sym, 
+          price: d.price, 
+          ave: d.ave, 
+          closePrice: (d.market === 'UPCoM') ? d.ave : d.price,
+          ref: d.ref, 
+          ceil: d.ceil, 
+          floor: d.floor, 
+          market: d.market,
+          ot: (d.price - d.ref), 
+          chg: (((d.price - d.ref) / d.ref) * 100), 
+          vol: d.vol 
+        };
       }
-      if (globalRadar && globalRadar.top3) {
-        const found = globalRadar.top3.find(r => r.symbol === sym);
-        if (found) {
-          const p = found.price || 40.0;
-          return { sym: sym, price: p, ref: p, ceil: p * 1.07, floor: p * 0.93, ot: 0, chg: 0, vol: (found.vol_surge ? found.vol_surge * 250000 : 0) };
-        }
-      }
-      const defaults = { ACV: 39.4, VHM: 65.4, VTP: 52.6, GEX: 24.1, VIX: 12.75, GEE: 70.9, VGC: 55.0, IDC: 58.2, SSI: 34.5, HPG: 28.2, FPT: 135.0, MWG: 68.0 };
-      const p = defaults[sym] || 40.0;
-      return { sym: sym, price: p, ref: p, ceil: p * 1.07, floor: p * 0.93, ot: 0, chg: 0, vol: 150000 };
+      return { 
+        sym: sym, 
+        price: 40.0, 
+        ave: 40.0, 
+        closePrice: 40.0,
+        ref: 40.0, 
+        ceil: 42.8, 
+        floor: 37.2, 
+        market: market,
+        ot: 0, 
+        chg: 0, 
+        vol: 150000 
+      };
     }
 
     function getStockCurrentPrice(sym) {
@@ -1339,10 +1380,15 @@
         return;
       }
 
+      let hasUpcom = false;
       let html = '';
       items.forEach(h => {
         const q = getStockQuote(h.symbol);
         const curPrice = q.price;
+        const avePrice = q.ave || curPrice;
+        const market = q.market || (h.symbol === 'ACV' ? 'UPCoM' : (h.symbol === 'IDC' ? 'HNX' : 'HOSE'));
+        if (market === 'UPCoM') hasUpcom = true;
+
         const ref = q.ref || curPrice;
         const ceil = q.ceil || 0;
         const floor = q.floor || 0;
@@ -1359,14 +1405,22 @@
         const plColor = pl >= 0 ? 'var(--quant-green)' : 'var(--quant-red)';
         const plSign = pl >= 0 ? '+' : '';
 
+        const marketBadgeCls = market === 'UPCoM' ? 'badge-upcom' : (market === 'HNX' ? 'badge-hnx' : 'badge-hose');
+
         html += `
           <div class="holding-item">
             <div>
-              <div class="holding-sym">${h.symbol} <span style="font-size:11px; font-weight:600; color:var(--text-muted);">• ${h.qty.toLocaleString('vi-VN')} CP</span></div>
+              <div class="holding-sym">
+                ${h.symbol} <span class="badge-market ${marketBadgeCls}">${market}</span>
+                <span style="font-size:11px; font-weight:600; color:var(--text-muted);">• ${h.qty.toLocaleString('vi-VN')} CP</span>
+              </div>
               <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">${(val/1000000).toFixed(2)} Tr</div>
             </div>
             <div id="holding-price-${h.symbol}">
-              <div style="font-family:var(--font-mono); font-size:13px; font-weight:800;" class="${priceColorClass}">${curPrice.toFixed(2)}k</div>
+              <div style="font-family:var(--font-mono); font-size:13px; font-weight:800;" class="${priceColorClass}">
+                ${curPrice.toFixed(2)}k ${market !== 'UPCoM' ? '<span style="font-size:10px; color:var(--text-dim);">(ATC)</span>' : ''}
+              </div>
+              ${market === 'UPCoM' ? `<div style="font-size:10.5px; font-family:var(--font-mono); color:#38bdf8; font-weight:700; margin:1px 0;">BQ: ${avePrice.toFixed(2)}k (Chốt)</div>` : ''}
               <div class="badge-price ${priceBadgeClass}" style="margin-top:2px;">${arrow} ${ot >= 0 ? '+' : ''}${ot.toFixed(2)} (${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%)</div>
               <div style="font-size:10.5px; color:var(--text-dim); margin-top:2px;">Vốn: ${h.avgPrice}k</div>
             </div>
@@ -1381,6 +1435,14 @@
           </div>
         `;
       });
+
+      if (hasUpcom) {
+        html += `
+          <div style="font-size:11px; color:#cbd5e1; background:rgba(30, 41, 59, 0.6); border:1px solid rgba(249, 115, 22, 0.35); border-radius:10px; padding:7px 10px; margin-top:10px; line-height:1.45;">
+            <span style="color:#fb923c; font-weight:800;">💡 QUY TẮC SÀN UPCOM:</span> Sàn UPCoM không có phiên ATC. Giá đóng cửa chính thức và làm tham chiếu ngày mai được tính theo <strong>Giá Bình Quân Gia Quyền (${(liveQuotes['ACV']?.ave || 39.18).toFixed(2)}k)</strong>, khác với sàn HOSE/HNX chốt theo giá khớp lệnh phiên ATC.
+          </div>
+        `;
+      }
       container.innerHTML = html;
     }
 
@@ -1790,9 +1852,14 @@
           if (Array.isArray(vpsData) && vpsData.length > 0) {
             items = vpsData.map(s => {
               const last = parseFloat(s.lastPrice) || parseFloat(s.r) || 0;
+              const ave = parseFloat(s.avePrice) || last;
               const ref = parseFloat(s.r) || last;
               const ceil = parseFloat(s.c) || 0;
               const floor = parseFloat(s.f) || 0;
+              const m = s.marketId;
+              const market = (m === 'UPX' || s.sym === 'ACV') ? 'UPCoM' : ((m === 'STX' || s.sym === 'IDC') ? 'HNX' : 'HOSE');
+              const closePrice = (market === 'UPCoM') ? ave : last;
+
               let ot = parseFloat(s.ot) || 0;
               let chg = parseFloat(s.changePc) || 0;
               if (last > ref) {
@@ -1808,6 +1875,9 @@
               return {
                 sym: s.sym,
                 price: last,
+                ave: ave,
+                closePrice: closePrice,
+                market: market,
                 ref: ref,
                 ceil: ceil,
                 floor: floor,
@@ -1939,6 +2009,8 @@
         const sym = item.symbol;
         const q = getStockQuote(sym);
         const curPrice = q.price || item.price || 40.0;
+        const avePrice = q.ave || curPrice;
+        const market = q.market || (sym === 'ACV' ? 'UPCoM' : (sym === 'IDC' ? 'HNX' : 'HOSE'));
         const ref = q.ref || curPrice;
         const ceil = q.ceil || 0;
         const floor = q.floor || 0;
@@ -1949,6 +2021,9 @@
         const priceColorClass = getPriceColorClass(curPrice, ref, ceil, floor);
         const priceBadgeClass = getPriceBadgeClass(curPrice, ref, ceil, floor);
         const arrow = curPrice > ref ? '▲' : (curPrice < ref ? '▼' : '■');
+
+        const marketBadgeCls = market === 'UPCoM' ? 'badge-upcom' : (market === 'HNX' ? 'badge-hnx' : 'badge-hose');
+        const rangeText = market === 'UPCoM' ? '±15%' : (market === 'HNX' ? '±10%' : '±7%');
 
         let actClass = 'act-out';
         const actText = item.action || '🟡 THEO DÕI';
@@ -1971,16 +2046,20 @@
           <tr>
             <td>
               <div class="sym-badge">${sym}</div>
+              <div style="margin-top:3px;"><span class="badge-market ${marketBadgeCls}">${market}</span></div>
             </td>
             <td id="price-cell-${sym}">
-              <div class="${priceColorClass}" style="font-family:var(--font-mono); font-size:14px; font-weight:800;">${curPrice.toFixed(2)}k</div>
+              <div class="${priceColorClass}" style="font-family:var(--font-mono); font-size:14px; font-weight:800;">
+                ${curPrice.toFixed(2)}k ${market !== 'UPCoM' ? '<span style="font-size:10px; color:var(--text-dim);">(ATC)</span>' : ''}
+              </div>
+              ${market === 'UPCoM' ? `<div style="font-size:10.5px; font-family:var(--font-mono); color:#38bdf8; font-weight:700; margin:1px 0;">BQ: ${avePrice.toFixed(2)}k (Chốt)</div>` : ''}
               <div class="badge-price ${priceBadgeClass}" style="margin-top:2px;">
                 ${arrow} ${ot >= 0 ? '+' : ''}${ot.toFixed(2)} (${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%)
               </div>
             </td>
             <td>
               <div style="font-family:var(--font-mono); font-size:11px; line-height:1.5;">
-                <span style="color:#ffb800;">TC: ${ref.toFixed(2)}</span><br>
+                <span style="color:#ffb800;">TC: ${ref.toFixed(2)}</span> <span style="font-size:10px; color:var(--text-dim);">(${rangeText})</span><br>
                 <span style="color:#d946ef;">T: ${ceil ? ceil.toFixed(2) : '-'}</span> | 
                 <span style="color:#00e5ff;">S: ${floor ? floor.toFixed(2) : '-'}</span>
               </div>

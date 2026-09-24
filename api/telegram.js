@@ -61,13 +61,17 @@ HỒ SƠ TÀI SẢN CỦA ANH THẾ (CHỈ DÙNG KHI ANH THẾ HỎI VỀ DANH M
         if (Array.isArray(vpsData) && vpsData.length > 0) {
           liveQuoteStr = "BẢNG GIÁ THỜI GIAN THỰC (SINH VIÊN CHƠI CHỨNG / VPS LIVE FEED):\n" + vpsData.map(s => {
             const last = parseFloat(s.lastPrice) || parseFloat(s.r) || 0;
+            const ave = parseFloat(s.avePrice) || last;
             const ref = parseFloat(s.r) || last;
             const ceil = parseFloat(s.c) || 0;
             const floor = parseFloat(s.f) || 0;
+            const m = s.marketId;
+            const market = (m === 'UPX' || s.sym === 'ACV') ? 'UPCoM' : ((m === 'STX' || s.sym === 'IDC') ? 'HNX' : 'HOSE');
             let ot = parseFloat(s.ot) || 0;
             let chg = parseFloat(s.changePc) || 0;
             const sign = last >= ref ? '+' : '-';
-            return `• ${s.sym}: Khớp ${last}k (${sign}${ot}k, ${sign}${chg}%) | TC: ${ref}k | Trần: ${ceil}k | Sàn: ${floor}k | Khối lượng khớp: ${(parseFloat(s.lot)||0).toLocaleString('vi-VN')} CP`;
+            const extra = (market === 'UPCoM') ? ` | Giá BQ chốt phiên UPCoM: ${ave}k (±15%)` : ` | Khớp ATC: ${last}k (${market === 'HNX' ? '±10%' : '±7%'})`;
+            return `• ${s.sym} [${market}]: Khớp ${last}k (${sign}${ot}k, ${sign}${chg}%)${extra} | TC: ${ref}k | Trần: ${ceil}k | Sàn: ${floor}k | Khối lượng khớp: ${(parseFloat(s.lot)||0).toLocaleString('vi-VN')} CP`;
           }).join('\n');
         }
       }
@@ -91,7 +95,9 @@ Bạn đang tư vấn 1-1 riêng cho khách hàng VIP là anh Quang Thế (hãy 
 QUY TẮC CỐT LÕI (BẮT BUỘC TUÂN THỦ TUYỆT ĐỐI):
 1. TRẢ LỜI ĐÚNG TRỌNG TÂM CÂU HỎI:
    - Khi anh Thế hỏi về một mã cổ phiếu cụ thể (ví dụ GEE, VHM, GEX, VTP...), hãy TẬP TRUNG 100% PHÂN TÍCH THẲNG VÀO MÃ ĐÓ.
-   - Cung cấp giá khớp thời gian thực mới nhất, biến động so với tham chiếu/trần/sàn.
+   - Cung cấp giá khớp thời gian thực mới nhất, phân biệt rõ cơ chế sàn:
+     + Sàn HOSE & HNX: Chốt phiên và tham chiếu theo Giá khớp lệnh ATC.
+     + Sàn UPCoM (như ACV): KHÔNG có phiên ATC, giá đóng cửa chính thức và làm tham chiếu ngày mai tính theo GIÁ BÌNH QUÂN GIA QUYỀN (avePrice).
    - Đưa ra nhận định dứt khoát: Có nên mua / bắt đáy hay không? Dựa vào RSI, Vol nổ, Điểm số AI và Vùng giá hỗ trợ/kháng cự.
    - TUYỆT ĐỐI KHÔNG TỰ TIỆN ĐỀ CẬP ĐẾN ACV HAY KẾ HOẠCH CƠ CẤU ACV khi anh Thế không hỏi về ACV hay cơ cấu tài khoản!
 2. 100% TIẾNG VIỆT CHUYÊN NGHIỆP:

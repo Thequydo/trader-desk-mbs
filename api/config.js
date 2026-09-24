@@ -109,9 +109,13 @@ export default async function handler(req, res) {
         const vpsData = await vpsRes.json();
         for (const s of vpsData) {
           const last = parseFloat(s.lastPrice) || parseFloat(s.r) || 0;
+          const ave = parseFloat(s.avePrice) || last;
           const ref = parseFloat(s.r) || last;
           const ceil = parseFloat(s.c) || 0;
           const floor = parseFloat(s.f) || 0;
+          const m = s.marketId;
+          const market = (m === 'UPX') ? 'UPCoM' : ((m === 'STX') ? 'HNX' : 'HOSE');
+          
           let ot = parseFloat(s.ot) || 0;
           let chg = parseFloat(s.changePc) || 0;
           if (last > ref) {
@@ -125,7 +129,22 @@ export default async function handler(req, res) {
             chg = 0;
           }
           const vol = parseFloat(s.lot) || 0;
-          items.push({ sym: s.sym, price: last, ref: ref, ceil: ceil, floor: floor, chg: chg, ot: ot, vol: vol });
+          // Sàn UPCoM: Giá đóng cửa và tham chiếu phiên sau tính theo Giá Bình Quân Gia Quyền (avePrice)
+          const closePrice = (market === 'UPCoM') ? ave : last;
+
+          items.push({ 
+            sym: s.sym, 
+            price: last, 
+            ave: ave, 
+            closePrice: closePrice,
+            market: market, 
+            ref: ref, 
+            ceil: ceil, 
+            floor: floor, 
+            chg: chg, 
+            ot: ot, 
+            vol: vol 
+          });
         }
       }
     } catch (e) {
