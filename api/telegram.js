@@ -36,7 +36,7 @@ async function fetchLiveQuotes(symbols) {
   try {
     const vpsRes = await fetch(`https://bgapidatafeed.vps.com.vn/getliststockdata/${symbols.join(',')}`, {
       headers: { "User-Agent": "Mozilla/5.0" },
-      signal: AbortSignal.timeout(2000)
+      signal: AbortSignal.timeout(1000)
     });
     if (vpsRes.ok) {
       const vpsData = await vpsRes.json();
@@ -140,28 +140,25 @@ ${portfolioContext}`;
     generationConfig: { temperature: 0.65, maxOutputTokens: 600 }
   };
 
-  // Thử model siêu tốc gemini-flash-lite-latest (thời gian phản hồi ~1.2s - 2.5s)
-  const modelsToTry = ['gemini-flash-lite-latest', 'gemini-3.5-flash-lite'];
-  for (const model of modelsToTry) {
-    try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`;
-      const resp = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(3500) // Khống chế tối đa 3.5s để Vercel không bao giờ bị timeout
-      });
+  // Ưu tiên model siêu tốc gemini-flash-lite-latest (thời gian phản hồi ~1.1s - 2.5s)
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${GEMINI_KEY}`;
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(2800) // Khống chế tối đa 2.8s
+    });
 
-      if (resp.ok) {
-        const data = await resp.json();
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (text && text.trim().length > 0) {
-          return text.trim();
-        }
+    if (resp.ok) {
+      const data = await resp.json();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (text && text.trim().length > 0) {
+        return text.trim();
       }
-    } catch (e) {
-      console.warn(`Model ${model} failed or timed out:`, e.message);
     }
+  } catch (e) {
+    console.warn("Gemini Flash Lite timed out or busy, activating instant quant fallback:", e.message);
   }
   return null;
 }
