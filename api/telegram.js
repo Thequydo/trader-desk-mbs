@@ -222,6 +222,16 @@ export default async function handler(req, res) {
 
   try {
     const update = req.body;
+
+    // Hỗ trợ Web Terminal gửi thông báo khớp lệnh / cảnh báo danh mục trực tiếp về Telegram anh Thế
+    if (update && update.action === 'TRADE_ALERT') {
+      const targetChatId = update.chatId || 5951966097;
+      if (update.text) {
+        await sendTelegram(targetChatId, update.text);
+      }
+      return res.status(200).json({ ok: true, sent: true });
+    }
+
     if (!update || !update.message || !update.message.text) {
       return res.status(200).send("OK");
     }

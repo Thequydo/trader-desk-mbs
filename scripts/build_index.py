@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+# -*- coding: utf-8 -*-
+"""
+Script to build the state-of-the-art Sinh Vien Choi Chung (SVCC) Pro Trader Desk
+Full-featured: TradingView Candlesticks, 3-Column Pro Desk, Instant Execution, 
+Real-time VPS stream, Equity Curve, Trade Journal with AI Rationale, PIN Lock & Privacy Mode.
+"""
+
+HTML_CONTENT = r'''<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -2390,3 +2397,12 @@
   </script>
 </body>
 </html>
+'''
+
+with open('index.html', 'w', encoding='utf-8') as f:
+    f.write(HTML_CONTENT)
+
+with open('public/index.html', 'w', encoding='utf-8') as f:
+    f.write(HTML_CONTENT)
+
+print("Built and synchronized index.html and public/index.html successfully!")
