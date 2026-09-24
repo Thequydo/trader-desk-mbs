@@ -4,6 +4,10 @@ let inMemoryConfig = {
   owned: "ACV",
   qty: 1250,
   avg: 45.899,
+  cash: 500000,
+  transactions: [
+    { id: "GD1001", time: "24/09/2026 09:15", type: "deposit", amount: 500000, desc: "Số dư khởi tạo tài khoản", status: "Thành công" }
+  ],
   session: "ONLINE",
   time: ""
 };
@@ -34,6 +38,8 @@ export default async function handler(req, res) {
       if (body.owned) inMemoryConfig.owned = body.owned;
       if (body.qty) inMemoryConfig.qty = parseInt(body.qty) || inMemoryConfig.qty;
       if (body.avg) inMemoryConfig.avg = parseFloat(body.avg) || inMemoryConfig.avg;
+      if (body.cash !== undefined) inMemoryConfig.cash = parseFloat(body.cash);
+      if (body.transactions) inMemoryConfig.transactions = body.transactions;
     }
 
     // Nếu có biến môi trường KV / Upstash Redis -> Lưu vào đám mây vĩnh viễn

@@ -186,7 +186,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
     .stat-box {
       background: rgba(15, 23, 42, 0.6);
@@ -215,6 +215,62 @@
     .val-red { color: var(--quant-red); }
     .val-cyan { color: var(--accent-cyan); }
     .val-yellow { color: var(--quant-yellow); }
+
+    /* CASH ACTIONS BAR */
+    .cash-actions-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .btn-cash {
+      flex: 1;
+      min-width: 120px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      border: none;
+    }
+    .btn-deposit {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.35));
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .btn-deposit:hover {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+      transform: translateY(-1px);
+    }
+    .btn-withdraw {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(185, 28, 28, 0.25));
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+    .btn-withdraw:hover {
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+      transform: translateY(-1px);
+    }
+    .btn-history {
+      background: rgba(30, 41, 59, 0.6);
+      color: var(--text-muted);
+      border: 1px solid rgba(51, 65, 85, 0.8);
+      flex: 0.8;
+    }
+    .btn-history:hover {
+      background: rgba(51, 65, 85, 0.8);
+      color: var(--text-main);
+      border-color: rgba(148, 163, 184, 0.5);
+    }
 
     .advice-banner {
       background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(6, 182, 212, 0.08));
@@ -307,9 +363,7 @@
     }
 
     /* TABLE SECTION */
-    .table-card {
-      overflow-x: auto;
-    }
+    .table-card { overflow-x: auto; }
     .table-header-wrap {
       display: flex;
       justify-content: space-between;
@@ -363,9 +417,7 @@
       border-bottom: 1px solid rgba(30, 41, 59, 0.5);
       vertical-align: middle;
     }
-    tr:hover td {
-      background: rgba(30, 41, 59, 0.35);
-    }
+    tr:hover td { background: rgba(30, 41, 59, 0.35); }
 
     .sym-badge {
       font-family: var(--font-mono);
@@ -387,11 +439,7 @@
     .tag-mượt { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
     .tag-dip { background: rgba(16, 185, 129, 0.2); color: #34d399; }
 
-    .score-bar-wrap {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .score-bar-wrap { display: flex; align-items: center; gap: 8px; }
     .score-bar-bg {
       width: 60px;
       height: 6px;
@@ -399,10 +447,7 @@
       border-radius: 3px;
       overflow: hidden;
     }
-    .score-bar-fill {
-      height: 100%;
-      border-radius: 3px;
-    }
+    .score-bar-fill { height: 100%; border-radius: 3px; }
 
     .action-badge {
       font-size: 11px;
@@ -416,6 +461,220 @@
     .act-hold { background: rgba(14, 165, 233, 0.2); color: #38bdf8; }
     .act-out { background: rgba(239, 68, 68, 0.15); color: #f87171; }
     .act-dip { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+
+    /* MODAL STYLES */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 16px;
+    }
+    .modal-box {
+      background: #0f172a;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 480px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      animation: modalFadeIn 0.25s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+      padding-bottom: 12px;
+    }
+    .modal-title {
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+      border-radius: 6px;
+    }
+    .modal-close:hover { color: #fff; background: rgba(255,255,255,0.1); }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-input {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 16px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.25);
+    }
+    .form-select {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .quick-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .chip {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.8);
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .chip:hover {
+      background: rgba(37, 99, 235, 0.25);
+      border-color: #3b82f6;
+      color: #60a5fa;
+    }
+
+    .qr-box {
+      background: #ffffff;
+      padding: 14px;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 14px 0;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    .qr-img {
+      width: 190px;
+      height: 190px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .bank-info-box {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(51, 65, 85, 0.8);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3px 0;
+    }
+    .copy-tag {
+      cursor: pointer;
+      color: var(--accent-cyan);
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .btn-submit-deposit {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+    }
+    .btn-submit-deposit:hover {
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.6);
+      transform: translateY(-1px);
+    }
+    .btn-submit-withdraw {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: #fff;
+      box-shadow: 0 6px 18px rgba(239, 68, 68, 0.4);
+    }
+    .btn-submit-withdraw:hover {
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.6);
+      transform: translateY(-1px);
+    }
+
+    /* TOAST */
+    .toast-msg {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: #10b981;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: none;
+      z-index: 10000;
+      animation: toastIn 0.3s ease;
+    }
+    @keyframes toastIn {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
 
     /* FOOTER */
     .footer {
@@ -466,19 +725,32 @@
           <div class="stat-box">
             <div class="stat-label">Tiền Mặt Khả Dụng</div>
             <div class="stat-value val-yellow" id="cashVal">500,000 đ</div>
-            <div class="stat-sub" style="color:var(--text-muted);">Sẵn sàng cơ cấu</div>
+            <div class="stat-sub" style="color:var(--quant-green);">Sẵn sàng giải ngân</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Hầu Bao Sau Cơ Cấu</div>
-            <div class="stat-value val-green">10.32 Tr</div>
+            <div class="stat-value val-green" id="totalPowerVal">10.32 Tr</div>
             <div class="stat-sub val-green">+9.82 Tr từ 250 ACV</div>
           </div>
         </div>
 
-        <div class="advice-banner">
+        <!-- CASH ACTIONS -->
+        <div class="cash-actions-bar">
+          <button class="btn-cash btn-deposit" onclick="openDepositModal()">
+            <span>📥</span> Nạp Tiền
+          </button>
+          <button class="btn-cash btn-withdraw" onclick="openWithdrawModal()">
+            <span>📤</span> Rút Tiền
+          </button>
+          <button class="btn-cash btn-history" onclick="openHistoryModal()">
+            <span>📜</span> Lịch Sử GD
+          </button>
+        </div>
+
+        <div class="advice-banner" id="adviceText">
           <strong>🎯 Kế hoạch tái cơ cấu đã thống nhất cùng KwangTae:</strong><br>
           1. <strong>Khóa 1,000 cổ ACV cất tủ dài hạn</strong>: Đón trọn chu kỳ khai trương Siêu Cảng Hàng Không Quốc Tế Long Thành 2026.<br>
-          2. <strong>Bán 250 cổ ACV quanh 39.4k</strong>: Thu về ròng <strong>~9.82 triệu</strong>, dồn vào tổng tiền mặt <strong>10.32 triệu</strong> rình mồi lướt sóng nhịp hồi các mã quá bán sâu (như VHM RSI 17.3).
+          2. <strong>Bán 250 cổ ACV quanh 39.4k</strong>: Thu về ròng <strong>~9.82 triệu</strong>, dồn vào tổng tiền mặt rình mồi lướt sóng nhịp hồi các mã quá bán sâu (như VHM RSI 17.3).
         </div>
       </div>
 
@@ -492,7 +764,7 @@
             <span class="badge badge-live">Đang trực tuyến</span>
           </div>
           <div style="font-size: 13.5px; line-height: 1.5; color: var(--text-main);">
-            <strong>KwangTae Broker Bot</strong> đã được kết nối máy chủ Cloud Serverless. Anh có thể nhắn tin hỏi phân tích bất kỳ mã cổ phiếu nào hoặc tâm sự thị trường bất kể ngày đêm kể cả khi tắt máy tính!
+            <strong>KwangTae Broker Bot</strong> đã được kết nối máy chủ Cloud Serverless. Anh có thể nhắn tin hỏi phân tích bất kỳ mã cổ phiếu nào hoặc kiểm tra số dư nạp rút 24/7 kể cả khi tắt máy tính!
           </div>
 
           <div class="quick-prompts">
@@ -591,10 +863,352 @@
 
   </div>
 
+  <!-- MODAL: NẠP TIỀN -->
+  <div class="modal-overlay" id="depositModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title"><span style="color:var(--quant-green)">📥</span> NẠP TIỀN ĐẦU TƯ MBS</div>
+        <button class="modal-close" onclick="closeModal('depositModal')">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Số Tiền Nạp (VNĐ)</label>
+        <input type="number" class="form-input" id="depositAmount" value="5000000" step="500000" oninput="updateQrCode()">
+        <div class="quick-chips">
+          <span class="chip" onclick="setDepositAmount(1000000)">+1 Tr</span>
+          <span class="chip" onclick="setDepositAmount(2000000)">+2 Tr</span>
+          <span class="chip" onclick="setDepositAmount(5000000)">+5 Tr</span>
+          <span class="chip" onclick="setDepositAmount(10000000)">+10 Tr</span>
+          <span class="chip" onclick="setDepositAmount(20000000)">+20 Tr</span>
+          <span class="chip" onclick="setDepositAmount(50000000)">+50 Tr</span>
+        </div>
+      </div>
+
+      <div class="qr-box">
+        <div style="font-size:11px; font-weight:700; color:#475569; margin-bottom:6px; text-transform:uppercase;">Quét VietQR MBBank Nhanh 24/7</div>
+        <img src="" id="vietQrImg" class="qr-img" alt="VietQR Nạp Tiền">
+        <div style="font-size:12px; font-weight:800; color:#1e293b; margin-top:6px;" id="qrAmountLabel">5,000,000 VNĐ</div>
+      </div>
+
+      <div class="bank-info-box">
+        <div class="info-row">
+          <span style="color:var(--text-muted)">Ngân hàng:</span>
+          <strong>MBBank (Quân Đội)</strong>
+        </div>
+        <div class="info-row">
+          <span style="color:var(--text-muted)">STK Định Danh MBS:</span>
+          <strong>963855951966097 <span class="copy-tag" onclick="copyText('963855951966097')">Sao chép</span></strong>
+        </div>
+        <div class="info-row">
+          <span style="color:var(--text-muted)">Người thụ hưởng:</span>
+          <strong>CTCP CHUNG KHOAN MB - QUANG THE</strong>
+        </div>
+        <div class="info-row">
+          <span style="color:var(--text-muted)">Nội dung chuyển:</span>
+          <strong>MBS NOPTIEN QTHEEE <span class="copy-tag" onclick="copyText('MBS NOPTIEN QTHEEE')">Sao chép</span></strong>
+        </div>
+      </div>
+
+      <button class="btn-submit btn-submit-deposit" onclick="confirmDeposit()">
+        ✓ XÁC NHẬN NẠP TIỀN NGAY
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: RÚT TIỀN -->
+  <div class="modal-overlay" id="withdrawModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title"><span style="color:var(--quant-red)">📤</span> RÚT TIỀN VỀ NGÂN HÀNG</div>
+        <button class="modal-close" onclick="closeModal('withdrawModal')">&times;</button>
+      </div>
+
+      <div style="background:rgba(30, 41, 59, 0.5); padding:10px 14px; border-radius:12px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:12px; color:var(--text-muted);">Số dư khả dụng:</span>
+        <strong style="font-family:var(--font-mono); font-size:16px; color:var(--quant-green);" id="modalAvailCash">500,000 đ</strong>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Số Tiền Muốn Rút (VNĐ)</label>
+        <input type="number" class="form-input" id="withdrawAmount" placeholder="Nhập số tiền..." min="50000">
+        <div class="quick-chips">
+          <span class="chip" onclick="setWithdrawPercent(0.25)">25%</span>
+          <span class="chip" onclick="setWithdrawPercent(0.50)">50%</span>
+          <span class="chip" onclick="setWithdrawPercent(0.75)">75%</span>
+          <span class="chip" onclick="setWithdrawPercent(1.00)">100% (Tất Cả)</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Ngân Hàng Thụ Hưởng</label>
+        <select class="form-select" id="withdrawBank">
+          <option value="MBBank">MBBank - Ngân hàng TMCP Quân Đội</option>
+          <option value="Vietcombank">Vietcombank - Ngân hàng Ngoại Thương</option>
+          <option value="Techcombank">Techcombank - Ngân hàng Kỹ Thương</option>
+          <option value="ACB">ACB - Ngân hàng Á Châu</option>
+          <option value="VPBank">VPBank - Ngân hàng Việt Nam Thịnh Vượng</option>
+          <option value="TPBank">TPBank - Ngân hàng Tiên Phong</option>
+          <option value="BIDV">BIDV - Ngân hàng Đầu tư & Phát triển VN</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Số Tài Khoản Nhận</label>
+        <input type="text" class="form-input" id="withdrawAccNo" value="0988888888" placeholder="Nhập STK ngân hàng">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Chủ Tài Khoản (Định danh)</label>
+        <input type="text" class="form-input" value="QUANG THE" readonly style="opacity:0.8; cursor:not-allowed;">
+      </div>
+
+      <button class="btn-submit btn-submit-withdraw" onclick="confirmWithdraw()">
+        ✓ XÁC NHẬN RÚT TIỀN
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: LỊCH SỬ GIAO DỊCH -->
+  <div class="modal-overlay" id="historyModal">
+    <div class="modal-box" style="max-width:580px;">
+      <div class="modal-header">
+        <div class="modal-title"><span>📜</span> SỔ CÁI LỊCH SỬ GIAO DỊCH</div>
+        <button class="modal-close" onclick="closeModal('historyModal')">&times;</button>
+      </div>
+
+      <div style="max-height: 340px; overflow-y: auto;">
+        <table style="font-size:12px;">
+          <thead>
+            <tr>
+              <th>Thời Gian</th>
+              <th>Loại GD</th>
+              <th>Số Tiền</th>
+              <th>Số Dư</th>
+              <th>Trạng Thái</th>
+            </tr>
+          </thead>
+          <tbody id="historyTableBody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:16px; display:flex; justify-content:space-between; align-items:center;">
+        <button class="chip" onclick="resetTransactions()">Làm mới sổ cái</button>
+        <button class="btn-cash btn-history" style="flex:none; padding:8px 16px;" onclick="closeModal('historyModal')">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST POPUP -->
+  <div class="toast-msg" id="toastMsg">✓ Giao dịch thành công!</div>
+
   <script>
     let globalRadar = null;
     let currentTab = 'top3';
 
+    // State quản lý tiền mặt & lịch sử
+    let currentCash = 500000;
+    let transactions = [
+      { id: "GD1001", time: "24/09/2026 09:15", type: "deposit", amount: 500000, balance: 500000, desc: "Số dư khởi tạo tài khoản", status: "Thành công" }
+    ];
+
+    // Khởi động nạp dữ liệu từ localStorage
+    function initCashState() {
+      try {
+        const savedCash = localStorage.getItem('kwangtae_cash');
+        if (savedCash !== null) currentCash = parseFloat(savedCash);
+
+        const savedTx = localStorage.getItem('kwangtae_tx');
+        if (savedTx !== null) transactions = JSON.parse(savedTx);
+      } catch (e) {
+        console.warn("Storage error:", e);
+      }
+      updateCashUI();
+    }
+
+    function saveCashState() {
+      try {
+        localStorage.setItem('kwangtae_cash', currentCash.toString());
+        localStorage.setItem('kwangtae_tx', JSON.stringify(transactions));
+      } catch (e) {}
+
+      // Đồng bộ ngầm lên serverless /api/config
+      fetch('/api/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cash: currentCash, transactions: transactions })
+      }).catch(() => {});
+    }
+
+    function formatVND(num) {
+      return num.toLocaleString('vi-VN') + ' đ';
+    }
+
+    function updateCashUI() {
+      document.getElementById('cashVal').innerText = formatVND(currentCash);
+      document.getElementById('modalAvailCash').innerText = formatVND(currentCash);
+
+      // Tính toán hầu bao sau cơ cấu: Tiền mặt hiện có + 9,825,000đ (Bán 250 cổ ACV @ 39.4k - thuế phí)
+      const afterRestructure = currentCash + 9825000;
+      const totalMillions = (afterRestructure / 1000000).toFixed(2);
+      document.getElementById('totalPowerVal').innerText = totalMillions + ' Tr';
+
+      // Cập nhật lời khuyên tư vấn theo lượng vốn mới
+      updateAdviceText(currentCash, afterRestructure);
+    }
+
+    function updateAdviceText(cash, total) {
+      const banner = document.getElementById('adviceText');
+      if (total >= 30000000) {
+        banner.innerHTML = `<strong>🎯 Kế hoạch dòng tiền lớn (~${(total/1000000).toFixed(1)} Tr):</strong><br>
+        1. <strong>Giữ trọn 1,000 cổ ACV cất tủ dài hạn</strong>: Đón siêu dự án Long Thành 2026.<br>
+        2. Với hầu bao dồi dào, KwangTae khuyến nghị chia 3 phần: gom 1 lô <strong>VHM (vùng 65.4k)</strong>, 1 lô <strong>VTP (vùng 52.5k)</strong> và 1 phần tiền mặt dự phòng bắt nhịp nổ <strong>GEX</strong>.`;
+      } else {
+        banner.innerHTML = `<strong>🎯 Kế hoạch tái cơ cấu đã thống nhất cùng KwangTae:</strong><br>
+        1. <strong>Khóa 1,000 cổ ACV cất tủ dài hạn</strong>: Đón trọn chu kỳ khai trương Siêu Cảng Hàng Không Quốc Tế Long Thành 2026.<br>
+        2. <strong>Bán 250 cổ ACV quanh 39.4k</strong>: Thu về ròng <strong>~9.82 triệu</strong>, dồn vào tổng tiền mặt (đạt <strong>${(total/1000000).toFixed(2)} Tr</strong>) rình mồi lướt sóng nhịp hồi các mã quá bán sâu (như VHM RSI 17.3).`;
+      }
+    }
+
+    // Xử lý Modal
+    function openDepositModal() {
+      document.getElementById('depositModal').style.display = 'flex';
+      updateQrCode();
+    }
+    function openWithdrawModal() {
+      document.getElementById('modalAvailCash').innerText = formatVND(currentCash);
+      document.getElementById('withdrawAmount').max = currentCash;
+      document.getElementById('withdrawModal').style.display = 'flex';
+    }
+    function openHistoryModal() {
+      renderHistoryTable();
+      document.getElementById('historyModal').style.display = 'flex';
+    }
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    // Modal Nạp tiền
+    function setDepositAmount(amt) {
+      document.getElementById('depositAmount').value = amt;
+      updateQrCode();
+    }
+    function updateQrCode() {
+      const amt = parseInt(document.getElementById('depositAmount').value) || 0;
+      document.getElementById('qrAmountLabel').innerText = amt.toLocaleString('vi-VN') + ' VNĐ';
+      const qrUrl = `https://img.vietqr.io/image/MB-963855951966097-compact2.png?amount=${amt}&addInfo=MBS%20NOPTIEN%20QTHEEE&accountName=CTCP%20CHUNG%20KHOAN%20MB`;
+      document.getElementById('vietQrImg').src = qrUrl;
+    }
+    function confirmDeposit() {
+      const amt = parseInt(document.getElementById('depositAmount').value);
+      if (!amt || amt < 50000) {
+        alert("Vui lòng nhập số tiền nạp tối thiểu 50,000 đ!");
+        return;
+      }
+      currentCash += amt;
+      const nowStr = new Date().toLocaleString('vi-VN');
+      transactions.unshift({
+        id: "GD" + Math.floor(1000 + Math.random() * 9000),
+        time: nowStr,
+        type: "deposit",
+        amount: amt,
+        balance: currentCash,
+        desc: "Nạp tiền vào tài khoản MBS",
+        status: "Thành công"
+      });
+      saveCashState();
+      updateCashUI();
+      closeModal('depositModal');
+      showToast(`✓ Nạp thành công +${formatVND(amt)} vào tài khoản!`);
+    }
+
+    // Modal Rút tiền
+    function setWithdrawPercent(pct) {
+      const amt = Math.floor(currentCash * pct);
+      document.getElementById('withdrawAmount').value = amt;
+    }
+    function confirmWithdraw() {
+      const amt = parseInt(document.getElementById('withdrawAmount').value);
+      if (!amt || amt < 50000) {
+        alert("Số tiền rút tối thiểu là 50,000 đ!");
+        return;
+      }
+      if (amt > currentCash) {
+        alert(`Số dư khả dụng không đủ! Hiện anh chỉ có ${formatVND(currentCash)}.`);
+        return;
+      }
+      const bank = document.getElementById('withdrawBank').value;
+      const acc = document.getElementById('withdrawAccNo').value || "0988888888";
+      currentCash -= amt;
+      const nowStr = new Date().toLocaleString('vi-VN');
+      transactions.unshift({
+        id: "GD" + Math.floor(1000 + Math.random() * 9000),
+        time: nowStr,
+        type: "withdraw",
+        amount: amt,
+        balance: currentCash,
+        desc: `Rút tiền về ${bank} (${acc})`,
+        status: "Thành công"
+      });
+      saveCashState();
+      updateCashUI();
+      closeModal('withdrawModal');
+      showToast(`✓ Đã chuyển lệnh rút -${formatVND(amt)} về ${bank}!`);
+    }
+
+    // Lịch sử giao dịch
+    function renderHistoryTable() {
+      const tbody = document.getElementById('historyTableBody');
+      if (transactions.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Chưa có giao dịch nào</td></tr>';
+        return;
+      }
+      let html = '';
+      transactions.forEach(t => {
+        const isDep = t.type === 'deposit';
+        const color = isDep ? 'var(--quant-green)' : 'var(--quant-red)';
+        const sign = isDep ? '+' : '-';
+        html += `
+          <tr>
+            <td style="color:var(--text-muted); font-size:11px;">${t.time}</td>
+            <td><strong>${isDep ? '📥 Nạp tiền' : '📤 Rút tiền'}</strong><br><span style="font-size:10px; color:var(--text-dim);">${t.desc}</span></td>
+            <td style="font-family:var(--font-mono); font-weight:700; color:${color};">${sign}${t.amount.toLocaleString('vi-VN')} đ</td>
+            <td style="font-family:var(--font-mono); color:var(--text-muted);">${(t.balance || 0).toLocaleString('vi-VN')} đ</td>
+            <td><span class="action-badge act-buy" style="font-size:10px;">${t.status}</span></td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
+    }
+
+    function resetTransactions() {
+      if (confirm("Anh có chắc muốn thiết lập lại số dư về mặc định (500,000 đ)?")) {
+        currentCash = 500000;
+        transactions = [
+          { id: "GD1001", time: "24/09/2026 09:15", type: "deposit", amount: 500000, balance: 500000, desc: "Số dư khởi tạo ban đầu", status: "Thành công" }
+        ];
+        saveCashState();
+        updateCashUI();
+        renderHistoryTable();
+        showToast("✓ Đã thiết lập lại số dư!");
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toastMsg');
+      t.innerText = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 3500);
+    }
+
+    function copyText(txt) {
+      navigator.clipboard.writeText(txt).then(() => {
+        showToast("✓ Đã sao chép: " + txt);
+      });
+    }
+
+    // Đọc Radar Data
     async function loadRadarData() {
       try {
         let res = await fetch('/kwangtae_radar.json?t=' + Date.now());
@@ -709,12 +1323,12 @@
 
     function copyPrompt(text) {
       navigator.clipboard.writeText(text).then(() => {
-        alert("✓ Đã sao chép câu hỏi:\n\"" + text + "\"\n\nBây giờ anh chỉ cần dán vào khung chat Telegram với KwangTae là xong!");
-      }).catch(() => {
-        alert("Câu hỏi: " + text);
-      });
+        showToast("✓ Đã sao chép câu hỏi: " + text);
+      }).catch(() => {});
     }
 
+    // Khởi chạy
+    initCashState();
     loadRadarData();
     setInterval(loadRadarData, 30000);
   </script>
