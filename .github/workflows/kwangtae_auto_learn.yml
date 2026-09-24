@@ -10,7 +10,6 @@ on:
     paths:
       - 'scripts/**'
       - '.github/workflows/**'
-      - 'requirements.txt'
 
 permissions:
   contents: write
@@ -31,7 +30,7 @@ jobs:
       - name: Cài đặt thư viện AI Machine Learning
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r scripts/requirements.txt
 
       - name: Chạy cỗ máy tự học KwangTae Cloud
         run: |

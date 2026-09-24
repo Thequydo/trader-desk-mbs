@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MBS | Trader Desk Pro - Quản Lý Bàn Giao Dịch</title>
+  <style>
+    :root {
+      --bg-dark: #080d1a;
+      --card-bg: #10192e;
+      --card-gradient: linear-gradient(145deg, #131e36 0%, #0c1426 100%);
+      --border-color: rgba(0, 210, 255, 0.18);
+      --mbs-cyan: #00d2ff;
+      --mbs-blue: #0066ff;
+      --mbs-green: #00e676;
+      --mbs-red: #ff334b;
+      --mbs-yellow: #ffb800;
+      --text-main: #f8fafc;
+      --text-muted: #8899b5;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      margin: 0;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-bottom: 24px;
+    }
+
+    /* HEADER */
+    .header {
+      background: var(--card-gradient);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.12);
+    }
+    .brand-group { display: flex; align-items: center; gap: 10px; }
+    .brand-logo {
+      background: linear-gradient(135deg, var(--mbs-blue), var(--mbs-cyan));
+      color: #fff;
+      font-weight: 900;
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.4);
+    }
+    .brand-title { font-size: 15px; font-weight: 800; color: #fff; letter-spacing: 0.3px; }
+    .brand-sub { font-size: 11px; color: var(--text-muted); }
+    .online-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(0, 230, 118, 0.12);
+      border: 1px solid rgba(0, 230, 118, 0.35);
+      color: var(--mbs-green);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--mbs-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--mbs-green);
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse { 0%{opacity:1; transform:scale(1);} 50%{opacity:0.4; transform:scale(0.8);} 100%{opacity:1; transform:scale(1);} }
+
+    /* CARD CHUNG */
+    .card {
+      background: var(--card-gradient);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--mbs-cyan);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* HERO PORTFOLIO ASSET CARD */
+    .hero-card {
+      background: linear-gradient(145deg, #102142 0%, #0d172e 100%);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(0, 210, 255, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .asset-val {
+      font-size: 27px;
+      font-weight: 800;
+      color: #fff;
+      margin: 4px 0 6px 0;
+      letter-spacing: -0.5px;
+    }
+    .pnl-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .pnl-loss { background: rgba(255, 51, 75, 0.15); color: var(--mbs-red); border: 1px solid rgba(255, 51, 75, 0.3); }
+    .pnl-profit { background: rgba(0, 230, 118, 0.15); color: var(--mbs-green); border: 1px solid rgba(0, 230, 118, 0.3); }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      background: rgba(8, 13, 26, 0.6);
+      border-radius: 12px;
+      padding: 10px;
+      margin-top: 4px;
+    }
+    .stat-item { text-align: center; }
+    .stat-lbl { font-size: 10px; color: var(--text-muted); margin-bottom: 2px; text-transform: uppercase; }
+    .stat-val { font-size: 12px; font-weight: 700; color: #fff; }
+
+    /* REALTIME BOARD TABLE */
+    .mbs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .mbs-table th {
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 6px 4px;
+      text-align: right;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .mbs-table th:first-child { text-align: left; }
+    .mbs-table td {
+      padding: 8px 4px;
+      text-align: right;
+      font-family: "Consolas", monospace;
+      font-weight: 700;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .mbs-table td:first-child { text-align: left; font-family: inherit; }
+    .sym-tag { font-weight: 800; font-size: 13px; color: #fff; }
+    .sym-owned { color: var(--mbs-yellow); }
+    .badge-chg {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      min-width: 52px;
+      text-align: center;
+    }
+    .txt-up { color: var(--mbs-green); }
+    .txt-down { color: var(--mbs-red); }
+    .txt-ref { color: var(--mbs-yellow); }
+    .bg-up { background: rgba(0, 230, 118, 0.15); color: var(--mbs-green); }
+    .bg-down { background: rgba(255, 51, 75, 0.15); color: var(--mbs-red); }
+    .bg-ref { background: rgba(255, 184, 0, 0.15); color: var(--mbs-yellow); }
+
+    /* TAGS & CHIPS */
+    .chip-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+      min-height: 38px;
+      padding: 4px;
+      background: rgba(8, 13, 26, 0.5);
+      border-radius: 12px;
+    }
+    .chip {
+      background: #172440;
+      border: 1px solid rgba(0, 210, 255, 0.25);
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: grab;
+      user-select: none;
+    }
+    .chip.owned {
+      border-color: var(--mbs-yellow);
+      background: rgba(255, 184, 0, 0.12);
+      color: var(--mbs-yellow);
+    }
+    .chip-del {
+      color: #ff5c72;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0 2px;
+    }
+    .chip-del:hover { color: #fff; }
+
+    /* INPUTS & CONTROLS */
+    .input-row { display: flex; gap: 8px; margin-bottom: 10px; }
+    input[type=text], input[type=number] {
+      width: 100%;
+      background: #091021;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus {
+      border-color: var(--mbs-cyan);
+      box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.2);
+    }
+    .btn-add {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0 16px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .quick-picks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 6px;
+    }
+    .pick-btn {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--mbs-cyan);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .pick-btn:hover { background: rgba(0, 210, 255, 0.15); border-color: var(--mbs-cyan); }
+
+    /* STEPPERS */
+    .stepper-row { display: flex; gap: 4px; margin-top: 6px; }
+    .step-btn {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-main);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 0;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .step-btn:hover { background: rgba(0, 210, 255, 0.2); color: var(--mbs-cyan); }
+
+    /* ACTION BUTTON */
+    .btn-sync {
+      background: linear-gradient(135deg, #0066ff, #00d2ff);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
+      transition: transform 0.1s, box-shadow 0.2s;
+      width: 100%;
+      margin-top: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-sync:active { transform: scale(0.98); box-shadow: 0 2px 10px rgba(0, 102, 255, 0.3); }
+
+    /* TOAST ALERT */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: linear-gradient(135deg, #065f46, #047857);
+      border: 1px solid #10b981;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      z-index: 999;
+      pointer-events: none;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    .field-lbl {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      display: block;
+    }
+    .capital-box {
+      background: rgba(0, 210, 255, 0.08);
+      border: 1px solid rgba(0, 210, 255, 0.2);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <div class="header">
+      <div class="brand-group">
+        <div class="brand-logo">MBS</div>
+        <div>
+          <div class="brand-title">TRADER DESK PRO</div>
+          <div class="brand-sub" id="hdrSub">ESP32-C3 • 192.168.1.27</div>
+        </div>
+      </div>
+      <div class="online-badge">
+        <div class="pulse-dot"></div>
+        <span id="sessionStatus">ONLINE</span>
+      </div>
+    </div>
+
+    <!-- TỔNG QUAN TÀI SẢN (PORTFOLIO HERO) -->
+    <div class="card hero-card">
+      <div class="card-title">💼 Tổng Quan Danh Mục Tài Sản</div>
+      <div style="font-size:11px; color:var(--text-muted);">GIÁ TRỊ TÀI SẢN ƯỚC TÍNH:</div>
+      <div class="asset-val" id="totalAssetVal">-- VNĐ</div>
+      <div>
+        <span class="pnl-pill pnl-loss" id="pnlBadge">P/L: -- VNĐ (--%)</span>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-item">
+          <div class="stat-lbl">Mã nắm giữ</div>
+          <div class="stat-val" id="stSym" style="color:var(--mbs-yellow);">ACV</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-lbl">Số lượng</div>
+          <div class="stat-val" id="stQty">1,250 CP</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-lbl">Giá vốn TB</div>
+          <div class="stat-val" id="stAvg">45.899 k</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BẢNG GIÁ THEO DÕI REALTIME PHONG CÁCH MBS -->
+    <div class="card">
+      <div class="card-title" style="justify-content:space-between;">
+        <span>📊 Bảng Giá Realtime (MBS Datafeed)</span>
+        <span id="boardClock" style="font-size:11px; font-weight:600; color:var(--text-muted);">--:--:--</span>
+      </div>
+      <table class="mbs-table">
+        <thead>
+          <tr>
+            <th>Mã CK</th>
+            <th>Thị Giá</th>
+            <th>+/- %</th>
+            <th>Khối Lượng</th>
+          </tr>
+        </thead>
+        <tbody id="boardBody">
+          <tr><td colspan="4" style="text-align:center; padding:16px; color:var(--text-muted);">Đang tải dữ liệu từ ESP32...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CẤU HÌNH DANH MỤC NẮM GIỮ -->
+    <div class="card">
+      <div class="card-title">⭐ Cấu Hình Danh Mục Sở Hữu</div>
+      
+      <label class="field-lbl">MÃ CỔ PHIẾU BẠN SỞ HỮU:</label>
+      <input type="text" id="ownedInput" placeholder="Ví dụ: ACV" style="margin-bottom:10px;" oninput="this.value=this.value.toUpperCase(); calcCapital();">
+
+      <label class="field-lbl">SỐ LƯỢNG NẮM GIỮ (CP):</label>
+      <input type="number" id="qtyInput" placeholder="1250" oninput="calcCapital();">
+      <div class="stepper-row">
+        <div class="step-btn" onclick="addQty(100)">+100</div>
+        <div class="step-btn" onclick="addQty(500)">+500</div>
+        <div class="step-btn" onclick="addQty(1000)">+1K</div>
+        <div class="step-btn" onclick="addQty(5000)">+5K</div>
+        <div class="step-btn" onclick="setQty(0)">Reset</div>
+      </div>
+
+      <label class="field-lbl" style="margin-top:10px;">GIÁ VỐN MUA TRUNG BÌNH (k VNĐ / 1 CP):</label>
+      <input type="number" step="0.001" id="avgInput" placeholder="45.899" oninput="calcCapital();">
+
+      <div class="capital-box">
+        <span style="font-size:11px; color:var(--text-muted); font-weight:600;">TỔNG TIỀN VỐN:</span>
+        <span id="calcCapitalVal" style="font-size:14px; font-weight:800; color:var(--mbs-cyan);">-- VNĐ</span>
+      </div>
+    </div>
+
+    <!-- QUẢN LÝ DANH SÁCH THEO DÕI (WATCHLIST CHIPS) -->
+    <div class="card">
+      <div class="card-title" style="justify-content:space-between;">
+        <span>📋 Quản Lý Danh Sách Theo Dõi</span>
+        <span id="chipCount" style="font-size:11px; color:var(--text-muted); font-weight:600;">0/10 mã</span>
+      </div>
+
+      <div class="chip-container" id="chipBox"></div>
+
+      <div class="input-row">
+        <input type="text" id="newSymInput" placeholder="Nhập mã (SSI, HPG...)" onkeydown="if(event.key==='Enter') addChip();">
+        <button class="btn-add" onclick="addChip()">+ Thêm</button>
+      </div>
+
+      <div style="font-size:11px; color:var(--text-muted); margin-top:6px;">Mã phổ biến VN30 / Hot picks:</div>
+      <div class="quick-picks">
+        <span class="pick-btn" onclick="quickAdd('VN-INDEX')">+ VN-INDEX</span>
+        <span class="pick-btn" onclick="quickAdd('ACV')">+ ACV</span>
+        <span class="pick-btn" onclick="quickAdd('FPT')">+ FPT</span>
+        <span class="pick-btn" onclick="quickAdd('HPG')">+ HPG</span>
+        <span class="pick-btn" onclick="quickAdd('SSI')">+ SSI</span>
+        <span class="pick-btn" onclick="quickAdd('MWG')">+ MWG</span>
+        <span class="pick-btn" onclick="quickAdd('MBB')">+ MBB</span>
+        <span class="pick-btn" onclick="quickAdd('VHM')">+ VHM</span>
+        <span class="pick-btn" onclick="quickAdd('VIC')">+ VIC</span>
+        <span class="pick-btn" onclick="quickAdd('VCB')">+ VCB</span>
+      </div>
+    </div>
+
+    <!-- NÚT LƯU VÀ ĐỒNG BỘ -->
+    <button class="btn-sync" onclick="saveConfig()">
+      <span>🚀 LƯU & ĐỒNG BỘ XUỐNG ESP32</span>
+    </button>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" id="toast">
+    <span>✓</span>
+    <span id="toastMsg">Đã lưu & đồng bộ thành công!</span>
+  </div>
+
+  <script>
+    let watchlist = [];
+    let ownedSym = "ACV";
+    let liveItems = [];
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3500);
+    }
+
+    function addQty(num) {
+      let q = parseInt(document.getElementById('qtyInput').value) || 0;
+      document.getElementById('qtyInput').value = q + num;
+      calcCapital();
+    }
+    function setQty(num) {
+      document.getElementById('qtyInput').value = num;
+      calcCapital();
+    }
+
+    function calcCapital() {
+      let q = parseInt(document.getElementById('qtyInput').value) || 0;
+      let a = parseFloat(document.getElementById('avgInput').value) || 0.0;
+      let tot = q * a * 1000;
+      document.getElementById('calcCapitalVal').innerText = tot.toLocaleString('vi-VN') + ' đ (' + (tot/1000000).toFixed(3) + ' Tr)';
+      updateHeroCard();
+    }
+
+    function renderChips() {
+      const box = document.getElementById('chipBox');
+      box.innerHTML = '';
+      const owned = document.getElementById('ownedInput').value.trim().toUpperCase();
+      watchlist.forEach((sym, idx) => {
+        const chip = document.createElement('div');
+        const isOwned = (sym === owned);
+        chip.className = 'chip' + (isOwned ? ' owned' : '');
+        chip.innerHTML = (isOwned ? '⭐ ' : '') + sym + ' <span class="chip-del" onclick="delChip(' + idx + ')">×</span>';
+        box.appendChild(chip);
+      });
+      document.getElementById('chipCount').innerText = watchlist.length + '/10 mã';
+    }
+
+    function addChip() {
+      const inp = document.getElementById('newSymInput');
+      const val = inp.value.trim().toUpperCase();
+      if (!val) return;
+      if (watchlist.includes(val)) {
+        showToast('Mã ' + val + ' đã có trong danh sách!');
+        return;
+      }
+      if (watchlist.length >= 10) {
+        showToast('Hệ thống hỗ trợ tối đa 10 mã!');
+        return;
+      }
+      watchlist.push(val);
+      inp.value = '';
+      renderChips();
+    }
+
+    function quickAdd(sym) {
+      if (!watchlist.includes(sym)) {
+        if (watchlist.length >= 10) {
+          showToast('Đã đạt tối đa 10 mã!');
+          return;
+        }
+        watchlist.push(sym);
+        renderChips();
+      }
+    }
+
+    function delChip(idx) {
+      if (watchlist.length <= 1) {
+        showToast('Cần giữ ít nhất 1 mã trong danh sách!');
+        return;
+      }
+      watchlist.splice(idx, 1);
+      renderChips();
+    }
+
+    function renderBoard(items) {
+      const tbody = document.getElementById('boardBody');
+      if (!items || items.length === 0) return;
+      const owned = document.getElementById('ownedInput').value.trim().toUpperCase();
+      tbody.innerHTML = '';
+      items.forEach(it => {
+        const tr = document.createElement('tr');
+        const isOwned = (it.sym === owned);
+        const isUp = it.chg > 0;
+        const isDown = it.chg < 0;
+        const colClass = isUp ? 'txt-up' : (isDown ? 'txt-down' : 'txt-ref');
+        const bgClass = isUp ? 'bg-up' : (isDown ? 'bg-down' : 'bg-ref');
+        const chgSign = isUp ? '+' : '';
+
+        tr.innerHTML = 
+          '<td><span class="sym-tag' + (isOwned ? ' sym-owned' : '') + '">' + (isOwned ? '⭐ ' : '') + it.sym + '</span></td>' +
+          '<td class="' + colClass + '">' + (it.price > 0 ? it.price.toFixed(2) : '---') + '</td>' +
+          '<td><span class="badge-chg ' + bgClass + '">' + chgSign + it.chg.toFixed(2) + '%</span></td>' +
+          '<td style="color:var(--text-muted);">' + (it.vol > 0 ? it.vol.toFixed(1) + 'M' : '--') + '</td>';
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateHeroCard() {
+      const owned = document.getElementById('ownedInput').value.trim().toUpperCase();
+      const qty = parseInt(document.getElementById('qtyInput').value) || 0;
+      const avg = parseFloat(document.getElementById('avgInput').value) || 0.0;
+      document.getElementById('stSym').innerText = owned;
+      document.getElementById('stQty').innerText = qty.toLocaleString('vi-VN') + ' CP';
+      document.getElementById('stAvg').innerText = avg.toFixed(3) + ' k';
+
+      // Tìm giá hiện tại của mã sở hữu trong liveItems
+      let curPrice = 0.0;
+      if (liveItems && liveItems.length > 0) {
+        const f = liveItems.find(x => x.sym === owned);
+        if (f && f.price > 0) curPrice = f.price;
+      }
+      if (curPrice > 0 && qty > 0 && avg > 0) {
+        const curVal = curPrice * 1000 * qty;
+        const costVal = avg * 1000 * qty;
+        const pnl = curVal - costVal;
+        const pnlPct = ((curPrice - avg) / avg) * 100;
+        document.getElementById('totalAssetVal').innerText = curVal.toLocaleString('vi-VN') + ' đ (' + (curVal/1000000).toFixed(3) + ' Tr)';
+        
+        const pnlBadge = document.getElementById('pnlBadge');
+        const sign = pnl >= 0 ? '+' : '';
+        pnlBadge.innerText = 'P/L: ' + sign + pnl.toLocaleString('vi-VN') + ' đ (' + sign + pnlPct.toFixed(2) + '%)';
+        pnlBadge.className = 'pnl-pill ' + (pnl >= 0 ? 'pnl-profit' : 'pnl-loss');
+      } else {
+        document.getElementById('totalAssetVal').innerText = '-- VNĐ';
+      }
+    }
+
+    function loadConfig() {
+      fetch('/api/config')
+      .then(r => r.json())
+      .then(d => {
+        if (d.stocks) {
+          watchlist = d.stocks.split(',').map(s => s.trim().toUpperCase()).filter(s => s.length > 0);
+        }
+        if (d.owned) document.getElementById('ownedInput').value = d.owned;
+        if (d.qty) document.getElementById('qtyInput').value = d.qty;
+        if (d.avg) document.getElementById('avgInput').value = d.avg;
+        if (d.ip) document.getElementById('hdrSub').innerText = 'ESP32-C3 • ' + d.ip;
+        if (d.session) document.getElementById('sessionStatus').innerText = d.session;
+        if (d.time) document.getElementById('boardClock').innerText = d.time;
+
+        if (d.items) {
+          liveItems = d.items;
+          renderBoard(d.items);
+        }
+        renderChips();
+        calcCapital();
+      })
+      .catch(e => console.log('Fetch error:', e));
+    }
+
+    function saveConfig() {
+      const owned = document.getElementById('ownedInput').value.trim().toUpperCase();
+      const qty = parseInt(document.getElementById('qtyInput').value);
+      const avg = parseFloat(document.getElementById('avgInput').value);
+
+      if (!owned) { showToast('Vui lòng nhập mã cổ phiếu sở hữu!'); return; }
+      if (isNaN(qty) || qty <= 0) { showToast('Vui lòng nhập số lượng hợp lệ!'); return; }
+      if (isNaN(avg) || avg <= 0) { showToast('Vui lòng nhập giá vốn hợp lệ!'); return; }
+
+      if (!watchlist.includes(owned)) {
+        if (watchlist.length >= 10) watchlist.pop();
+        watchlist.push(owned);
+        renderChips();
+      }
+
+      const stocksStr = watchlist.join(',');
+      const payload = new URLSearchParams({
+        stocks: stocksStr,
+        owned: owned,
+        qty: qty,
+        avg: avg.toFixed(3)
+      });
+
+      fetch('/save', { method: 'POST', body: payload })
+      .then(r => r.json())
+      .then(d => {
+        showToast('✓ Đã lưu & đồng bộ thành công xuống ESP32!');
+        setTimeout(loadConfig, 1000);
+      })
+      .catch(e => {
+        showToast('Lỗi lưu: ' + e);
+      });
+    }
+
+    // Nạp cấu hình lần đầu
+    loadConfig();
+    // Tự động cập nhật bảng giá mỗi 5 giây
+    setInterval(loadConfig, 5000);
+  </script>
+</body>
+</html>
