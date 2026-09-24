@@ -6,7 +6,7 @@ let inMemoryConfig = {
   avg: 45.899,
   cash: 500000,
   holdings: {
-    "ACV": { symbol: "ACV", qty: 1250, avgPrice: 45.899, curPrice: 39.18, name: "TCT Cảng Hàng Không VN" }
+    "ACV": { symbol: "ACV", qty: 1250, avgPrice: 45.899, curPrice: 39.2, name: "TCT Cảng Hàng Không VN" }
   },
   transactions: [
     { id: "GD1001", time: "24/09/2026 09:15", type: "deposit", amount: 500000, desc: "Số dư khởi tạo tài khoản", status: "Thành công" }
@@ -115,7 +115,7 @@ export default async function handler(req, res) {
           const floor = parseFloat(s.f) || 0;
           const m = s.marketId;
           const market = (m === 'UPX' || s.sym === 'ACV') ? 'UPCoM' : ((m === 'STX' || s.sym === 'IDC' || s.sym === 'SHS' || s.sym === 'PVS') ? 'HNX' : 'HOSE');
-          const effectivePrice = (market === 'UPCoM' && ave > 0) ? ave : last;
+          const effectivePrice = (market === 'UPCoM' && ave > 0) ? parseFloat(ave.toFixed(1)) : last;
           
           let ot = effectivePrice - ref;
           let chg = ref > 0 ? ((ot / ref) * 100) : 0;

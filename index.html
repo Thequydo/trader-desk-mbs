@@ -845,7 +845,6 @@
           <div class="stat-box">
             <div class="stat-label">Vốn Đầu Tư Ban Đầu</div>
             <div class="stat-value" id="investedCapitalVal" style="color:#a78bfa;">57.87 Tr</div>
-            <div class="stat-sub" style="color:var(--text-dim);">Vốn gốc vào trước lỗ</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Tổng Tài Sản (NAV)</div>
@@ -1374,7 +1373,7 @@
       if (defaults[sym]) {
         const d = defaults[sym];
         const isUpcom = (d.market === 'UPCoM');
-        const effectivePrice = isUpcom ? d.ave : d.price;
+        const effectivePrice = isUpcom ? parseFloat(d.ave.toFixed(1)) : d.price;
         return { 
           sym: sym, 
           price: effectivePrice, 
@@ -1458,8 +1457,8 @@
       items.forEach(h => {
         const q = getStockQuote(h.symbol);
         const market = q.market || (h.symbol === 'ACV' ? 'UPCoM' : (h.symbol === 'IDC' ? 'HNX' : 'HOSE'));
-        // Sàn UPCoM: Lấy giá trung bình (avePrice) làm giá thị trường & tham chiếu
-        const curPrice = (market === 'UPCoM' && q.ave > 0) ? q.ave : q.price;
+        // Sàn UPCoM: Lấy giá trung bình (avePrice) làm tròn 1 chữ số sau dấu thập phân
+        const curPrice = (market === 'UPCoM' && q.ave > 0) ? parseFloat(q.ave.toFixed(1)) : q.price;
         const ref = q.ref || curPrice;
         const ceil = q.ceil || 0;
         const floor = q.floor || 0;
@@ -1489,9 +1488,9 @@
             </div>
             <div id="holding-price-${h.symbol}">
               <div style="font-family:var(--font-mono); font-size:13.5px; font-weight:800;" class="${priceColorClass}">
-                ${curPrice.toFixed(2)}k
+                ${curPrice.toFixed(market === 'UPCoM' ? 1 : 2)}k
               </div>
-              <div class="badge-price ${priceBadgeClass}" style="margin-top:2px;">${arrow} ${ot >= 0 ? '+' : ''}${ot.toFixed(2)} (${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%)</div>
+              <div class="badge-price ${priceBadgeClass}" style="margin-top:2px;">${arrow} ${ot >= 0 ? '+' : ''}${ot.toFixed(market === 'UPCoM' ? 1 : 2)} (${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%)</div>
               <div style="font-size:10.5px; color:var(--text-dim); margin-top:2px;">Vốn: ${h.avgPrice}k</div>
             </div>
             <div>
@@ -1631,13 +1630,15 @@
     function onTradeSymbolChange() {
       const sym = document.getElementById('tradeSymbol').value;
       const q = getStockQuote(sym);
-      const curP = q.price;
+      const isUpcom = (q.market === 'UPCoM' || sym === 'ACV');
+      const curP = isUpcom ? parseFloat(q.price.toFixed(1)) : q.price;
       document.getElementById('tradePrice').value = curP;
-      const refStr = q.ref ? `${q.ref.toFixed(2)}k` : '-';
-      const ceilStr = q.ceil ? `${q.ceil.toFixed(2)}k` : '-';
-      const floorStr = q.floor ? `${q.floor.toFixed(2)}k` : '-';
+      const dec = isUpcom ? 1 : 2;
+      const refStr = q.ref ? `${q.ref.toFixed(dec)}k` : '-';
+      const ceilStr = q.ceil ? `${q.ceil.toFixed(dec)}k` : '-';
+      const floorStr = q.floor ? `${q.floor.toFixed(dec)}k` : '-';
       document.getElementById('tradeMarketPriceTip').innerHTML = 
-        `Khớp: <strong style="color:var(--mbs-cyan);">${curP.toFixed(2)}k</strong> | TC: <span style="color:#ffb800">${refStr}</span> | Trần: <span style="color:#d946ef">${ceilStr}</span> | Sàn: <span style="color:#00e5ff">${floorStr}</span>`;
+        `Khớp: <strong style="color:var(--mbs-cyan);">${curP.toFixed(dec)}k</strong> | TC: <span style="color:#ffb800">${refStr}</span> | Trần: <span style="color:#d946ef">${ceilStr}</span> | Sàn: <span style="color:#00e5ff">${floorStr}</span>`;
       renderTradeQuickChips();
       calcTradeSummary();
     }
@@ -1988,8 +1989,8 @@
               const m = s.marketId;
               const market = (m === 'UPX' || s.sym === 'ACV') ? 'UPCoM' : ((m === 'STX' || s.sym === 'IDC' || s.sym === 'SHS' || s.sym === 'PVS') ? 'HNX' : 'HOSE');
               
-              // Sàn UPCoM: Lấy giá trung bình (avePrice) làm giá chính & tham chiếu
-              const effectivePrice = (market === 'UPCoM' && ave > 0) ? ave : last;
+              // Sàn UPCoM: Lấy giá trung bình (avePrice) làm tròn 1 chữ số sau dấu thập phân
+              const effectivePrice = (market === 'UPCoM' && ave > 0) ? parseFloat(ave.toFixed(1)) : last;
 
               let ot = effectivePrice - ref;
               let chg = ref > 0 ? ((ot / ref) * 100) : 0;
@@ -2149,17 +2150,17 @@
           </td>
           <td id="price-cell-${sym}">
             <div class="${priceColorClass}" style="font-family:var(--font-mono); font-size:14px; font-weight:800;">
-              ${curPrice.toFixed(2)}k
+              ${curPrice.toFixed(market === 'UPCoM' ? 1 : 2)}k
             </div>
             <div class="badge-price ${priceBadgeClass}" style="margin-top:2px;">
-              ${arrow} ${ot >= 0 ? '+' : ''}${ot.toFixed(2)} (${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%)
+              ${arrow} ${ot >= 0 ? '+' : ''}${ot.toFixed(market === 'UPCoM' ? 1 : 2)} (${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%)
             </div>
           </td>
           <td>
             <div style="font-family:var(--font-mono); font-size:11px; line-height:1.5;">
-              <span style="color:#ffb800;">TC: ${ref.toFixed(2)}</span> <span style="font-size:10px; color:var(--text-dim);">(${rangeText})</span><br>
-              <span style="color:#d946ef;">T: ${ceil ? ceil.toFixed(2) : '-'}</span> | 
-              <span style="color:#00e5ff;">S: ${floor ? floor.toFixed(2) : '-'}</span>
+              <span style="color:#ffb800;">TC: ${ref.toFixed(market === 'UPCoM' ? 1 : 2)}</span> <span style="font-size:10px; color:var(--text-dim);">(${rangeText})</span><br>
+              <span style="color:#d946ef;">T: ${ceil ? ceil.toFixed(market === 'UPCoM' ? 1 : 2) : '-'}</span> | 
+              <span style="color:#00e5ff;">S: ${floor ? floor.toFixed(market === 'UPCoM' ? 1 : 2) : '-'}</span>
             </div>
           </td>
           <td>
