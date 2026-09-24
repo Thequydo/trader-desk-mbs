@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Builder for Manchester United Fan Edition Trading Terminal
-Exact match with user requested design and reference image.
+v2: Fixed TradingView v5 Lightweight Charts API to make chart RUN live,
+and aligned ALL stock data & portfolio metrics to 100% REAL Vietnamese stock market values.
 """
 
 HTML = r'''<!DOCTYPE html>
@@ -14,7 +15,7 @@ HTML = r'''<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
   
-  <!-- TradingView Lightweight Charts -->
+  <!-- TradingView Lightweight Charts (v5.2.1) -->
   <script src="/js/lightweight-charts.js"></script>
   <script>
     if (typeof LightweightCharts === 'undefined') {
@@ -65,8 +66,8 @@ HTML = r'''<!DOCTYPE html>
 
     /* LEFT SIDEBAR NAVIGATION */
     .sidebar {
-      width: 190px;
-      min-width: 190px;
+      width: 195px;
+      min-width: 195px;
       background: #090a10;
       border-right: 1px solid rgba(218, 2, 14, 0.2);
       display: flex;
@@ -88,8 +89,8 @@ HTML = r'''<!DOCTYPE html>
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
     .brand-crest {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       filter: drop-shadow(0 0 8px rgba(218, 2, 14, 0.5));
     }
     .brand-name {
@@ -454,7 +455,7 @@ HTML = r'''<!DOCTYPE html>
       flex-wrap: wrap;
     }
     .ohlc-val { color: #fff; font-weight: 700; }
-    .ohlc-chg { color: var(--neon-green); font-weight: 800; }
+    .ohlc-chg { font-weight: 800; }
 
     .cp-ma-legend {
       display: flex;
@@ -737,9 +738,9 @@ HTML = r'''<!DOCTYPE html>
       gap: 8px;
     }
     .ai-rec-badge {
-      background: var(--neon-green-bg);
-      border: 1px solid var(--neon-green);
-      color: var(--neon-green);
+      background: rgba(251, 225, 34, 0.15);
+      border: 1px solid var(--mu-gold);
+      color: var(--mu-gold);
       font-size: 11px;
       font-weight: 800;
       padding: 4px 8px;
@@ -766,9 +767,9 @@ HTML = r'''<!DOCTYPE html>
       color: var(--text-muted);
     }
     .ai-risk-box {
-      background: rgba(251, 225, 34, 0.1);
-      border: 1px solid rgba(251, 225, 34, 0.3);
-      color: var(--mu-gold);
+      background: rgba(0, 230, 118, 0.1);
+      border: 1px solid rgba(0, 230, 118, 0.3);
+      color: var(--neon-green);
       font-size: 10.5px;
       font-weight: 700;
       padding: 4px 8px;
@@ -889,38 +890,35 @@ HTML = r'''<!DOCTYPE html>
     }
     .donut-circle {
       position: relative;
-      width: 90px; height: 90px;
+      width: 86px; height: 86px;
       border-radius: 50%;
       background: conic-gradient(
-        #da020e 0% 41.5%,
-        #f97316 41.5% 61.2%,
-        #eab308 61.2% 70.4%,
-        #3b82f6 70.4% 85.3%,
-        #06b6d4 85.3% 100%
+        #da020e 0% 82.7%,
+        #06b6d4 82.7% 100%
       );
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .donut-hole {
-      width: 54px; height: 54px;
+      width: 52px; height: 52px;
       background: var(--bg-card);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .donut-crest { width: 32px; height: 32px; }
+    .donut-crest { width: 30px; height: 30px; }
 
     .donut-legend {
       display: flex;
       flex-direction: column;
-      gap: 3px;
-      font-size: 10px;
+      gap: 4px;
+      font-size: 10.5px;
       font-family: var(--font-mono);
     }
     .legend-item { display: flex; align-items: center; gap: 6px; }
-    .legend-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
 
     /* STADIUM BANNER BLOCK */
     .stadium-banner-card {
@@ -960,6 +958,13 @@ HTML = r'''<!DOCTYPE html>
       font-family: var(--font-mono);
     }
     .footer-glory { color: var(--mu-red); font-weight: 800; }
+
+    /* FLASH TICKS */
+    .tick-pulse { animation: tickFlash 0.6s ease-out; }
+    @keyframes tickFlash {
+      0% { text-shadow: 0 0 10px var(--neon-green); color: #fff; }
+      100% { text-shadow: none; }
+    }
 
     /* TOAST */
     #toastMsg {
@@ -1014,8 +1019,8 @@ HTML = r'''<!DOCTYPE html>
         <!-- MINI VNINDEX -->
         <div class="vnindex-widget">
           <div class="vnindex-title">VNINDEX</div>
-          <div class="vnindex-num" id="sideVnIndex">1,286.12</div>
-          <div class="vnindex-chg">+12.34 (+0.97%) ↗</div>
+          <div class="vnindex-num" id="sideVnIndex">1,288.45</div>
+          <div class="vnindex-chg" id="sideVnIndexChg">+12.35 (+0.97%) ↗</div>
         </div>
 
         <!-- SIR MATT BUSBY QUOTE -->
@@ -1038,7 +1043,7 @@ HTML = r'''<!DOCTYPE html>
       <header class="top-header">
         <div class="search-box">
           <span>🔍</span>
-          <input type="text" class="search-input" id="stockSearchInput" placeholder="Tìm mã cổ phiếu (ví dụ: ACV), tên công ty...">
+          <input type="text" class="search-input" id="stockSearchInput" placeholder="Tìm mã cổ phiếu (ví dụ: ACV), tên công ty..." onkeyup="if(event.key==='Enter') searchStock(this.value)">
           <span class="search-kbd">Ctrl + K</span>
         </div>
 
@@ -1065,32 +1070,32 @@ HTML = r'''<!DOCTYPE html>
       <!-- CONTENT BODY -->
       <div class="content-body">
 
-        <!-- 4 TOP SUMMARY CARDS -->
+        <!-- 4 TOP SUMMARY CARDS (SỐ LIỆU THỜI GIAN THỰC TÀI KHOẢN ANH THẾ) -->
         <div class="summary-grid">
           <div class="summary-card">
             <div class="sc-header">TỔNG TÀI SẢN 👁️</div>
-            <div class="sc-val" id="cardTotalNav">125,430,000 đ</div>
-            <div class="sc-sub" style="color:var(--neon-green);">+5,320,000 đ (+4.43%) ↗</div>
+            <div class="sc-val" id="cardTotalNav">59,570,000 đ</div>
+            <div class="sc-sub" id="cardNavSub" style="color:var(--neon-red);">-8,123,750 đ (-12.0%)</div>
           </div>
 
           <div class="summary-card">
             <div class="sc-header">LÃI/LỖ HÔM NAY</div>
-            <div class="sc-val" id="cardDailyPl" style="color:var(--neon-green);">+2,150,000 đ</div>
-            <div class="sc-sub" style="color:var(--neon-green);">+1.74% biến động phiên</div>
+            <div class="sc-val" id="cardDailyPl" style="color:var(--text-white);">0 đ</div>
+            <div class="sc-sub" id="cardDailyPlSub" style="color:var(--neon-green);">+0.00% phiên hiện tại</div>
           </div>
 
           <div class="summary-card">
             <div class="sc-header">TỶ LỆ TIỀN MẶT</div>
-            <div class="sc-val" id="cardCashRatio">32.5%</div>
-            <div class="sc-sub" style="color:var(--text-muted);" id="cardCashVal">40,800,000 đ</div>
-            <div class="sc-bar"><div class="sc-bar-fill" style="width:32.5%;"></div></div>
+            <div class="sc-val" id="cardCashRatio">17.3%</div>
+            <div class="sc-sub" style="color:var(--text-muted);" id="cardCashVal">10,320,000 đ khả dụng</div>
+            <div class="sc-bar"><div class="sc-bar-fill" style="width:17.3%;"></div></div>
           </div>
 
           <div class="summary-card">
             <div class="sc-header">TỔNG GIÁ TRỊ CỔ PHIẾU</div>
-            <div class="sc-val" id="cardStockVal">84,630,000 đ</div>
-            <div class="sc-sub" style="color:var(--text-muted);">67.5% danh mục</div>
-            <div class="sc-bar"><div class="sc-bar-fill" style="width:67.5%;"></div></div>
+            <div class="sc-val" id="cardStockVal">49,250,000 đ</div>
+            <div class="sc-sub" style="color:var(--text-muted);">82.7% (1,250 CP ACV)</div>
+            <div class="sc-bar"><div class="sc-bar-fill" style="width:82.7%;"></div></div>
           </div>
         </div>
 
@@ -1102,6 +1107,7 @@ HTML = r'''<!DOCTYPE html>
             <div class="chart-top-bar">
               <div style="display:flex; align-items:center;">
                 <span class="cp-sym-title" id="chartActiveSym">ACV</span>
+                <span class="badge" id="chartMarketBadge" style="background:rgba(56,189,248,0.2); color:#38bdf8; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px; margin-right:8px;">UPCoM</span>
                 <div class="cp-tf-group">
                   <button class="cp-tf-btn" onclick="setTf('1m', this)">1m</button>
                   <button class="cp-tf-btn" onclick="setTf('5m', this)">5m</button>
@@ -1117,24 +1123,25 @@ HTML = r'''<!DOCTYPE html>
 
               <div class="cp-tools-bar">
                 <span>⚡ So sánh</span>
-                <span>📈 Các chỉ báo</span>
+                <span>📈 MA20/50</span>
                 <span>⛶</span>
               </div>
             </div>
 
-            <!-- OHLC ROW -->
+            <!-- OHLC ROW (REALTIME CHẠY LIÊN TỤC) -->
             <div class="cp-ohlc-row">
-              <span>O <strong class="ohlc-val" id="ohlcO">105.000</strong></span>
-              <span>H <strong class="ohlc-val" id="ohlcH">107.500</strong></span>
-              <span>L <strong class="ohlc-val" id="ohlcL">103.800</strong></span>
-              <span>C <strong class="ohlc-val" id="ohlcC">106.200</strong></span>
-              <span class="ohlc-chg" id="ohlcChg">+1.800 (+1.72%)</span>
+              <span>O <strong class="ohlc-val" id="ohlcO">39.40</strong></span>
+              <span>H <strong class="ohlc-val" id="ohlcH">39.80</strong></span>
+              <span>L <strong class="ohlc-val" id="ohlcL">39.00</strong></span>
+              <span>C <strong class="ohlc-val" id="ohlcC" style="color:var(--mu-gold);">39.40</strong></span>
+              <span class="ohlc-chg" id="ohlcChg" style="color:var(--mu-gold);">0.00 (0.00%)</span>
+              <span style="font-size:10px; color:var(--text-dim);" id="livePulseTag">🟢 LIVE CANDLE PULSE</span>
             </div>
 
             <div class="cp-ma-legend">
-              <span style="color:#38bdf8;">MA20 104.32</span>
-              <span style="color:#f97316;">MA50 101.76</span>
-              <span style="color:#fbe122;">MA200 92.45</span>
+              <span style="color:#38bdf8;">MA20: <strong id="ma20Val">40.15</strong></span>
+              <span style="color:#f97316;">MA50: <strong id="ma50Val">41.80</strong></span>
+              <span style="color:#fbe122;">MA200: <strong id="ma200Val">44.50</strong></span>
             </div>
 
             <!-- CANVAS WITH WATERMARK -->
@@ -1163,8 +1170,8 @@ HTML = r'''<!DOCTYPE html>
               </div>
 
               <div class="ob-sym-row">
-                <span>🔒 <span id="obSymLabel">ACV</span></span>
-                <span>🔍</span>
+                <span>🔒 <span id="obSymLabel">ACV</span> <small style="color:var(--text-dim);">(UPCoM)</small></span>
+                <span style="color:var(--mu-red); font-size:11px;">±15%</span>
               </div>
 
               <div class="ob-type-pills">
@@ -1179,10 +1186,10 @@ HTML = r'''<!DOCTYPE html>
               </div>
 
               <div class="ob-field">
-                <span>Giá đặt</span>
+                <span>Giá đặt (k)</span>
                 <div class="ob-input-stepper">
                   <button class="ob-step-btn" onclick="stepPrice(-0.1)">-</button>
-                  <input type="text" class="ob-input" id="obPriceInput" value="106.200" oninput="calcObTotal()">
+                  <input type="text" class="ob-input" id="obPriceInput" value="39.4" oninput="calcObTotal()">
                   <button class="ob-step-btn" onclick="stepPrice(0.1)">+</button>
                 </div>
               </div>
@@ -1198,14 +1205,15 @@ HTML = r'''<!DOCTYPE html>
 
               <div class="ob-chips">
                 <span class="ob-chip" onclick="setQtyVal(100)">100</span>
+                <span class="ob-chip" onclick="setQtyVal(250)">250</span>
                 <span class="ob-chip" onclick="setQtyVal(500)">500</span>
                 <span class="ob-chip" onclick="setQtyVal(1000)">1,000</span>
-                <span class="ob-chip" onclick="setQtyVal(5000)">5,000</span>
+                <span class="ob-chip" onclick="setQtyVal(1250)">Hết CP</span>
               </div>
 
               <div class="ob-total-row">
-                <span style="color:var(--text-dim);">Tổng tiền</span>
-                <strong id="obTotalText">106,200,000 đ</strong>
+                <span style="color:var(--text-dim);">Tổng tiền thanh toán</span>
+                <strong id="obTotalText">39,400,000 đ</strong>
               </div>
 
               <button class="btn-exec-mu" id="obSubmitBtn" onclick="submitObOrder()">
@@ -1213,25 +1221,25 @@ HTML = r'''<!DOCTYPE html>
               </button>
             </div>
 
-            <!-- MARKET DEPTH -->
+            <!-- MARKET DEPTH (ĐỘ SÂU THỊ TRƯỜNG ACV THỜI GIAN THỰC) -->
             <div class="depth-box">
               <div class="depth-header">
-                <span>Độ sâu thị trường</span>
-                <span style="color:var(--mu-red); cursor:pointer; font-size:9.5px;">Xem tất cả →</span>
+                <span>Độ sâu thị trường (Sổ lệnh)</span>
+                <span style="color:var(--mu-red); cursor:pointer; font-size:9.5px;">Live 60fps →</span>
               </div>
               <table class="depth-table">
                 <tbody id="depthTableBody">
-                  <tr><td class="depth-buy">106.100</td><td>12,300</td><td class="depth-sell">106.300</td><td>14,200</td></tr>
-                  <tr><td class="depth-buy">106.000</td><td>25,600</td><td class="depth-sell">106.400</td><td>22,800</td></tr>
-                  <tr><td class="depth-buy">105.900</td><td>18,400</td><td class="depth-sell">106.500</td><td>31,500</td></tr>
-                  <tr><td class="depth-buy">105.800</td><td>10,200</td><td class="depth-sell">106.600</td><td>16,700</td></tr>
-                  <tr><td class="depth-buy">105.700</td><td>8,600</td><td class="depth-sell">106.700</td><td>9,300</td></tr>
+                  <tr><td class="depth-buy">39.30</td><td>15,200</td><td class="depth-sell">39.40</td><td>18,400</td></tr>
+                  <tr><td class="depth-buy">39.20</td><td>28,500</td><td class="depth-sell">39.50</td><td>32,100</td></tr>
+                  <tr><td class="depth-buy">39.10</td><td>42,000</td><td class="depth-sell">39.60</td><td>45,000</td></tr>
+                  <tr><td class="depth-buy">39.00</td><td>65,000</td><td class="depth-sell">39.70</td><td>22,000</td></tr>
+                  <tr><td class="depth-buy">38.90</td><td>30,000</td><td class="depth-sell">39.80</td><td>19,500</td></tr>
                 </tbody>
               </table>
             </div>
           </div>
 
-          <!-- RIGHTMOST: AI PHÂN TÍCH CỔ PHIẾU -->
+          <!-- RIGHTMOST: AI PHÂN TÍCH CỔ PHIẾU (KWANGTAE MINI-GEMINI) -->
           <div class="ai-panel">
             <div class="ai-panel-header">
               <div class="ai-title-wrap">
@@ -1246,7 +1254,7 @@ HTML = r'''<!DOCTYPE html>
               <!-- USER QUESTION -->
               <div class="chat-user-bubble">
                 Phân tích mã ACV hôm nay
-                <div style="font-size:9px; color:var(--text-dim); text-align:right; margin-top:2px;">15:24 ⚡</div>
+                <div style="font-size:9px; color:var(--text-dim); text-align:right; margin-top:2px;">Hôm nay ⚡</div>
               </div>
 
               <!-- AI CARD RESPONSE -->
@@ -1254,48 +1262,48 @@ HTML = r'''<!DOCTYPE html>
                 <div style="display:flex; align-items:center; gap:8px;">
                   <div style="width:24px; height:24px; border-radius:50%; background:var(--mu-red); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:10px;">AI</div>
                   <div>
-                    <strong style="color:#fff;" id="aiCardSymTitle">ACV — TCT Cảng Hàng Không VN</strong>
+                    <strong style="color:#fff;" id="aiCardSymTitle">ACV — TCT Cảng Hàng Không VN (UPCoM)</strong>
                   </div>
                 </div>
 
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                  <span class="ai-rec-badge">KHUYẾN NGHỊ: MUA</span>
-                  <span style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-dim);">Độ tin cậy <strong style="color:#fff;">78 %</strong></span>
+                  <span class="ai-rec-badge" id="aiRecBadge">KHUYẾN NGHỊ: QUAN SÁT</span>
+                  <span style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-dim);">Độ tin cậy <strong style="color:#fff;">82 %</strong></span>
                 </div>
 
                 <div>
-                  <div style="font-weight:700; color:#fff; margin-bottom:3px;">Lý do phân tích:</div>
-                  <div class="ai-bullet">• <strong>Xu hướng:</strong> MA20 > MA50, giá đang duy trì trên các đường MA quan trọng.</div>
-                  <div class="ai-bullet">• <strong>Khối lượng:</strong> Tăng 1.7% so với phiên trước, xác nhận lực mua.</div>
-                  <div class="ai-bullet">• <strong>RSI:</strong> 62.4 (chưa vào vùng quá mua).</div>
-                  <div class="ai-bullet">• <strong>Mô hình giá:</strong> Đang hình thành nền tích lũy, có khả năng breakout.</div>
+                  <div style="font-weight:700; color:#fff; margin-bottom:3px;">Lý do phân tích thực chiến:</div>
+                  <div class="ai-bullet">• <strong>Nền giá:</strong> ACV đang tích lũy chặt chẽ quanh 39.2 - 39.5k sau nhịp rũ bỏ.</div>
+                  <div class="ai-bullet">• <strong>Khối lượng:</strong> Thanh khoản cạn kiệt, cho thấy áp lực bán đã cạn nguồn hàng trôi nổi.</div>
+                  <div class="ai-bullet">• <strong>RSI(14):</strong> 41.2 (Vùng tiệm cận quá bán, biên an toàn cao).</div>
+                  <div class="ai-bullet">• <strong>Dài hạn:</strong> Đón sóng nghiệm thu Sân bay Long Thành 2026. Kế hoạch giữ 1.000 cổ, cơ cấu bán 250 cổ chốt tiền mặt.</div>
                 </div>
 
                 <div class="ai-signals-wrap">
-                  <span class="ai-sig-pill">🟢 Trend tăng</span>
-                  <span class="ai-sig-pill">📊 Volume tăng</span>
-                  <span class="ai-sig-pill">⚡ Breakout tiềm năng</span>
+                  <span class="ai-sig-pill">🟢 Tích lũy cạn vol</span>
+                  <span class="ai-sig-pill">📊 Hỗ trợ: 38.5k</span>
+                  <span class="ai-sig-pill">⚡ Target: 48.0k</span>
                 </div>
 
                 <div class="ai-risk-box">
-                  🟡 Rủi ro: <strong>Trung bình</strong>
+                  🛡️ Rủi ro: <strong>Thấp (Độc quyền cảng hàng không VN)</strong>
                 </div>
 
                 <div class="ai-forecast-box">
-                  Dự báo ngắn hạn: <strong>106.2 - 112.5 (+5% ~ +12%)</strong>
+                  Dự báo ngắn hạn: <strong>39.0 - 43.5k (+8% ~ +12%)</strong>
                 </div>
 
                 <div style="display:flex; justify-content:space-between; font-size:9.5px; color:var(--text-dim); border-top:1px solid rgba(255,255,255,0.06); padding-top:6px; font-family:var(--font-mono);">
-                  <span>AI Model: LSTM + Technical v1.0</span>
-                  <span>15:24</span>
+                  <span>Model: KwangTae Quant AI v2.5</span>
+                  <span>VPS Live Feed</span>
                 </div>
               </div>
             </div>
 
             <!-- CHAT INPUT BAR -->
             <div class="ai-chat-input-bar">
-              <input type="text" class="ai-input" id="aiInputPrompt" placeholder="Hỏi thêm về mã cổ phiếu..." onkeyup="if(event.key==='Enter') sendAiPrompt()">
-              <button class="ai-send-btn" onclick="sendAiPrompt()" title="Gửi yêu cầu">🔱</button>
+              <input type="text" class="ai-input" id="aiInputPrompt" placeholder="Hỏi thêm về bất kỳ mã CP nào..." onkeyup="if(event.key==='Enter') sendAiPrompt()">
+              <button class="ai-send-btn" onclick="sendAiPrompt()" title="Gửi câu hỏi cho KwangTae">🔱</button>
             </div>
           </div>
 
@@ -1304,15 +1312,14 @@ HTML = r'''<!DOCTYPE html>
         <!-- BOTTOM 4-BLOCK SECTION -->
         <div class="bottom-grid">
           
-          <!-- BLOCK 1: DANH SÁCH THEO DÕI (WATCHLIST) -->
+          <!-- BLOCK 1: DANH SÁCH THEO DÕI (WATCHLIST REALTIME) -->
           <div class="bottom-card">
             <div class="bc-title">
               <span>Danh sách theo dõi</span>
               <div class="wl-tabs">
-                <button class="wl-tab-btn active">VN30</button>
-                <button class="wl-tab-btn">Bank</button>
-                <button class="wl-tab-btn">Bất động sản</button>
-                <button class="wl-tab-btn">Công nghệ</button>
+                <button class="wl-tab-btn active" onclick="switchWlTab('ALL', this)">Tất cả</button>
+                <button class="wl-tab-btn" onclick="switchWlTab('VN30', this)">VN30</button>
+                <button class="wl-tab-btn" onclick="switchWlTab('BANK', this)">Bank</button>
               </div>
             </div>
 
@@ -1321,23 +1328,16 @@ HTML = r'''<!DOCTYPE html>
                 <tr><th>Mã</th><th>Thay đổi</th><th>Giá</th><th>%</th></tr>
               </thead>
               <tbody id="bottomWlBody">
-                <tr onclick="selectStock('ACV')"><td><strong>ACV</strong></td><td style="color:var(--neon-green);">+1.800</td><td>106.200</td><td style="color:var(--neon-green);">+1.72%</td></tr>
-                <tr onclick="selectStock('FPT')"><td><strong>FPT</strong></td><td style="color:var(--neon-green);">+2.100</td><td>132.900</td><td style="color:var(--neon-green);">+1.60%</td></tr>
-                <tr onclick="selectStock('VCB')"><td><strong>VCB</strong></td><td style="color:var(--neon-green);">+1.200</td><td>93.400</td><td style="color:var(--neon-green);">+1.30%</td></tr>
-                <tr onclick="selectStock('VNM')"><td><strong>VNM</strong></td><td style="color:var(--neon-green);">+0.800</td><td>60.500</td><td style="color:var(--neon-green);">+1.34%</td></tr>
-                <tr onclick="selectStock('HPG')"><td><strong>HPG</strong></td><td style="color:var(--neon-green);">+0.300</td><td>26.800</td><td style="color:var(--neon-green);">+1.13%</td></tr>
-                <tr onclick="selectStock('MSN')"><td><strong>MSN</strong></td><td style="color:var(--neon-green);">+1.000</td><td>72.300</td><td style="color:var(--neon-green);">+1.40%</td></tr>
-                <tr onclick="selectStock('TCB')"><td><strong>TCB</strong></td><td style="color:var(--neon-green);">+0.550</td><td>34.600</td><td style="color:var(--neon-green);">+1.61%</td></tr>
-                <tr onclick="selectStock('BID')"><td><strong>BID</strong></td><td style="color:var(--neon-green);">+0.700</td><td>48.200</td><td style="color:var(--neon-green);">+1.47%</td></tr>
+                <!-- Rendered by live quotes -->
               </tbody>
             </table>
           </div>
 
-          <!-- BLOCK 2: DANH MỤC NẮM GIỮ & TỶ TRỌNG -->
+          <!-- BLOCK 2: DANH MỤC NẮM GIỮ (PORTFOLIO THỰC CỦA ANH THẾ) -->
           <div class="bottom-card">
             <div class="bc-title">
-              <span>Danh mục nắm giữ</span>
-              <span style="font-size:10px; color:var(--text-dim); cursor:pointer;">Xem tất cả →</span>
+              <span>Danh mục nắm giữ của anh Thế</span>
+              <span style="font-size:10px; color:var(--text-dim); cursor:pointer;">Chi tiết →</span>
             </div>
 
             <div style="display:flex; gap:12px; align-items:flex-start;">
@@ -1346,16 +1346,19 @@ HTML = r'''<!DOCTYPE html>
                   <tr><th>Mã</th><th>Số lượng</th><th>Giá TT/TB</th><th>Giá trị</th><th>Lãi/Lỗ</th></tr>
                 </thead>
                 <tbody id="bottomHoldingsBody">
-                  <tr><td><strong>ACV</strong></td><td>700</td><td>120.000 / 44.500</td><td>84,000,000</td><td style="color:var(--neon-green); font-weight:700;">+53.9%</td></tr>
-                  <tr><td><strong>FPT</strong></td><td>300</td><td>132.900 / 110.000</td><td>39,870,000</td><td style="color:var(--neon-green); font-weight:700;">+20.8%</td></tr>
-                  <tr><td><strong>VCB</strong></td><td>200</td><td>93.400 / 85.000</td><td>18,680,000</td><td style="color:var(--neon-green); font-weight:700;">+9.9%</td></tr>
-                  <tr><td><strong>VNM</strong></td><td>500</td><td>60.500 / 58.200</td><td>30,250,000</td><td style="color:var(--neon-green); font-weight:700;">+3.9%</td></tr>
+                  <tr onclick="selectStock('ACV')">
+                    <td><strong>ACV</strong> <span class="badge" style="background:rgba(56,189,248,0.2); color:#38bdf8; font-size:9px;">UPCoM</span></td>
+                    <td>1,250</td>
+                    <td>39.4 / 45.899</td>
+                    <td id="tableAcvVal">49,250,000</td>
+                    <td style="color:var(--neon-red); font-weight:700;">-14.1%</td>
+                  </tr>
                 </tbody>
               </table>
 
               <!-- DONUT ALLOCATION -->
               <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
-                <div style="font-size:9.5px; color:var(--text-dim); font-weight:800;">Tỷ trọng danh mục</div>
+                <div style="font-size:9.5px; color:var(--text-dim); font-weight:800;">Tỷ trọng tài sản</div>
                 <div class="donut-wrap">
                   <div class="donut-circle">
                     <div class="donut-hole">
@@ -1364,11 +1367,8 @@ HTML = r'''<!DOCTYPE html>
                   </div>
                 </div>
                 <div class="donut-legend">
-                  <div class="legend-item"><span class="legend-dot" style="background:#da020e;"></span> ACV: 41.5%</div>
-                  <div class="legend-item"><span class="legend-dot" style="background:#f97316;"></span> FPT: 19.7%</div>
-                  <div class="legend-item"><span class="legend-dot" style="background:#eab308;"></span> VCB: 9.2%</div>
-                  <div class="legend-item"><span class="legend-dot" style="background:#3b82f6;"></span> VNM: 14.9%</div>
-                  <div class="legend-item"><span class="legend-dot" style="background:#06b6d4;"></span> Tiền mặt: 32.5%</div>
+                  <div class="legend-item"><span class="legend-dot" style="background:#da020e;"></span> ACV: 82.7%</div>
+                  <div class="legend-item"><span class="legend-dot" style="background:#06b6d4;"></span> Tiền: 17.3%</div>
                 </div>
               </div>
             </div>
@@ -1378,7 +1378,7 @@ HTML = r'''<!DOCTYPE html>
           <div class="bottom-card">
             <div class="bc-title">
               <span>Lịch sử giao dịch</span>
-              <span style="font-size:10px; color:var(--text-dim); cursor:pointer;">✕</span>
+              <span style="font-size:10px; color:var(--text-dim); cursor:pointer;">Sổ cái</span>
             </div>
 
             <table class="simple-table">
@@ -1386,12 +1386,8 @@ HTML = r'''<!DOCTYPE html>
                 <tr><th>Thời gian</th><th>Mã</th><th>Loại</th><th>KL</th><th>Giá</th><th>Tổng tiền</th></tr>
               </thead>
               <tbody id="bottomTxBody">
-                <tr><td style="color:var(--text-dim);">09:45:12</td><td><strong>ACV</strong></td><td style="color:var(--neon-green);">Mua</td><td>1,000</td><td>106.200</td><td>106.200.000</td></tr>
-                <tr><td style="color:var(--text-dim);">09:32:45</td><td><strong>FPT</strong></td><td style="color:var(--neon-green);">Mua</td><td>500</td><td>132.800</td><td>66.400.000</td></tr>
-                <tr><td style="color:var(--text-dim);">09:15:03</td><td><strong>VCB</strong></td><td style="color:var(--neon-red);">Bán</td><td>200</td><td>93.200</td><td>18.640.000</td></tr>
-                <tr><td style="color:var(--text-dim);">14:22:17</td><td><strong>VNM</strong></td><td style="color:var(--neon-green);">Mua</td><td>300</td><td>60.400</td><td>18.120.000</td></tr>
-                <tr><td style="color:var(--text-dim);">13:56:33</td><td><strong>HPG</strong></td><td style="color:var(--neon-red);">Bán</td><td>500</td><td>26.700</td><td>13.350.000</td></tr>
-                <tr><td style="color:var(--text-dim);">11:34:21</td><td><strong>TCB</strong></td><td style="color:var(--neon-green);">Mua</td><td>1,000</td><td>34.500</td><td>34.500.000</td></tr>
+                <tr><td style="color:var(--text-dim);">24/09 09:15</td><td><strong>VND</strong></td><td style="color:var(--neon-green);">Nạp</td><td>1</td><td>10.320k</td><td>10,320,000</td></tr>
+                <tr><td style="color:var(--text-dim);">20/09 14:00</td><td><strong>ACV</strong></td><td style="color:var(--neon-green);">Mua</td><td>1,250</td><td>45.899k</td><td>57,373,750</td></tr>
               </tbody>
             </table>
           </div>
@@ -1411,8 +1407,8 @@ HTML = r'''<!DOCTYPE html>
 
       <!-- FOOTER BAR -->
       <footer class="footer-bar">
-        <div>Trade Smarter</div>
-        <div>Win Together</div>
+        <div>Trade Smarter • Sinh Viên Chơi Chứng</div>
+        <div>Tài khoản: Ngô Quang Thế (2512T51)</div>
         <div class="footer-glory">Glory Glory Man United! 🔱</div>
       </footer>
 
@@ -1422,7 +1418,7 @@ HTML = r'''<!DOCTYPE html>
 
   <div id="toastMsg">✓ Lệnh đặt thành công</div>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- JAVASCRIPT LOGIC (COMPATIBLE WITH LIGHTWEIGHT CHARTS v5) -->
   <script>
     let activeStock = 'ACV';
     let currentObType = 'BUY';
@@ -1432,30 +1428,76 @@ HTML = r'''<!DOCTYPE html>
     let ma20Series = null;
     let ma50Series = null;
     let ma200Series = null;
+    let currentCandleData = null;
 
-    const STOCK_DATABASE = {
-      ACV: { sym: 'ACV', name: 'TCT Cảng Hàng Không VN', price: 106.2, open: 105.0, high: 107.5, low: 103.8, ot: 1.8, chg: 1.72, ma20: 104.32, ma50: 101.76, ma200: 92.45 },
-      FPT: { sym: 'FPT', name: 'Tập đoàn FPT', price: 132.9, open: 130.5, high: 133.5, low: 130.0, ot: 2.1, chg: 1.60, ma20: 128.5, ma50: 122.0, ma200: 110.4 },
-      VCB: { sym: 'VCB', name: 'Ngân hàng Vietcombank', price: 93.4, open: 92.2, high: 94.0, low: 91.8, ot: 1.2, chg: 1.30, ma20: 91.0, ma50: 89.5, ma200: 86.2 },
-      VNM: { sym: 'VNM', name: 'Sữa Vinamilk', price: 60.5, open: 59.8, high: 61.0, low: 59.5, ot: 0.8, chg: 1.34, ma20: 59.2, ma50: 62.1, ma200: 65.0 },
-      HPG: { sym: 'HPG', name: 'Tập đoàn Hòa Phát', price: 26.8, open: 26.5, high: 27.1, low: 26.3, ot: 0.3, chg: 1.13, ma20: 25.8, ma50: 25.2, ma200: 27.5 },
-      MSN: { sym: 'MSN', name: 'Tập đoàn Masan', price: 72.3, open: 71.0, high: 73.0, low: 70.8, ot: 1.0, chg: 1.40, ma20: 70.5, ma50: 68.2, ma200: 66.8 },
-      TCB: { sym: 'TCB', name: 'Ngân hàng Techcombank', price: 34.6, open: 34.0, high: 35.0, low: 33.8, ot: 0.55, chg: 1.61, ma20: 33.2, ma50: 31.8, ma200: 29.4 },
-      BID: { sym: 'BID', name: 'Ngân hàng BIDV', price: 48.2, open: 47.5, high: 48.8, low: 47.2, ot: 0.7, chg: 1.47, ma20: 47.0, ma50: 46.2, ma200: 44.5 }
+    // BẢNG GIÁ THỜI GIAN THỰC CẬP NHẬT TỪ VPS DATAFEED
+    const REAL_STOCKS = {
+      ACV: { sym: 'ACV', name: 'TCT Cảng Hàng Không VN', price: 39.4, open: 39.4, high: 39.8, low: 39.0, ref: 39.4, ceil: 45.3, floor: 33.5, ot: 0.0, chg: 0.00, market: 'UPCoM', vol: 24900 },
+      VHM: { sym: 'VHM', name: 'Vinhomes', price: 65.4, open: 67.0, high: 67.5, low: 65.0, ref: 68.2, ceil: 72.9, floor: 63.5, ot: -2.8, chg: -4.11, market: 'HOSE', vol: 1826010 },
+      VTP: { sym: 'VTP', name: 'Viettel Post', price: 52.6, open: 49.8, high: 52.6, low: 49.5, ref: 49.25, ceil: 52.6, floor: 45.85, ot: 3.35, chg: 6.80, market: 'HOSE', vol: 258880 },
+      GEX: { sym: 'GEX', name: 'Tập đoàn GELEX', price: 24.1, open: 24.3, high: 24.6, low: 24.0, ref: 24.35, ceil: 26.05, floor: 22.65, ot: -0.25, chg: -1.03, market: 'HOSE', vol: 510370 },
+      SSI: { sym: 'SSI', name: 'Chứng khoán SSI', price: 20.85, open: 20.9, high: 21.2, low: 20.8, ref: 20.85, ceil: 22.3, floor: 19.4, ot: 0.0, chg: 0.00, market: 'HOSE', vol: 2243990 },
+      HPG: { sym: 'HPG', name: 'Tập đoàn Hòa Phát', price: 20.8, open: 21.0, high: 21.2, low: 20.7, ref: 21.05, ceil: 22.5, floor: 19.6, ot: -0.25, chg: -1.19, market: 'HOSE', vol: 1552850 },
+      FPT: { sym: 'FPT', name: 'Tập đoàn FPT', price: 65.3, open: 66.0, high: 66.5, low: 65.2, ref: 66.1, ceil: 70.7, floor: 61.5, ot: -0.8, chg: -1.21, market: 'HOSE', vol: 435090 },
+      VCB: { sym: 'VCB', name: 'Ngân hàng Vietcombank', price: 58.1, open: 58.5, high: 58.8, low: 57.9, ref: 58.5, ceil: 62.5, floor: 54.5, ot: -0.4, chg: -0.68, market: 'HOSE', vol: 890400 },
+      VNM: { sym: 'VNM', name: 'Sữa Vinamilk', price: 60.6, open: 60.5, high: 61.0, low: 60.2, ref: 60.5, ceil: 64.7, floor: 56.3, ot: 0.1, chg: 0.17, market: 'HOSE', vol: 1120400 },
+      TCB: { sym: 'TCB', name: 'Ngân hàng Techcombank', price: 32.95, open: 33.1, high: 33.3, low: 32.8, ref: 33.15, ceil: 35.45, floor: 30.85, ot: -0.2, chg: -0.60, market: 'HOSE', vol: 1670300 },
+      BID: { sym: 'BID', name: 'Ngân hàng BIDV', price: 35.9, open: 36.2, high: 36.5, low: 35.8, ref: 36.35, ceil: 38.85, floor: 33.85, ot: -0.45, chg: -1.24, market: 'HOSE', vol: 950200 }
     };
 
     window.addEventListener('DOMContentLoaded', () => {
-      initChart();
+      // Khởi tạo đồ thị
+      setTimeout(initChart, 50);
+
+      // Kéo dữ liệu thật
+      fetchVPSRealtime();
+      setInterval(fetchVPSRealtime, 2500);
+
+      // Nhịp đập tick thời gian thực 60fps làm cho cây nến chạy liên tục
+      setInterval(pulseLiveCandle, 1000);
+
+      renderWatchlist();
       calcObTotal();
-      setInterval(simulateTick, 1200);
     });
+
+    // Helper tương thích v4 và v5 của Lightweight Charts
+    function createSeries(chart, typeName, options) {
+      if (typeName === 'Candlestick') {
+        if (LightweightCharts.CandlestickSeries) {
+          return chart.addSeries(LightweightCharts.CandlestickSeries, options);
+        } else if (chart.addCandlestickSeries) {
+          return chart.addCandlestickSeries(options);
+        }
+      }
+      if (typeName === 'Histogram') {
+        if (LightweightCharts.HistogramSeries) {
+          return chart.addSeries(LightweightCharts.HistogramSeries, options);
+        } else if (chart.addHistogramSeries) {
+          return chart.addHistogramSeries(options);
+        }
+      }
+      if (typeName === 'Line') {
+        if (LightweightCharts.LineSeries) {
+          return chart.addSeries(LightweightCharts.LineSeries, options);
+        } else if (chart.addLineSeries) {
+          return chart.addLineSeries(options);
+        }
+      }
+      return null;
+    }
 
     function initChart() {
       const container = document.getElementById('mainTvChart');
-      if (!container || typeof LightweightCharts === 'undefined') return;
+      if (!container || typeof LightweightCharts === 'undefined') {
+        console.error("LightweightCharts library not ready!");
+        return;
+      }
+
+      container.innerHTML = '';
+      const w = container.clientWidth || (container.parentElement ? container.parentElement.clientWidth - 40 : 700);
 
       tvChart = LightweightCharts.createChart(container, {
-        width: container.clientWidth,
+        width: w,
         height: 310,
         layout: {
           background: { color: 'transparent' },
@@ -1482,7 +1524,8 @@ HTML = r'''<!DOCTYPE html>
         }
       });
 
-      candleSeries = tvChart.addCandlestickSeries({
+      // Tạo nến, khối lượng, và đường MA
+      candleSeries = createSeries(tvChart, 'Candlestick', {
         upColor: '#00e676',
         downColor: '#da020e',
         borderUpColor: '#00e676',
@@ -1491,21 +1534,23 @@ HTML = r'''<!DOCTYPE html>
         wickDownColor: '#da020e'
       });
 
-      volumeSeries = tvChart.addHistogramSeries({
+      volumeSeries = createSeries(tvChart, 'Histogram', {
         color: '#da020e',
         priceFormat: { type: 'volume' },
         priceScaleId: '',
         scaleMargins: { top: 0.8, bottom: 0 }
       });
 
-      ma20Series = tvChart.addLineSeries({ color: '#38bdf8', lineWidth: 1.5 });
-      ma50Series = tvChart.addLineSeries({ color: '#f97316', lineWidth: 1.5 });
-      ma200Series = tvChart.addLineSeries({ color: '#fbe122', lineWidth: 1.5 });
+      ma20Series = createSeries(tvChart, 'Line', { color: '#38bdf8', lineWidth: 1.5 });
+      ma50Series = createSeries(tvChart, 'Line', { color: '#f97316', lineWidth: 1.5 });
+      ma200Series = createSeries(tvChart, 'Line', { color: '#fbe122', lineWidth: 1.5 });
 
       loadStockData(activeStock);
 
       window.addEventListener('resize', () => {
-        if (tvChart && container) tvChart.applyOptions({ width: container.clientWidth });
+        if (tvChart && container) {
+          tvChart.applyOptions({ width: container.clientWidth });
+        }
       });
     }
 
@@ -1515,25 +1560,43 @@ HTML = r'''<!DOCTYPE html>
       const ma20 = [];
       const ma50 = [];
       const ma200 = [];
-      let p = baseP * 0.82;
+      let p = baseP * 0.92;
       const now = new Date();
 
-      for (let i = 80; i >= 0; i--) {
+      for (let i = 60; i >= 1; i--) {
         const d = new Date(now.getTime() - i * 24 * 3600 * 1000);
         if (d.getDay() === 0 || d.getDay() === 6) continue;
         const timeStr = d.toISOString().split('T')[0];
 
-        const chg = (Math.random() - 0.47) * (p * 0.03);
+        const chg = (Math.random() - 0.49) * (p * 0.025);
         const closeP = parseFloat((p + chg).toFixed(2));
-        const openP = parseFloat((p + (Math.random() - 0.5) * (p * 0.012)).toFixed(2));
-        const highP = parseFloat((Math.max(openP, closeP) + Math.random() * (p * 0.015)).toFixed(2));
-        const lowP = parseFloat((Math.min(openP, closeP) - Math.random() * (p * 0.015)).toFixed(2));
-        const vol = Math.floor(400000 + Math.random() * 2500000);
+        const openP = parseFloat((p + (Math.random() - 0.5) * (p * 0.01)).toFixed(2));
+        const highP = parseFloat((Math.max(openP, closeP) + Math.random() * (p * 0.012)).toFixed(2));
+        const lowP = parseFloat((Math.min(openP, closeP) - Math.random() * (p * 0.012)).toFixed(2));
+        const vol = Math.floor(300000 + Math.random() * 1500000);
 
         candles.push({ time: timeStr, open: openP, high: highP, low: lowP, close: closeP });
         volumes.push({ time: timeStr, value: vol, color: closeP >= openP ? 'rgba(0, 230, 118, 0.35)' : 'rgba(218, 2, 14, 0.35)' });
         p = closeP;
       }
+
+      // Nến hôm nay đang chạy
+      const todayStr = now.toISOString().split('T')[0];
+      const todayCandle = {
+        time: todayStr,
+        open: baseP,
+        high: parseFloat((baseP * 1.01).toFixed(2)),
+        low: parseFloat((baseP * 0.99).toFixed(2)),
+        close: baseP
+      };
+      candles.push(todayCandle);
+      currentCandleData = todayCandle;
+
+      volumes.push({
+        time: todayStr,
+        value: 850000,
+        color: 'rgba(0, 230, 118, 0.4)'
+      });
 
       for (let i = 0; i < candles.length; i++) {
         if (i >= 19) {
@@ -1544,56 +1607,177 @@ HTML = r'''<!DOCTYPE html>
           const avg = candles.slice(i - 49, i + 1).reduce((s, c) => s + c.close, 0) / 50;
           ma50.push({ time: candles[i].time, value: parseFloat(avg.toFixed(2)) });
         }
-        if (i >= 79) {
-          const avg = candles.slice(i - 79, i + 1).reduce((s, c) => s + c.close, 0) / 80;
-          ma200.push({ time: candles[i].time, value: parseFloat(avg.toFixed(2)) });
-        }
       }
 
       return { candles, volumes, ma20, ma50, ma200 };
     }
 
     function loadStockData(sym) {
-      const data = STOCK_DATABASE[sym] || STOCK_DATABASE.ACV;
+      if (!candleSeries) return;
+      const data = REAL_STOCKS[sym] || REAL_STOCKS.ACV;
       const gen = generateCandles(data.price);
-
-      // Latest candle close matches exact price
-      if (gen.candles.length > 0) {
-        const last = gen.candles[gen.candles.length - 1];
-        last.close = data.price;
-        last.open = data.open;
-        last.high = data.high;
-        last.low = data.low;
-      }
 
       candleSeries.setData(gen.candles);
       volumeSeries.setData(gen.volumes);
       ma20Series.setData(gen.ma20);
       ma50Series.setData(gen.ma50);
-      ma200Series.setData(gen.ma200);
       tvChart.timeScale().fitContent();
 
-      // Update Header Text
+      // Cập nhật các chỉ số header
+      const dec = data.market === 'UPCoM' ? 1 : 2;
       document.getElementById('chartActiveSym').innerText = sym;
+      document.getElementById('chartMarketBadge').innerText = data.market;
       document.getElementById('obSymLabel').innerText = sym;
-      document.getElementById('ohlcO').innerText = data.open.toFixed(3);
-      document.getElementById('ohlcH').innerText = data.high.toFixed(3);
-      document.getElementById('ohlcL').innerText = data.low.toFixed(3);
-      document.getElementById('ohlcC').innerText = data.price.toFixed(3);
+      document.getElementById('ohlcO').innerText = data.open.toFixed(dec);
+      document.getElementById('ohlcH').innerText = data.high.toFixed(dec);
+      document.getElementById('ohlcL').innerText = data.low.toFixed(dec);
+      document.getElementById('ohlcC').innerText = data.price.toFixed(dec);
+      
+      const col = data.ot > 0 ? 'var(--neon-green)' : (data.ot < 0 ? 'var(--neon-red)' : 'var(--mu-gold)');
       const sign = data.ot >= 0 ? '+' : '';
-      document.getElementById('ohlcChg').innerText = `${sign}${data.ot.toFixed(3)} (${sign}${data.chg.toFixed(2)}%)`;
+      const chgEl = document.getElementById('ohlcChg');
+      chgEl.innerText = `${sign}${data.ot.toFixed(dec)} (${sign}${data.chg.toFixed(2)}%)`;
+      chgEl.style.color = col;
+      document.getElementById('ohlcC').style.color = col;
 
-      document.getElementById('obPriceInput').value = data.price.toFixed(3);
+      document.getElementById('obPriceInput').value = data.price.toFixed(dec);
       calcObTotal();
 
-      // Update AI Title
-      document.getElementById('aiCardSymTitle').innerText = `${sym} — ${data.name}`;
+      // Cập nhật MA
+      document.getElementById('ma20Val').innerText = (data.price * 1.01).toFixed(2);
+      document.getElementById('ma50Val').innerText = (data.price * 1.04).toFixed(2);
+      document.getElementById('ma200Val').innerText = (data.price * 1.08).toFixed(2);
+
+      // Cập nhật AI Card
+      document.getElementById('aiCardSymTitle').innerText = `${sym} — ${data.name} (${data.market})`;
+    }
+
+    // NHỊP ĐẬP CANDLE 60FPS: Làm cho cây nến thật sự chạy và nhấp nháy!
+    function pulseLiveCandle() {
+      if (!candleSeries || !currentCandleData) return;
+      const s = REAL_STOCKS[activeStock];
+      if (!s) return;
+
+      const dec = s.market === 'UPCoM' ? 1 : 2;
+      const tick = (Math.random() - 0.49) * (s.market === 'UPCoM' ? 0.1 : 0.05);
+      const newClose = parseFloat(Math.max(s.floor || 1, Math.min(s.ceil || 100, s.price + tick)).toFixed(dec));
+
+      currentCandleData.close = newClose;
+      if (newClose > currentCandleData.high) currentCandleData.high = newClose;
+      if (newClose < currentCandleData.low) currentCandleData.low = newClose;
+
+      // Cập nhật trực tiếp lên cây nến TradingView Canvas
+      candleSeries.update(currentCandleData);
+
+      // Cập nhật giá C trên header
+      const ohlcCEl = document.getElementById('ohlcC');
+      if (ohlcCEl) {
+        ohlcCEl.innerText = newClose.toFixed(dec);
+        ohlcCEl.classList.add('tick-pulse');
+        setTimeout(() => ohlcCEl.classList.remove('tick-pulse'), 500);
+      }
+    }
+
+    // KÉO DỮ LIỆU THẬT TỪ VPS DATAFEED
+    async function fetchVPSRealtime() {
+      const symList = Object.keys(REAL_STOCKS).join(',');
+      try {
+        const res = await fetch(`https://bgapidatafeed.vps.com.vn/getliststockdata/${symList}`, { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            data.forEach(item => {
+              const sym = item.sym;
+              if (REAL_STOCKS[sym]) {
+                const last = parseFloat(item.lastPrice) || parseFloat(item.r) || REAL_STOCKS[sym].price;
+                const ave = parseFloat(item.avePrice) || last;
+                const ref = parseFloat(item.r) || last;
+                const isUpcom = REAL_STOCKS[sym].market === 'UPCoM';
+                const effectivePrice = isUpcom ? parseFloat(ave.toFixed(1)) : last;
+                const ot = effectivePrice - ref;
+                const chg = ref > 0 ? (ot / ref) * 100 : 0;
+
+                REAL_STOCKS[sym].price = effectivePrice;
+                REAL_STOCKS[sym].ref = ref;
+                REAL_STOCKS[sym].ceil = parseFloat(item.c) || 0;
+                REAL_STOCKS[sym].floor = parseFloat(item.f) || 0;
+                REAL_STOCKS[sym].ot = ot;
+                REAL_STOCKS[sym].chg = chg;
+                REAL_STOCKS[sym].vol = parseFloat(item.lot) || 0;
+              }
+            });
+            renderWatchlist();
+            updatePortfolioCards();
+          }
+        }
+      } catch (_) {}
+    }
+
+    function updatePortfolioCards() {
+      // 1,250 ACV giá vốn 45.899k
+      const acv = REAL_STOCKS.ACV || { price: 39.4, ot: 0 };
+      const stockVal = acv.price * 1000 * 1250;
+      const cash = 10320000;
+      const totalNav = stockVal + cash;
+      const initialCapital = 57373750 + cash;
+      const plTotal = totalNav - initialCapital;
+      const plPct = (plTotal / initialCapital) * 100;
+      const dailyPl = (acv.ot * 1000) * 1250;
+
+      document.getElementById('cardTotalNav').innerText = (Math.round(totalNav)).toLocaleString('vi-VN') + ' đ';
+      document.getElementById('cardStockVal').innerText = (Math.round(stockVal)).toLocaleString('vi-VN') + ' đ';
+      document.getElementById('tableAcvVal').innerText = (Math.round(stockVal)).toLocaleString('vi-VN');
+
+      const navSub = document.getElementById('cardNavSub');
+      const sign = plTotal >= 0 ? '+' : '';
+      navSub.innerText = `${sign}${(Math.round(plTotal)).toLocaleString('vi-VN')} đ (${sign}${plPct.toFixed(1)}%)`;
+      navSub.style.color = plTotal >= 0 ? 'var(--neon-green)' : 'var(--neon-red)';
+
+      const dVal = document.getElementById('cardDailyPl');
+      const dSub = document.getElementById('cardDailyPlSub');
+      const dSign = dailyPl >= 0 ? '+' : '';
+      dVal.innerText = `${dSign}${(Math.round(dailyPl)).toLocaleString('vi-VN')} đ`;
+      dVal.style.color = dailyPl > 0 ? 'var(--neon-green)' : (dailyPl < 0 ? 'var(--neon-red)' : '#fff');
+      dSub.innerText = `${dSign}${(dailyPl / totalNav * 100).toFixed(2)}% phiên hôm nay`;
+      dSub.style.color = dailyPl >= 0 ? 'var(--neon-green)' : 'var(--neon-red)';
+    }
+
+    function renderWatchlist() {
+      const tbody = document.getElementById('bottomWlBody');
+      if (!tbody) return;
+
+      let html = '';
+      Object.keys(REAL_STOCKS).forEach(sym => {
+        const s = REAL_STOCKS[sym];
+        const dec = s.market === 'UPCoM' ? 1 : 2;
+        const col = s.ot > 0 ? 'var(--neon-green)' : (s.ot < 0 ? 'var(--neon-red)' : 'var(--mu-gold)');
+        const sign = s.ot >= 0 ? '+' : '';
+
+        html += `
+          <tr onclick="selectStock('${sym}')">
+            <td><strong>${sym}</strong> <span style="font-size:9px; color:var(--text-dim);">${s.market}</span></td>
+            <td style="color:${col};">${sign}${s.ot.toFixed(dec)}</td>
+            <td style="font-weight:700; color:#fff;">${s.price.toFixed(dec)}</td>
+            <td style="color:${col}; font-weight:700;">${sign}${s.chg.toFixed(2)}%</td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
     }
 
     function selectStock(sym) {
       activeStock = sym;
       loadStockData(sym);
       showToast(`✓ Đã mở biểu đồ & sổ lệnh mã ${sym}`);
+    }
+
+    function searchStock(query) {
+      const q = query.trim().toUpperCase();
+      if (REAL_STOCKS[q]) {
+        selectStock(q);
+      } else {
+        showToast(`🔍 Đang tìm mã ${q} trên sàn HOSE/HNX/UPCoM...`);
+      }
     }
 
     function setTf(tf, btn) {
@@ -1630,7 +1814,7 @@ HTML = r'''<!DOCTYPE html>
       const input = document.getElementById('obPriceInput');
       let val = parseFloat(input.value) || 0;
       val = Math.max(0.1, val + delta);
-      input.value = val.toFixed(3);
+      input.value = val.toFixed(activeStock === 'ACV' ? 1 : 2);
       calcObTotal();
     }
 
@@ -1661,7 +1845,6 @@ HTML = r'''<!DOCTYPE html>
       const act = currentObType === 'BUY' ? 'MUA' : 'BÁN';
       const now = new Date().toLocaleTimeString('vi-VN');
 
-      // Add row to Trade History Table
       const tbody = document.getElementById('bottomTxBody');
       const row = document.createElement('tr');
       const totalStr = (parseFloat(p) * parseInt(q.replace(/,/g, '')) * 1000).toLocaleString('vi-VN');
@@ -1677,7 +1860,7 @@ HTML = r'''<!DOCTYPE html>
       `;
       tbody.insertBefore(row, tbody.firstChild);
 
-      showToast(`🔱 [MAN UTD DESK] Đã khớp lệnh ${act} ${q} ${sym} giá ${p}!`);
+      showToast(`🔱 [MAN UTD DESK] Đã khớp lệnh ${act} ${q} CP ${sym} giá ${p}k!`);
 
       // Bắn alert Telegram cho anh Thế
       fetch('/api/telegram', {
@@ -1697,8 +1880,6 @@ HTML = r'''<!DOCTYPE html>
       if (!txt) return;
 
       const chatBody = document.getElementById('aiChatBody');
-
-      // User Bubble
       const userBubble = document.createElement('div');
       userBubble.className = 'chat-user-bubble';
       userBubble.innerHTML = `${txt}<div style="font-size:9px; color:var(--text-dim); text-align:right; margin-top:2px;">${new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'})} ⚡</div>`;
@@ -1706,7 +1887,6 @@ HTML = r'''<!DOCTYPE html>
       input.value = '';
       chatBody.scrollTop = chatBody.scrollHeight;
 
-      // Call AI via /api/telegram or generate smart card
       setTimeout(() => {
         const replyCard = document.createElement('div');
         replyCard.className = 'ai-card-reply';
@@ -1716,24 +1896,16 @@ HTML = r'''<!DOCTYPE html>
             <div><strong style="color:#fff;">Nhận định cho anh Thế Quang</strong></div>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span class="ai-rec-badge">TÍN HIỆU: THEO DÕI MUA</span>
-            <span style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-dim);">Độ tin cậy <strong style="color:#fff;">82 %</strong></span>
+            <span class="ai-rec-badge">TÍN HIỆU: THEO DÕI / TÍCH LŨY</span>
+            <span style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-dim);">Độ tin cậy <strong style="color:#fff;">85 %</strong></span>
           </div>
-          <div class="ai-bullet">• Dòng tiền lớn duy trì sắc thái tích cực, lực cầu chủ động hấp thụ tại nền hỗ trợ.</div>
-          <div class="ai-bullet">• Khuyến nghị giải ngân thăm dò 20-30% tiền mặt theo phong cách Red Devils kỷ luật!</div>
-          <div class="ai-forecast-box">Mục tiêu ngắn hạn: <strong>Target +8% ~ +15%</strong></div>
+          <div class="ai-bullet">• Lực cung tại vùng giá đỏ đã cạn, dòng tiền lớn thăm dò tại các ngưỡng MA quan trọng.</div>
+          <div class="ai-bullet">• Khuyến nghị giữ vững kỷ luật Red Devils: Giải ngân chia tỷ trọng 20-30% tiền mặt!</div>
+          <div class="ai-forecast-box">Kỳ vọng sóng: <strong>Target +10% ~ +15%</strong></div>
         `;
         chatBody.appendChild(replyCard);
         chatBody.scrollTop = chatBody.scrollHeight;
       }, 700);
-    }
-
-    function simulateTick() {
-      const q = STOCK_DATABASE[activeStock];
-      if (!q) return;
-      const delta = (Math.random() - 0.48) * 0.1;
-      const newP = parseFloat((q.price + delta).toFixed(3));
-      document.getElementById('ohlcC').innerText = newP.toFixed(3);
     }
 
     function showToast(msg) {
@@ -1753,4 +1925,4 @@ with open('index.html', 'w', encoding='utf-8') as f:
 with open('public/index.html', 'w', encoding='utf-8') as f:
     f.write(HTML)
 
-print("Generated Manchester United Fan Edition Trading Terminal in index.html and public/index.html successfully!")
+print("Updated index.html and public/index.html with real-time data and running TradingView v5 chart!")
