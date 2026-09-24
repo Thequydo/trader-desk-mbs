@@ -317,3 +317,33 @@ print(f"• Trạng thái mô hình : {'ĐÃ CẤP PHÉP TRIỂN KHAI (PROD)' if
 print(f"• Cầu dao Thiên Nga Đen: {'KÍCH HOẠT (BẢO VỆ VỐN)' if CIRCUIT_BREAKER_ACTIVE else 'AN TOÀN BÌNH THƯỜNG'}")
 print(f"• Top 1 cơ hội hôm nay : {top3[0]['symbol']} (Điểm: {top3[0]['score']}/100, Tỷ trọng gợi ý: {top3[0]['pos_size_pct']}%)")
 print("="*85)
+
+# =============================================================================
+# BẮN THÔNG BÁO TỰ ĐỘNG ĐẾN TELEGRAM CỦA ANH QUANG THẾ
+# =============================================================================
+try:
+    telegram_token = '8909883039:AAFT6ZgMJWKLt5jJOJjAx7zxEKIltTjwOSI'
+    chat_id = 5951966097
+    tg_msg = f"""👔 <b>[KWANGTAE BROKER - BÁO CÁO PHIÊN {latest_t.strftime('%d/%m/%Y')}]</b> 🚀
+
+📡 <b>VIBE THỊ TRƯỜNG:</b> {cur_vibe:.1f}/100 ({vibe_status})
+• Độ rộng trụ MA20: {cur_breadth:.1f}%
+
+💼 <b>LỜI KHUYÊN DANH MỤC CHO ANH THẾ:</b>
+• <b>ACV:</b> Đặt bán 250 cổ quanh giá 39.4k, giữ tròn 1,000 cổ cất tủ dài hạn.
+• <b>Tiền mặt sẵn sàng:</b> ~10.3 triệu VNĐ.
+
+🔥 <b>TOP CƠ HỘI ĐẸP NHẤT HÔM NAY:</b>
+1. <b>{top3[0]['symbol']}</b> (Điểm: {top3[0]['score']}/100) - {top3[0]['action']}
+2. <b>{top3[1]['symbol']}</b> (Điểm: {top3[1]['score']}/100)
+3. <b>{top3[2]['symbol']}</b> (Điểm: {top3[2]['score']}/100)
+
+👉 <i>Anh có thể nhắn tin trực tiếp cho em (gõ ACV, VHM, DANH MỤC, TOP 3...) để em tư vấn chi tiết nhé!</i>"""
+
+    tg_url = f"https://api.telegram.org/bot{telegram_token}/sendMessage"
+    payload = json.dumps({'chat_id': chat_id, 'text': tg_msg, 'parse_mode': 'HTML'}).encode('utf-8')
+    tg_req = urllib.request.Request(tg_url, data=payload, headers={'Content-Type': 'application/json', 'User-Agent': 'Mozilla/5.0'})
+    urllib.request.urlopen(tg_req, timeout=10)
+    print("📲 [TELEGRAM] Đã gửi báo cáo tự động đến điện thoại của anh Quang Thế!")
+except Exception as tg_err:
+    print(f"⚠️ Lỗi gửi Telegram: {tg_err}")
