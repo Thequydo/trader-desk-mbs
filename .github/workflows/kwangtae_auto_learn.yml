@@ -5,6 +5,12 @@ on:
     # 08:30 UTC = 15:30 Giờ Việt Nam (UTC+7), từ Thứ 2 đến Thứ 6 hàng tuần
     - cron: '30 8 * * 1-5'
   workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'scripts/**'
+      - '.github/workflows/**'
+      - 'requirements.txt'
 
 permissions:
   contents: write
