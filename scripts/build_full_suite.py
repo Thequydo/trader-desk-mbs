@@ -608,6 +608,56 @@ HTML = r'''<!DOCTYPE html>
       margin-top: 10px;
       border: 1px solid rgba(251, 225, 34, 0.4);
     }
+    /* AI ASSISTANT CHAT BOX & TYPOGRAPHY */
+    .ai-chat-box {
+      background: rgba(8, 12, 22, 0.92);
+      border: 1.5px solid rgba(218, 2, 14, 0.35);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 14px;
+      line-height: 1.75;
+      letter-spacing: 0.15px;
+      min-height: 180px;
+      max-height: 280px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+    .ai-chat-box::-webkit-scrollbar {
+      width: 6px;
+    }
+    .ai-chat-box::-webkit-scrollbar-thumb {
+      background: rgba(218, 2, 14, 0.4);
+      border-radius: 4px;
+    }
+    .ai-bubble-msg {
+      font-size: 14.5px;
+      line-height: 1.75;
+      color: #f8fafc;
+      letter-spacing: 0.15px;
+    }
+    .ai-bubble-msg strong {
+      color: var(--mu-gold);
+      font-weight: 800;
+    }
+    .ai-list-item {
+      margin: 8px 0;
+      padding: 4px 0 4px 10px;
+      border-left: 2.5px solid var(--mu-gold);
+      line-height: 1.65;
+      background: rgba(251, 225, 34, 0.04);
+      border-radius: 0 4px 4px 0;
+    }
+    .user-query-badge {
+      background: rgba(218, 2, 14, 0.22);
+      border: 1px solid rgba(218, 2, 14, 0.45);
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      font-size: 13.5px;
+      color: #fff;
+    }
+
     .quick-prompts {
       display: flex;
       gap: 6px;
@@ -1344,22 +1394,26 @@ HTML = r'''<!DOCTYPE html>
             <span class="badge-live">ĐANG TRỰC TUYẾN</span>
           </div>
 
-          <div id="aiChatBoxArea" style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:10px; font-size:11.5px; line-height:1.45; min-height:80px; max-height:130px; overflow-y:auto; margin-bottom:8px;">
-            <div id="aiChatLastReply">
-              👔 <strong>KwangTae:</strong> Chào anh Thế! Em đã sẵn sàng hỗ trợ phân tích mã <strong>ACV</strong> và soi cơ hội nhóm ngành hôm nay.
+          <div id="aiChatBoxArea" class="ai-chat-box">
+            <div id="aiChatLastReply" class="ai-bubble-msg">
+              <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px; color:var(--mu-gold); font-weight:800; font-size:13px; text-transform:uppercase;">
+                <span>🤖</span> KWANGTAE QUANT BROKER:
+              </div>
+              Chào anh <strong>Thế Quang 🔱</strong>! Em đã kết nối hệ thống phân tích định lượng & dữ liệu VPS thời gian thực.<br><br>
+              Anh bấm các phím tắt bên dưới hoặc gõ trực tiếp câu hỏi (điểm cắt lỗ, target chốt lời, vùng bắt đáy) để em soi ngay nhé!
             </div>
           </div>
 
-          <div style="display:flex; gap:6px;">
-            <input type="text" id="aiQuickInput" class="form-control" placeholder="Hỏi AI: Tìm điểm cắt lỗ, target, vùng mua..." style="flex:1; font-size:11.5px;" onkeyup="if(event.key==='Enter') executeAiChat()">
-            <button class="btn-primary-mu" onclick="executeAiChat()">Hỏi</button>
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="aiQuickInput" class="form-control" placeholder="Hỏi AI: Tìm điểm cắt lỗ, target chốt lời, vùng hỗ trợ..." style="flex:1; font-size:13.5px; height:40px; padding:8px 12px;" onkeyup="if(event.key==='Enter') executeAiChat()">
+            <button class="btn-primary-mu" style="font-size:13px; padding:0 18px; height:40px; font-weight:800;" onclick="executeAiChat()">Gửi hỏi</button>
           </div>
 
           <div class="quick-prompts">
-            <span class="prompt-chip" onclick="quickAiPrompt('Tìm điểm cắt lỗ và target chốt lời')">🎯 Cắt lỗ & Target</span>
-            <span class="prompt-chip" onclick="quickAiPrompt('Soi kỹ thuật mã VHM bắt đáy được chưa?')">🎯 Bắt đáy VHM</span>
-            <span class="prompt-chip" onclick="quickAiPrompt('Phân tích dòng tiền mã VTP')">🚀 Soi mã VTP</span>
-            <span class="prompt-chip" onclick="quickAiPrompt('Nhịp đập thị trường và chỉ số Vibe')">📡 Vibe Thị Trường</span>
+            <span class="prompt-chip" style="font-size:11.5px; padding:6px 12px;" onclick="quickAiPrompt('Tìm điểm cắt lỗ và target chốt lời')">🎯 Cắt lỗ & Target</span>
+            <span class="prompt-chip" style="font-size:11.5px; padding:6px 12px;" onclick="quickAiPrompt('Soi kỹ thuật mã VHM bắt đáy được chưa?')">🎯 Bắt đáy VHM</span>
+            <span class="prompt-chip" style="font-size:11.5px; padding:6px 12px;" onclick="quickAiPrompt('Phân tích dòng tiền mã VTP')">🚀 Soi mã VTP</span>
+            <span class="prompt-chip" style="font-size:11.5px; padding:6px 12px;" onclick="quickAiPrompt('Nhịp đập thị trường và chỉ số Vibe')">📡 Vibe Thị Trường</span>
           </div>
         </div>
 
@@ -2516,6 +2570,27 @@ HTML = r'''<!DOCTYPE html>
       tbody.innerHTML = html;
     }
 
+    function formatAiText(text) {
+      if (!text) return '';
+      let s = text;
+      // Convert markdown bold **text** to styled bold with gold accent
+      s = s.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--mu-gold); font-weight:800;">$1</strong>');
+      // Format bullet lines into spaced items with gold indicator
+      s = s.split('\n').map(line => {
+        const trimmed = line.trim();
+        if (trimmed.startsWith('•') || trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+          const content = trimmed.replace(/^[•\-\*]\s*/, '');
+          return `<div class="ai-list-item">• ${content}</div>`;
+        }
+        return line;
+      }).join('\n');
+      // Format double newlines into paragraphs
+      s = s.replace(/\n\n+/g, '<div style="height:10px;"></div>');
+      // Single newlines
+      s = s.replace(/\n/g, '<br>');
+      return s;
+    }
+
     // AI CHAT
     async function executeAiChat() {
       const input = document.getElementById('aiQuickInput');
@@ -2523,7 +2598,14 @@ HTML = r'''<!DOCTYPE html>
       if (!txt) return;
 
       const replyBox = document.getElementById('aiChatLastReply');
-      replyBox.innerHTML = `<strong>Anh Thế:</strong> ${txt}<br><span style="color:var(--text-dim);">🤖 KwangTae AI đang phân tích dữ liệu VPS...</span>`;
+      replyBox.innerHTML = `
+        <div class="user-query-badge">
+          <span style="color:var(--mu-gold); font-weight:800;">👤 Anh Thế:</span> ${txt}
+        </div>
+        <div style="font-size:14px; color:var(--text-muted); display:flex; align-items:center; gap:8px;">
+          <span>🤖</span> <em>KwangTae AI đang phân tích dữ liệu VPS & định lượng...</em>
+        </div>
+      `;
       input.value = '';
 
       try {
@@ -2534,12 +2616,46 @@ HTML = r'''<!DOCTYPE html>
         });
         if (res.ok) {
           const data = await res.json();
-          replyBox.innerHTML = `<strong>KwangTae Broker:</strong><br>${data.reply}`;
+          replyBox.innerHTML = `
+            <div class="user-query-badge">
+              <span style="color:var(--mu-gold); font-weight:800;">👤 Anh Thế:</span> ${txt}
+            </div>
+            <div class="ai-bubble-msg">
+              <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px; color:var(--mu-gold); font-weight:800; font-size:13px; text-transform:uppercase;">
+                <span>🤖</span> KWANGTAE QUANT BROKER:
+              </div>
+              <div style="font-size:14.5px; line-height:1.75; color:#f8fafc; letter-spacing:0.15px;">
+                ${formatAiText(data.reply)}
+              </div>
+            </div>
+          `;
+          const chatArea = document.getElementById('aiChatBoxArea');
+          if (chatArea) chatArea.scrollTop = 0;
           return;
         }
       } catch (_) {}
 
-      replyBox.innerHTML = `<strong>KwangTae:</strong> Mã <strong>${activeStock}</strong> đang tích lũy chặt chẽ quanh ${(liveQuotes[activeStock]?.price || 39.4)}k. Vùng hỗ trợ gần nhất: ${(liveQuotes[activeStock]?.price * 0.95).toFixed(1)}k, Target kỳ vọng sóng: ${(liveQuotes[activeStock]?.price * 1.12).toFixed(1)}k!`;
+      const curP = liveQuotes[activeStock]?.price || 39.4;
+      const sup = (curP * 0.95).toFixed(1);
+      const tgt = (curP * 1.12).toFixed(1);
+      replyBox.innerHTML = `
+        <div class="user-query-badge">
+          <span style="color:var(--mu-gold); font-weight:800;">👤 Anh Thế:</span> ${txt}
+        </div>
+        <div class="ai-bubble-msg">
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px; color:var(--mu-gold); font-weight:800; font-size:13px; text-transform:uppercase;">
+            <span>🤖</span> KWANGTAE QUANT BROKER:
+          </div>
+          <div style="font-size:14.5px; line-height:1.75; color:#f8fafc; letter-spacing:0.15px;">
+            Mã <strong style="color:var(--mu-gold); font-weight:800;">${activeStock}</strong> đang vận động tích lũy chặt chẽ quanh <strong>${curP}k</strong>.<br>
+            <div class="ai-list-item">• <strong>Vùng hỗ trợ kỹ thuật:</strong> ${sup}k (Nền cứng kiểm định đáy).</div>
+            <div class="ai-list-item">• <strong>Target mục tiêu sóng hồi:</strong> ${tgt}k (+12.0%).</div>
+            <div class="ai-list-item">• <strong>Chiến lược khuyến nghị:</strong> Giữ kỷ luật danh mục, kiên nhẫn chờ điểm breakout kèm thanh khoản đột biến!</div>
+          </div>
+        </div>
+      `;
+      const chatArea = document.getElementById('aiChatBoxArea');
+      if (chatArea) chatArea.scrollTop = 0;
     }
 
     function quickAiPrompt(txt) {
