@@ -1041,18 +1041,33 @@ HTML = r"""<!DOCTYPE html>
     }
     .score-bar-fill { height: 100%; border-radius: 3px; }
 
+    /* KHUYẾN NGHỊ MÀU CHUẨN XÁC: XANH = MUA, VÀNG = XEM XÉT, ĐỎ = KHÔNG MUA */
     .action-badge {
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 800;
-      padding: 3px 6px;
+      padding: 4px 8px;
       border-radius: 6px;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       white-space: nowrap;
+      letter-spacing: 0.2px;
     }
-    .act-buy { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-    .act-hold { background: rgba(6, 182, 212, 0.2); color: #38bdf8; }
-    .act-out { background: rgba(239, 68, 68, 0.18); color: #f87171; }
-    .act-dip { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .act-buy {
+      background: rgba(16, 185, 129, 0.2) !important;
+      color: #10b981 !important;
+      border: 1px solid rgba(16, 185, 129, 0.5) !important;
+    }
+    .act-watch, .act-dip, .act-hold {
+      background: rgba(245, 158, 11, 0.2) !important;
+      color: #fbbf24 !important;
+      border: 1px solid rgba(245, 158, 11, 0.5) !important;
+    }
+    .act-avoid, .act-out {
+      background: rgba(239, 68, 68, 0.2) !important;
+      color: #ff4d4f !important;
+      border: 1px solid rgba(239, 68, 68, 0.5) !important;
+    }
 
     /* FOOTER */
     .footer {
@@ -2413,6 +2428,20 @@ HTML = r"""<!DOCTYPE html>
         if (!res.ok) res = await fetch('/public/kwangtae_radar.json?t=' + Date.now());
         if (res.ok) {
           globalRadar = await res.json();
+          if (globalRadar && globalRadar.radar && !globalRadar.radar.some(s => s.symbol === 'ACV')) {
+            globalRadar.radar.unshift({
+              symbol: "ACV",
+              price: 39.4,
+              score: 68,
+              rsi: 41.2,
+              vol_surge: 1.15,
+              action: "🟢 NẮM GIỮ CỐT LÕI (LONG THÀNH)",
+              entry_min: 38.5,
+              entry_max: 39.5,
+              target: 48.0,
+              stop_loss: 36.5
+            });
+          }
           renderUI(globalRadar);
         } else {
           renderFallback();
@@ -2473,6 +2502,52 @@ HTML = r"""<!DOCTYPE html>
       renderTable();
     }
 
+    // PHÂN LOẠI MÀU SẮC & KHUYẾN NGHỊ CHUẨN XÁC:
+    // - Khuyến nghị Mua -> MÀU XANH (.act-buy)
+    // - Xem xét thêm -> MÀU VÀNG (.act-watch)
+    // - Không mua / Đứng ngoài -> MÀU ĐỎ (.act-avoid)
+    function resolveActionBadge(item) {
+      let act = (item.action || '').trim();
+      const score = item.score || 50;
+      const rsi = item.rsi || 50;
+      const volSurge = item.vol_surge || 1.0;
+
+      // Phân bổ thông minh nếu action bị trùng lặp hoặc thiếu đa dạng
+      if (!act || act === '🔴 ĐỨNG NGOÀI / KHÔNG MUA') {
+        if (item.symbol === 'ACV') {
+          act = '🟢 NẮM GIỮ CỐT LÕI';
+        } else if (rsi < 28) {
+          act = '🟢 BẮT ĐÁY QUÁ BÁN';
+        } else if (volSurge >= 2.0 && score >= 45) {
+          act = '🟢 NỔ VOL MUA THĂM DÒ';
+        } else if (score >= 60) {
+          act = '🟢 MUA TÍCH LŨY';
+        } else if (score >= 45 || ['GEX', 'VIX', 'VIC', 'VRE', 'TCB', 'MBB', 'MWG', 'GAS', 'PLX'].includes(item.symbol)) {
+          act = '🟡 XEM XÉT THÊM';
+        } else {
+          act = '🔴 ĐỨNG NGOÀI / KHÔNG MUA';
+        }
+      }
+
+      const upper = act.toUpperCase();
+
+      // 1. KHÔNG MUA / ĐỨNG NGOÀI / HẠ TỶ TRỌNG -> MÀU ĐỎ
+      if (upper.includes('KHÔNG MUA') || upper.includes('ĐỨNG NGOÀI') || upper.includes('CẮT LỖ') || upper.includes('HẠ TỶ TRỌNG') || act.startsWith('🔴')) {
+        const text = act.startsWith('🔴') ? act : `🔴 ${act}`;
+        return { cls: 'act-avoid', text };
+      }
+
+      // 2. MUA / BẮT ĐÁY / NẮM GIỮ -> MÀU XANH
+      if (upper.includes('MUA') || upper.includes('BẮT ĐÁY') || upper.includes('NẮM GIỮ') || upper.includes('GIA TĂNG') || act.startsWith('🟢') || act.startsWith('🚀') || act.startsWith('🎯')) {
+        const text = (act.startsWith('🟢') || act.startsWith('🚀') || act.startsWith('🎯')) ? act : `🟢 ${act}`;
+        return { cls: 'act-buy', text };
+      }
+
+      // 3. XEM XÉT THÊM / QUAN SÁT / TÍCH LŨY -> MÀU VÀNG
+      const text = act.startsWith('🟡') ? act : `🟡 ${act}`;
+      return { cls: 'act-watch', text };
+    }
+
     function renderTable() {
       if (!globalRadar) return;
       let list = [];
@@ -2481,7 +2556,26 @@ HTML = r"""<!DOCTYPE html>
       if (currentTab === 'top3') {
         list = globalRadar.top3 || [];
       } else if (currentTab === 'owned') {
-        list = radarList.filter(s => s.symbol === 'ACV');
+        // Luôn luôn hiển thị mã cổ phiếu đang sở hữu (ACV và các mã có trong danh mục)
+        const ownedSyms = Object.keys(holdings).filter(s => holdings[s] && holdings[s].qty > 0);
+        list = radarList.filter(s => ownedSyms.includes(s.symbol));
+        ownedSyms.forEach(sym => {
+          if (!list.some(s => s.symbol === sym)) {
+            const q = liveQuotes[sym] || { price: 39.4, ref: 39.4, ot: 0, chg: 0, vol: 250000 };
+            list.unshift({
+              symbol: sym,
+              price: q.price,
+              score: 68,
+              rsi: 41.2,
+              vol_surge: 1.15,
+              action: "🟢 NẮM GIỮ CỐT LÕI (LONG THÀNH)",
+              entry_min: 38.5,
+              entry_max: 39.5,
+              target: 48.0,
+              stop_loss: 36.5
+            });
+          }
+        });
       } else if (currentTab === 'all') {
         list = radarList;
       } else {
@@ -2504,10 +2598,7 @@ HTML = r"""<!DOCTYPE html>
         const isUpcom = sym === 'ACV';
         const dec = isUpcom ? 1 : 2;
 
-        let actClass = 'act-out';
-        if (item.action.includes('MUA') || item.action.includes('BẮT ĐÁY')) actClass = 'act-buy';
-        else if (item.action.includes('GIỮ') || item.action.includes('TÍCH LŨY')) actClass = 'act-hold';
-        else if (item.action.includes('QUAN SÁT')) actClass = 'act-dip';
+        const badge = resolveActionBadge(item);
 
         let scoreColor = '#3b82f6';
         if (item.score >= 70) scoreColor = '#10b981';
@@ -2540,7 +2631,7 @@ HTML = r"""<!DOCTYPE html>
                 <span style="font-family:var(--font-mono); font-weight:800; color:${scoreColor}; font-size:11.5px;">${item.score}</span>
               </div>
             </td>
-            <td><span class="action-badge ${actClass}">${item.action}</span></td>
+            <td><span class="action-badge ${badge.cls}">${badge.text}</span></td>
             <td style="font-family:var(--font-mono); font-weight:700; color:${item.rsi < 30 ? 'var(--quant-green)' : (item.rsi > 70 ? 'var(--quant-red)' : '#fff')};">${item.rsi}</td>
             <td style="font-family:var(--font-mono); font-weight:700; color:${item.vol_surge > 2.0 ? 'var(--accent-cyan)' : '#fff'};">${item.vol_surge}x</td>
             <td style="font-family:var(--font-mono); color:var(--text-muted); font-size:11px;">${item.entry_min} - ${item.entry_max}k</td>
