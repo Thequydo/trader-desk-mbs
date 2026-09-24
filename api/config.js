@@ -1,12 +1,12 @@
 // api/config.js - Vercel Serverless Function cho Trader Desk Pro
 let inMemoryConfig = {
-  stocks: "VN-INDEX,ACV,VHM,VTP,GEX,VIX,GEE,VGC,IDC,SSI,HPG,FPT,MWG,VIC,VCB,MBB,STB,TCB,VPB,DGC,MSN,GAS",
+  stocks: "VN-INDEX,VIC,VHM,VRE,GEX,VIX,GEE,VGC,IDC,VCB,MBB,TCB,CTG,STB,SSI,VND,HCM,VCI,SHS,HPG,HSG,NKG,DGC,DPM,NVL,PDR,DIG,DXG,KDH,FPT,MWG,FRT,MSN,VNM,ACV,VTP,GMD,HAH,VJC,GAS,PLX,PVD,PVS,POW",
   owned: "ACV",
   qty: 1250,
   avg: 45.899,
   cash: 500000,
   holdings: {
-    "ACV": { symbol: "ACV", qty: 1250, avgPrice: 45.899, curPrice: 39.4, name: "TCT Cảng Hàng Không VN" }
+    "ACV": { symbol: "ACV", qty: 1250, avgPrice: 45.899, curPrice: 39.18, name: "TCT Cảng Hàng Không VN" }
   },
   transactions: [
     { id: "GD1001", time: "24/09/2026 09:15", type: "deposit", amount: 500000, desc: "Số dư khởi tạo tài khoản", status: "Thành công" }
@@ -114,29 +114,19 @@ export default async function handler(req, res) {
           const ceil = parseFloat(s.c) || 0;
           const floor = parseFloat(s.f) || 0;
           const m = s.marketId;
-          const market = (m === 'UPX') ? 'UPCoM' : ((m === 'STX') ? 'HNX' : 'HOSE');
+          const market = (m === 'UPX' || s.sym === 'ACV') ? 'UPCoM' : ((m === 'STX' || s.sym === 'IDC' || s.sym === 'SHS' || s.sym === 'PVS') ? 'HNX' : 'HOSE');
+          const effectivePrice = (market === 'UPCoM' && ave > 0) ? ave : last;
           
-          let ot = parseFloat(s.ot) || 0;
-          let chg = parseFloat(s.changePc) || 0;
-          if (last > ref) {
-            ot = Math.abs(ot);
-            chg = Math.abs(chg);
-          } else if (last < ref) {
-            ot = -Math.abs(ot);
-            chg = -Math.abs(chg);
-          } else {
-            ot = 0;
-            chg = 0;
-          }
+          let ot = effectivePrice - ref;
+          let chg = ref > 0 ? ((ot / ref) * 100) : 0;
           const vol = parseFloat(s.lot) || 0;
-          // Sàn UPCoM: Giá đóng cửa và tham chiếu phiên sau tính theo Giá Bình Quân Gia Quyền (avePrice)
-          const closePrice = (market === 'UPCoM') ? ave : last;
 
           items.push({ 
             sym: s.sym, 
-            price: last, 
+            price: effectivePrice, 
+            rawPrice: last,
             ave: ave, 
-            closePrice: closePrice,
+            closePrice: effectivePrice,
             market: market, 
             ref: ref, 
             ceil: ceil, 

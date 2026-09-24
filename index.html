@@ -467,27 +467,45 @@
     }
     .tab-pills {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       background: rgba(11, 17, 30, 0.9);
-      padding: 4px;
+      padding: 5px;
       border-radius: 12px;
       border: 1px solid rgba(51, 65, 85, 0.7);
+      flex-wrap: wrap;
+      align-items: center;
+      max-width: 100%;
     }
     .tab-pill {
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 8px;
       cursor: pointer;
       color: var(--text-muted);
       border: none;
       background: transparent;
       transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .tab-pill:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
     }
     .tab-pill.active {
       background: #0052cc;
       color: #fff;
       box-shadow: 0 2px 8px rgba(0, 82, 204, 0.5);
+    }
+    .sector-header-row td {
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.85)) !important;
+      color: #38bdf8 !important;
+      font-size: 12px !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.5px;
+      padding: 8px 14px !important;
+      border-top: 1px solid rgba(56, 189, 248, 0.35) !important;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.2) !important;
     }
 
     table {
@@ -950,9 +968,18 @@
           </div>
         </div>
 
-        <div class="tab-pills">
-          <button class="tab-pill active" onclick="switchTab('top3', this)">🔥 Top 3 Cơ Hội</button>
-          <button class="tab-pill" onclick="switchTab('all', this)">Tất Cả Danh Mục Theo Dõi</button>
+        <div class="tab-pills" id="sectorTabPills">
+          <button class="tab-pill active" onclick="switchTab('all', this)">🌐 Tất Cả Theo Nhóm Ngành</button>
+          <button class="tab-pill" onclick="switchTab('top3', this)">🔥 Top 3 Cơ Hội</button>
+          <button class="tab-pill" onclick="switchTab('vin', this)">👑 Họ Vin</button>
+          <button class="tab-pill" onclick="switchTab('gelex', this)">⚡ Hệ Sinh Thái GELEX</button>
+          <button class="tab-pill" onclick="switchTab('bank', this)">🏦 Ngân Hàng</button>
+          <button class="tab-pill" onclick="switchTab('sec', this)">📈 Chứng Khoán</button>
+          <button class="tab-pill" onclick="switchTab('steel', this)">🏗️ Thép & VL</button>
+          <button class="tab-pill" onclick="switchTab('bds', this)">🏢 Bất Động Sản</button>
+          <button class="tab-pill" onclick="switchTab('tech_retail', this)">💻 Công Nghệ & Bán Lẻ</button>
+          <button class="tab-pill" onclick="switchTab('logistics', this)">🚚 Logistics & Cảng</button>
+          <button class="tab-pill" onclick="switchTab('oil_gas', this)">⚡ Dầu Khí</button>
         </div>
       </div>
 
@@ -1108,35 +1135,67 @@
       <div class="form-group">
         <label class="form-label">Mã Cổ Phiếu</label>
         <select class="form-select" id="tradeSymbol" onchange="onTradeSymbolChange()">
-          <option value="ACV">ACV - TCT Cảng Hàng Không VN (UPCoM)</option>
-          <option value="VHM">VHM - Vinhomes (VN30)</option>
-          <option value="VTP">VTP - Viettel Post (HOSE)</option>
-          <option value="GEX">GEX - Tập đoàn GELEX</option>
-          <option value="VIX">VIX - Chứng khoán VIX</option>
-          <option value="GEE">GEE - Điện lực Gelex</option>
-          <option value="VGC">VGC - Viglacera</option>
-          <option value="IDC">IDC - IDICO</option>
-          <option value="SSI">SSI - Chứng khoán SSI (VN30)</option>
-          <option value="HPG">HPG - Tập đoàn Hòa Phát (VN30)</option>
-          <option value="FPT">FPT - Tập đoàn FPT (VN30)</option>
-          <option value="MWG">MWG - Thế Giới Di Động (VN30)</option>
-          <option value="VIC">VIC - Tập đoàn Vingroup (VN30)</option>
-          <option value="VCB">VCB - Vietcombank (VN30)</option>
-          <option value="MBB">MBB - Ngân hàng Quân Đội MB (VN30)</option>
-          <option value="TCB">TCB - Techcombank (VN30)</option>
-          <option value="VPB">VPB - VPBank (VN30)</option>
-          <option value="STB">STB - Sacombank (VN30)</option>
-          <option value="DGC">DGC - Hóa chất Đức Giang</option>
-          <option value="MSN">MSN - Tập đoàn Masan (VN30)</option>
-          <option value="GAS">GAS - Tổng công ty Khí VN (VN30)</option>
-          <option value="SSB">SSB - SeABank (VN30)</option>
-          <option value="VRE">VRE - Vincom Retail (VN30)</option>
-          <option value="PLX">PLX - Petrolimex (VN30)</option>
-          <option value="VNM">VNM - Vinamilk (VN30)</option>
-          <option value="SHB">SHB - Ngân hàng SHB (VN30)</option>
-          <option value="TPB">TPB - TPBank (VN30)</option>
-          <option value="CTG">CTG - VietinBank (VN30)</option>
-          <option value="ACB">ACB - Ngân hàng Á Châu (VN30)</option>
+          <optgroup label="👑 HỌ VINGROUP">
+            <option value="VIC">VIC - Tập đoàn Vingroup</option>
+            <option value="VHM">VHM - Vinhomes</option>
+            <option value="VRE">VRE - Vincom Retail</option>
+          </optgroup>
+          <optgroup label="⚡ HỆ SINH THÁI GELEX">
+            <option value="GEX">GEX - Tập đoàn GELEX</option>
+            <option value="VIX">VIX - Chứng khoán VIX</option>
+            <option value="GEE">GEE - Điện lực GELEX</option>
+            <option value="VGC">VGC - Viglacera</option>
+            <option value="IDC">IDC - Tổng Công ty IDICO</option>
+          </optgroup>
+          <optgroup label="🏦 NGÂN HÀNG">
+            <option value="VCB">VCB - Vietcombank</option>
+            <option value="MBB">MBB - Ngân hàng Quân Đội MB</option>
+            <option value="TCB">TCB - Techcombank</option>
+            <option value="CTG">CTG - VietinBank</option>
+            <option value="STB">STB - Sacombank</option>
+          </optgroup>
+          <optgroup label="📈 CHỨNG KHOÁN">
+            <option value="SSI">SSI - Chứng khoán SSI</option>
+            <option value="VND">VND - Chứng khoán VNDirect</option>
+            <option value="HCM">HCM - Chứng khoán HSC</option>
+            <option value="VCI">VCI - Chứng khoán Vietcap</option>
+            <option value="SHS">SHS - Chứng khoán Sài Gòn - Hà Nội</option>
+          </optgroup>
+          <optgroup label="🏗️ THÉP & VẬT LIỆU">
+            <option value="HPG">HPG - Tập đoàn Hòa Phát</option>
+            <option value="HSG">HSG - Tập đoàn Hoa Sen</option>
+            <option value="NKG">NKG - Thép Nam Kim</option>
+            <option value="DGC">DGC - Hóa chất Đức Giang</option>
+            <option value="DPM">DPM - Đạm Phú Mỹ</option>
+          </optgroup>
+          <optgroup label="🏢 BẤT ĐỘNG SẢN">
+            <option value="NVL">NVL - Novaland</option>
+            <option value="PDR">PDR - Bất động sản Phát Đạt</option>
+            <option value="DIG">DIG - Tổng CTCP DIC Corp</option>
+            <option value="DXG">DXG - Tập đoàn Đất Xanh</option>
+            <option value="KDH">KDH - Nhà Khang Điền</option>
+          </optgroup>
+          <optgroup label="💻 BÁN LẺ & CÔNG NGHỆ">
+            <option value="FPT">FPT - Tập đoàn FPT</option>
+            <option value="MWG">MWG - Thế Giới Di Động</option>
+            <option value="FRT">FRT - Bán lẻ Kỹ thuật số FPT</option>
+            <option value="MSN">MSN - Tập đoàn Masan</option>
+            <option value="VNM">VNM - Vinamilk</option>
+          </optgroup>
+          <optgroup label="🚚 LOGISTICS & CẢNG BIỂN">
+            <option value="ACV" selected>ACV - TCT Cảng Hàng Không VN (UPCoM)</option>
+            <option value="VTP">VTP - Viettel Post</option>
+            <option value="GMD">GMD - Gemadept</option>
+            <option value="HAH">HAH - Vận tải Hải An</option>
+            <option value="VJC">VJC - Vietjet Air</option>
+          </optgroup>
+          <optgroup label="⚡ DẦU KHÍ & NĂNG LƯỢNG">
+            <option value="GAS">GAS - Tổng công ty Khí VN</option>
+            <option value="PLX">PLX - Tập đoàn Xăng dầu VN</option>
+            <option value="PVD">PVD - Khoan Dầu khí</option>
+            <option value="PVS">PVS - Dịch vụ Kỹ thuật Dầu khí</option>
+            <option value="POW">POW - Điện lực Dầu khí VN</option>
+          </optgroup>
         </select>
       </div>
 
@@ -1314,17 +1373,20 @@
       };
       if (defaults[sym]) {
         const d = defaults[sym];
+        const isUpcom = (d.market === 'UPCoM');
+        const effectivePrice = isUpcom ? d.ave : d.price;
         return { 
           sym: sym, 
-          price: d.price, 
+          price: effectivePrice, 
+          rawPrice: d.price,
           ave: d.ave, 
-          closePrice: (d.market === 'UPCoM') ? d.ave : d.price,
+          closePrice: effectivePrice,
           ref: d.ref, 
           ceil: d.ceil, 
           floor: d.floor, 
           market: d.market,
-          ot: (d.price - d.ref), 
-          chg: (((d.price - d.ref) / d.ref) * 100), 
+          ot: (effectivePrice - d.ref), 
+          chg: d.ref > 0 ? (((effectivePrice - d.ref) / d.ref) * 100) : 0, 
           vol: d.vol 
         };
       }
@@ -1395,11 +1457,9 @@
       let html = '';
       items.forEach(h => {
         const q = getStockQuote(h.symbol);
-        const curPrice = q.price;
-        const avePrice = q.ave || curPrice;
         const market = q.market || (h.symbol === 'ACV' ? 'UPCoM' : (h.symbol === 'IDC' ? 'HNX' : 'HOSE'));
-        if (market === 'UPCoM') hasUpcom = true;
-
+        // Sàn UPCoM: Lấy giá trung bình (avePrice) làm giá thị trường & tham chiếu
+        const curPrice = (market === 'UPCoM' && q.ave > 0) ? q.ave : q.price;
         const ref = q.ref || curPrice;
         const ceil = q.ceil || 0;
         const floor = q.floor || 0;
@@ -1428,16 +1488,15 @@
               <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">${(val/1000000).toFixed(2)} Tr</div>
             </div>
             <div id="holding-price-${h.symbol}">
-              <div style="font-family:var(--font-mono); font-size:13px; font-weight:800;" class="${priceColorClass}">
-                ${curPrice.toFixed(2)}k ${market !== 'UPCoM' ? '<span style="font-size:10px; color:var(--text-dim);">(ATC)</span>' : ''}
+              <div style="font-family:var(--font-mono); font-size:13.5px; font-weight:800;" class="${priceColorClass}">
+                ${curPrice.toFixed(2)}k
               </div>
-              ${market === 'UPCoM' ? `<div style="font-size:10.5px; font-family:var(--font-mono); color:#38bdf8; font-weight:700; margin:1px 0;">BQ: ${avePrice.toFixed(2)}k (Chốt)</div>` : ''}
               <div class="badge-price ${priceBadgeClass}" style="margin-top:2px;">${arrow} ${ot >= 0 ? '+' : ''}${ot.toFixed(2)} (${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%)</div>
               <div style="font-size:10.5px; color:var(--text-dim); margin-top:2px;">Vốn: ${h.avgPrice}k</div>
             </div>
             <div>
-              <div style="font-family:var(--font-mono); font-size:12px; font-weight:700; color:${plColor};">${plSign}${plPct}%</div>
-              <div style="font-size:10.5px; color:${plColor};">${plSign}${(pl/1000000).toFixed(2)} Tr</div>
+              <div style="font-family:var(--font-mono); font-size:12.5px; font-weight:700; color:${plColor};">${plSign}${plPct}%</div>
+              <div style="font-size:11px; color:${plColor};">${plSign}${(pl/1000000).toFixed(2)} Tr</div>
             </div>
             <div class="holding-act-btns">
               <button class="mini-btn mini-buy" onclick="openTradeForSymbol('${h.symbol}', 'BUY')">+ Mua</button>
@@ -1447,13 +1506,6 @@
         `;
       });
 
-      if (hasUpcom) {
-        html += `
-          <div style="font-size:11px; color:#cbd5e1; background:rgba(30, 41, 59, 0.6); border:1px solid rgba(249, 115, 22, 0.35); border-radius:10px; padding:7px 10px; margin-top:10px; line-height:1.45;">
-            <span style="color:#fb923c; font-weight:800;">💡 QUY TẮC SÀN UPCOM:</span> Sàn UPCoM không có phiên ATC. Giá đóng cửa chính thức và làm tham chiếu ngày mai được tính theo <strong>Giá Bình Quân Gia Quyền (${(liveQuotes['ACV']?.ave || 39.18).toFixed(2)}k)</strong>, khác với sàn HOSE/HNX chốt theo giá khớp lệnh phiên ATC.
-          </div>
-        `;
-      }
       container.innerHTML = html;
     }
 
@@ -1849,13 +1901,68 @@
       renderTable();
     }
 
-    // ĐỘNG CƠ CẬP NHẬT GIÁ THỜI GIAN THỰC (REALTIME STREAMING ENGINE)
-    const WATCHLIST_SYMBOLS = [
-      "ACV", "VHM", "VTP", "GEX", "VIX", "GEE", "VGC", "IDC", "SSI", "HPG", 
-      "FPT", "MWG", "VIC", "VCB", "MBB", "STB", "TCB", "VPB", "DGC", "MSN", 
-      "GAS", "SSB", "VRE", "PLX", "VNM", "BVH", "HDB", "POW", "VJC", "BCM", 
-      "BID", "TPB", "SHB", "GVR", "CTG", "VIB", "ACB", "SAB"
+    // DANH MỤC CÁC NHÓM NGÀNH CHỨNG KHOÁN VIỆT NAM (MỖI NHÓM ~5 MÃ PHỔ BIẾN NHẤT)
+    const SECTOR_GROUPS = [
+      {
+        id: "vin",
+        name: "👑 Nhóm Vingroup (Họ Vin)",
+        shortName: "Họ Vin",
+        symbols: ["VIC", "VHM", "VRE"]
+      },
+      {
+        id: "gelex",
+        name: "⚡ Hệ Sinh Thái GELEX",
+        shortName: "Hệ Sinh Thái GELEX",
+        symbols: ["GEX", "VIX", "GEE", "VGC", "IDC"]
+      },
+      {
+        id: "bank",
+        name: "🏦 Nhóm Ngân Hàng",
+        shortName: "Ngân Hàng",
+        symbols: ["VCB", "MBB", "TCB", "CTG", "STB"]
+      },
+      {
+        id: "sec",
+        name: "📈 Nhóm Chứng Khoán",
+        shortName: "Chứng Khoán",
+        symbols: ["SSI", "VND", "HCM", "VCI", "SHS"]
+      },
+      {
+        id: "steel",
+        name: "🏗️ Nhóm Thép & Vật Liệu",
+        shortName: "Thép & Vật Liệu",
+        symbols: ["HPG", "HSG", "NKG", "DGC", "DPM"]
+      },
+      {
+        id: "bds",
+        name: "🏢 Nhóm Bất Động Sản",
+        shortName: "Bất Động Sản",
+        symbols: ["NVL", "PDR", "DIG", "DXG", "KDH"]
+      },
+      {
+        id: "tech_retail",
+        name: "💻 Nhóm Bán Lẻ & Công Nghệ",
+        shortName: "Bán Lẻ & Công Nghệ",
+        symbols: ["FPT", "MWG", "FRT", "MSN", "VNM"]
+      },
+      {
+        id: "logistics",
+        name: "🚚 Nhóm Logistics & Cảng Biển",
+        shortName: "Logistics & Cảng",
+        symbols: ["ACV", "VTP", "GMD", "HAH", "VJC"]
+      },
+      {
+        id: "oil_gas",
+        name: "⚡ Nhóm Năng Lượng & Dầu Khí",
+        shortName: "Dầu Khí",
+        symbols: ["GAS", "PLX", "PVD", "PVS", "POW"]
+      }
     ];
+
+    // Tạo danh sách tổng hợp tất cả các mã theo dõi từ các nhóm ngành
+    const WATCHLIST_SYMBOLS = Array.from(new Set(
+      SECTOR_GROUPS.flatMap(g => g.symbols)
+    ));
 
     async function fetchRealtimePrices() {
       const holdingSyms = Object.keys(holdings);
@@ -1879,26 +1986,20 @@
               const ceil = parseFloat(s.c) || 0;
               const floor = parseFloat(s.f) || 0;
               const m = s.marketId;
-              const market = (m === 'UPX' || s.sym === 'ACV') ? 'UPCoM' : ((m === 'STX' || s.sym === 'IDC') ? 'HNX' : 'HOSE');
-              const closePrice = (market === 'UPCoM') ? ave : last;
+              const market = (m === 'UPX' || s.sym === 'ACV') ? 'UPCoM' : ((m === 'STX' || s.sym === 'IDC' || s.sym === 'SHS' || s.sym === 'PVS') ? 'HNX' : 'HOSE');
+              
+              // Sàn UPCoM: Lấy giá trung bình (avePrice) làm giá chính & tham chiếu
+              const effectivePrice = (market === 'UPCoM' && ave > 0) ? ave : last;
 
-              let ot = parseFloat(s.ot) || 0;
-              let chg = parseFloat(s.changePc) || 0;
-              if (last > ref) {
-                ot = Math.abs(ot);
-                chg = Math.abs(chg);
-              } else if (last < ref) {
-                ot = -Math.abs(ot);
-                chg = -Math.abs(chg);
-              } else {
-                ot = 0;
-                chg = 0;
-              }
+              let ot = effectivePrice - ref;
+              let chg = ref > 0 ? ((ot / ref) * 100) : 0;
+
               return {
                 sym: s.sym,
-                price: last,
+                price: effectivePrice,
+                rawPrice: last,
                 ave: ave,
-                closePrice: closePrice,
+                closePrice: effectivePrice,
                 market: market,
                 ref: ref,
                 ceil: ceil,
@@ -1999,120 +2100,127 @@
       }
     }
 
+    function renderStockRowHtml(sym) {
+      const q = getStockQuote(sym);
+      const curPrice = q.price || 40.0;
+      const market = q.market || (sym === 'ACV' ? 'UPCoM' : ((sym === 'IDC' || sym === 'SHS' || sym === 'PVS') ? 'HNX' : 'HOSE'));
+      const ref = q.ref || curPrice;
+      const ceil = q.ceil || 0;
+      const floor = q.floor || 0;
+      const ot = q.ot !== undefined ? q.ot : (curPrice - ref);
+      const chg = q.chg !== undefined ? q.chg : (ref > 0 ? (ot / ref * 100) : 0);
+      const vol = q.vol || 0;
+
+      const priceColorClass = getPriceColorClass(curPrice, ref, ceil, floor);
+      const priceBadgeClass = getPriceBadgeClass(curPrice, ref, ceil, floor);
+      const arrow = curPrice > ref ? '▲' : (curPrice < ref ? '▼' : '■');
+
+      const marketBadgeCls = market === 'UPCoM' ? 'badge-upcom' : (market === 'HNX' ? 'badge-hnx' : 'badge-hose');
+      const rangeText = market === 'UPCoM' ? '±15%' : (market === 'HNX' ? '±10%' : '±7%');
+
+      // Tìm thông số AI từ Radar nếu có, hoặc tính định lượng động
+      let item = globalRadar && globalRadar.radar ? globalRadar.radar.find(r => r.symbol === sym) : null;
+      if (!item && globalRadar && globalRadar.top3) {
+        item = globalRadar.top3.find(r => r.symbol === sym);
+      }
+
+      let score = item ? item.score : Math.min(92, Math.max(38, Math.round(58 + chg * 3.5)));
+      let scoreColor = '#3b82f6';
+      if (score >= 70) scoreColor = '#00d084';
+      else if (score < 45) scoreColor = '#ff3b30';
+
+      let actText = item ? item.action : (score >= 70 ? '🟢 TÍCH CỰC MUA' : (score >= 55 ? '🟡 TÍCH LŨY QUAN SÁT' : '🔴 ĐỨNG NGOÀI'));
+      let actClass = 'act-out';
+      if (actText.includes('MUA') || actText.includes('BẮT ĐÁY')) actClass = 'act-buy';
+      else if (actText.includes('GIỮ') || actText.includes('TÍCH LŨY') || actText.includes('QUAN SÁT') || actText.includes('THEO DÕI')) actClass = 'act-hold';
+
+      const entryMin = item ? item.entry_min : (curPrice * 0.98).toFixed(1);
+      const entryMax = item ? item.entry_max : (curPrice * 1.01).toFixed(1);
+      const target = item ? item.target : (curPrice * 1.15).toFixed(1);
+      const stopLoss = item ? item.stop_loss : (curPrice * 0.94).toFixed(1);
+      const rsi = item ? item.rsi : Math.min(85, Math.max(25, Math.round(48 + chg * 2.2)));
+      const volSurge = item ? item.vol_surge : (vol > 500000 ? (vol / 400000).toFixed(1) : 1.1);
+
+      return `
+        <tr>
+          <td>
+            <div class="sym-badge">${sym}</div>
+            <div style="margin-top:3px;"><span class="badge-market ${marketBadgeCls}">${market}</span></div>
+          </td>
+          <td id="price-cell-${sym}">
+            <div class="${priceColorClass}" style="font-family:var(--font-mono); font-size:14px; font-weight:800;">
+              ${curPrice.toFixed(2)}k
+            </div>
+            <div class="badge-price ${priceBadgeClass}" style="margin-top:2px;">
+              ${arrow} ${ot >= 0 ? '+' : ''}${ot.toFixed(2)} (${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%)
+            </div>
+          </td>
+          <td>
+            <div style="font-family:var(--font-mono); font-size:11px; line-height:1.5;">
+              <span style="color:#ffb800;">TC: ${ref.toFixed(2)}</span> <span style="font-size:10px; color:var(--text-dim);">(${rangeText})</span><br>
+              <span style="color:#d946ef;">T: ${ceil ? ceil.toFixed(2) : '-'}</span> | 
+              <span style="color:#00e5ff;">S: ${floor ? floor.toFixed(2) : '-'}</span>
+            </div>
+          </td>
+          <td>
+            <div style="font-family:var(--font-mono); font-weight:700; color:var(--text-main); font-size:12px;">${formatVolume(vol)}</div>
+          </td>
+          <td>
+            <div class="score-bar-wrap">
+              <div class="score-bar-bg">
+                <div class="score-bar-fill" style="width:${score}%; background:${scoreColor};"></div>
+              </div>
+              <span style="font-family:var(--font-mono); font-weight:700; color:${scoreColor}; font-size:12px;">${score}</span>
+            </div>
+          </td>
+          <td><span class="action-badge ${actClass}">${actText}</span></td>
+          <td style="font-family:var(--font-mono); font-weight:700; color:${rsi < 30 ? 'var(--quant-green)' : (rsi > 70 ? 'var(--quant-red)' : 'var(--text-main)')};">${rsi}</td>
+          <td style="font-family:var(--font-mono); font-weight:700; color:${volSurge > 2.0 ? 'var(--mbs-cyan)' : 'var(--text-main)'};">${volSurge}x</td>
+          <td style="font-family:var(--font-mono); color:var(--text-muted); font-size:12px;">${entryMin} - ${entryMax}k</td>
+          <td>
+            <div style="font-family:var(--font-mono); font-size:12px;">
+              <span style="color:var(--quant-green); font-weight:700;">T: ${target}k</span><br>
+              <span style="color:var(--quant-red); font-weight:700;">SL: ${stopLoss}k</span>
+            </div>
+          </td>
+          <td style="text-align:right;">
+            <button class="mini-btn mini-buy" style="font-weight:800; padding:6px 12px;" onclick="openTradeForSymbol('${sym}', 'BUY')">⚡ Đặt Lệnh</button>
+          </td>
+        </tr>
+      `;
+    }
+
     function renderTable() {
       const tbody = document.getElementById('tableBody');
       if (!tbody) return;
 
-      let list = [];
-      if (globalRadar) {
-        list = (currentTab === 'top3') ? (globalRadar.top3 || []) : (globalRadar.radar || globalRadar.top3 || []);
-      }
-
-      if (!list || list.length === 0) {
-        list = WATCHLIST_SYMBOLS.slice(0, 15).map(sym => {
-          const q = getStockQuote(sym);
-          return {
-            symbol: sym,
-            price: q.price,
-            score: 65,
-            rsi: 45.0,
-            vol_surge: 1.2,
-            action: "🟡 THEO DÕI",
-            entry_min: (q.price * 0.98).toFixed(1),
-            entry_max: (q.price * 1.01).toFixed(1),
-            target: (q.price * 1.15).toFixed(1),
-            stop_loss: (q.price * 0.94).toFixed(1)
-          };
-        });
-      }
-
       let html = '';
-      list.forEach(item => {
-        const sym = item.symbol;
-        const q = getStockQuote(sym);
-        const curPrice = q.price || item.price || 40.0;
-        const avePrice = q.ave || curPrice;
-        const market = q.market || (sym === 'ACV' ? 'UPCoM' : (sym === 'IDC' ? 'HNX' : 'HOSE'));
-        const ref = q.ref || curPrice;
-        const ceil = q.ceil || 0;
-        const floor = q.floor || 0;
-        const ot = q.ot !== undefined ? q.ot : (curPrice - ref);
-        const chg = q.chg !== undefined ? q.chg : 0;
-        const vol = q.vol || (item.vol_surge ? item.vol_surge * 200000 : 0);
 
-        const priceColorClass = getPriceColorClass(curPrice, ref, ceil, floor);
-        const priceBadgeClass = getPriceBadgeClass(curPrice, ref, ceil, floor);
-        const arrow = curPrice > ref ? '▲' : (curPrice < ref ? '▼' : '■');
+      if (currentTab === 'top3') {
+        const top3List = (globalRadar && globalRadar.top3 && globalRadar.top3.length > 0)
+          ? globalRadar.top3.map(t => t.symbol)
+          : ["VTP", "GEX", "SSI"];
+        html += `<tr class="sector-header-row"><td colspan="11">🔥 TOP 3 CƠ HỘI ĐỘT PHÁ HÔM NAY</td></tr>`;
+        top3List.forEach(sym => {
+          html += renderStockRowHtml(sym);
+        });
+      } else if (currentTab === 'all') {
+        SECTOR_GROUPS.forEach(group => {
+          html += `<tr class="sector-header-row"><td colspan="11">${group.name} (${group.symbols.length} mã phổ biến)</td></tr>`;
+          group.symbols.forEach(sym => {
+            html += renderStockRowHtml(sym);
+          });
+        });
+      } else {
+        const group = SECTOR_GROUPS.find(g => g.id === currentTab);
+        if (group) {
+          html += `<tr class="sector-header-row"><td colspan="11">${group.name} (${group.symbols.length} mã phổ biến)</td></tr>`;
+          group.symbols.forEach(sym => {
+            html += renderStockRowHtml(sym);
+          });
+        }
+      }
 
-        const marketBadgeCls = market === 'UPCoM' ? 'badge-upcom' : (market === 'HNX' ? 'badge-hnx' : 'badge-hose');
-        const rangeText = market === 'UPCoM' ? '±15%' : (market === 'HNX' ? '±10%' : '±7%');
-
-        let actClass = 'act-out';
-        const actText = item.action || '🟡 THEO DÕI';
-        if (actText.includes('MUA') || actText.includes('BẮT ĐÁY')) actClass = 'act-buy';
-        else if (actText.includes('GIỮ') || actText.includes('TÍCH LŨY') || actText.includes('QUAN SÁT') || actText.includes('THEO DÕI')) actClass = 'act-hold';
-
-        let scoreColor = '#3b82f6';
-        const score = item.score || 60;
-        if (score >= 70) scoreColor = '#00d084';
-        else if (score < 40) scoreColor = '#ff3b30';
-
-        const entryMin = item.entry_min || (curPrice * 0.98).toFixed(1);
-        const entryMax = item.entry_max || (curPrice * 1.01).toFixed(1);
-        const target = item.target || (curPrice * 1.15).toFixed(1);
-        const stopLoss = item.stop_loss || (curPrice * 0.94).toFixed(1);
-        const rsi = item.rsi || 50;
-        const volSurge = item.vol_surge || 1.0;
-
-        html += `
-          <tr>
-            <td>
-              <div class="sym-badge">${sym}</div>
-              <div style="margin-top:3px;"><span class="badge-market ${marketBadgeCls}">${market}</span></div>
-            </td>
-            <td id="price-cell-${sym}">
-              <div class="${priceColorClass}" style="font-family:var(--font-mono); font-size:14px; font-weight:800;">
-                ${curPrice.toFixed(2)}k ${market !== 'UPCoM' ? '<span style="font-size:10px; color:var(--text-dim);">(ATC)</span>' : ''}
-              </div>
-              ${market === 'UPCoM' ? `<div style="font-size:10.5px; font-family:var(--font-mono); color:#38bdf8; font-weight:700; margin:1px 0;">BQ: ${avePrice.toFixed(2)}k (Chốt)</div>` : ''}
-              <div class="badge-price ${priceBadgeClass}" style="margin-top:2px;">
-                ${arrow} ${ot >= 0 ? '+' : ''}${ot.toFixed(2)} (${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%)
-              </div>
-            </td>
-            <td>
-              <div style="font-family:var(--font-mono); font-size:11px; line-height:1.5;">
-                <span style="color:#ffb800;">TC: ${ref.toFixed(2)}</span> <span style="font-size:10px; color:var(--text-dim);">(${rangeText})</span><br>
-                <span style="color:#d946ef;">T: ${ceil ? ceil.toFixed(2) : '-'}</span> | 
-                <span style="color:#00e5ff;">S: ${floor ? floor.toFixed(2) : '-'}</span>
-              </div>
-            </td>
-            <td>
-              <div style="font-family:var(--font-mono); font-weight:700; color:var(--text-main); font-size:12px;">${formatVolume(vol)}</div>
-            </td>
-            <td>
-              <div class="score-bar-wrap">
-                <div class="score-bar-bg">
-                  <div class="score-bar-fill" style="width:${score}%; background:${scoreColor};"></div>
-                </div>
-                <span style="font-family:var(--font-mono); font-weight:700; color:${scoreColor}; font-size:12px;">${score}</span>
-              </div>
-            </td>
-            <td><span class="action-badge ${actClass}">${actText}</span></td>
-            <td style="font-family:var(--font-mono); font-weight:700; color:${rsi < 30 ? 'var(--quant-green)' : (rsi > 70 ? 'var(--quant-red)' : 'var(--text-main)')};">${rsi}</td>
-            <td style="font-family:var(--font-mono); font-weight:700; color:${volSurge > 2.0 ? 'var(--mbs-cyan)' : 'var(--text-main)'};">${volSurge}x</td>
-            <td style="font-family:var(--font-mono); color:var(--text-muted); font-size:12px;">${entryMin} - ${entryMax}k</td>
-            <td>
-              <div style="font-family:var(--font-mono); font-size:12px;">
-                <span style="color:var(--quant-green); font-weight:700;">T: ${target}k</span><br>
-                <span style="color:var(--quant-red); font-weight:700;">SL: ${stopLoss}k</span>
-              </div>
-            </td>
-            <td style="text-align:right;">
-              <button class="mini-btn mini-buy" style="font-weight:800; padding:6px 12px;" onclick="openTradeForSymbol('${sym}', 'BUY')">⚡ Đặt Lệnh</button>
-            </td>
-          </tr>
-        `;
-      });
       tbody.innerHTML = html;
     }
 
