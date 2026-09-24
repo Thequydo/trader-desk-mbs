@@ -597,7 +597,8 @@
 
     async function loadRadarData() {
       try {
-        const res = await fetch('/public/kwangtae_radar.json?t=' + Date.now()).catch(() => fetch('/kwangtae_radar.json?t=' + Date.now()));
+        let res = await fetch('/kwangtae_radar.json?t=' + Date.now());
+        if (!res.ok) res = await fetch('/public/kwangtae_radar.json?t=' + Date.now());
         if (res.ok) {
           globalRadar = await res.json();
           renderUI(globalRadar);
