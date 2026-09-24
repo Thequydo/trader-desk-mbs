@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MBS Plus | Quản Lý Tài Khoản & Giao Dịch Chứng Khoán MB</title>
+  <title>Sinh Viên Chơi Chứng | Quản Lý Tài Khoản & Giao Dịch Chứng Khoán</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -786,15 +786,15 @@
     <!-- HEADER -->
     <header class="header">
       <div class="brand-wrap">
-        <div class="brand-logo-icon">MBS</div>
+        <div class="brand-logo-icon">SVCC</div>
         <div>
-          <div class="brand-title">MBS PLUS • GIAO DỊCH CHỨNG KHOÁN MB</div>
+          <div class="brand-title">SINH VIÊN CHƠI CHỨNG • TRADING TERMINAL</div>
           <div class="brand-sub">TÀI KHOẢN: NGÔ QUANG THẾ • 2512T51</div>
         </div>
       </div>
       <div class="status-badges">
         <span class="badge badge-live" id="realtimeBadge"><span class="live-dot"></span> BẢNG GIÁ REALTIME (2.5s)</span>
-        <span class="badge" style="background: rgba(0, 82, 204, 0.2); color:#60a5fa; border:1px solid rgba(0, 82, 204, 0.4);">MBS Live Feed</span>
+        <span class="badge" style="background: rgba(0, 82, 204, 0.2); color:#60a5fa; border:1px solid rgba(0, 82, 204, 0.4);">SVCC Live Feed</span>
       </div>
     </header>
 
@@ -806,7 +806,7 @@
           <div class="card-title-icon">
             <span>💼</span> Quản Lý Tài Sản & Danh Mục
           </div>
-          <span class="client-badge">MBS: 2512T51</span>
+          <span class="client-badge">SVCC: 2512T51</span>
         </div>
 
         <div class="stats-row">
@@ -954,24 +954,24 @@
           </tr>
         </thead>
         <tbody id="tableBody">
-          <tr><td colspan="11" style="text-align:center; padding:24px; color:var(--text-muted);">Đang kết nối luồng dữ liệu thời gian thực MBS & VPS...</td></tr>
+          <tr><td colspan="11" style="text-align:center; padding:24px; color:var(--text-muted);">Đang kết nối luồng dữ liệu thời gian thực Sinh Viên Chơi Chứng...</td></tr>
         </tbody>
       </table>
     </div>
 
     <!-- FOOTER -->
     <footer class="footer">
-      <strong>MBS Plus • Cổng Thông Tin Giao Dịch Chứng Khoán MB & KwangTae Quant Terminal</strong><br>
+      <strong>Sinh Viên Chơi Chứng • Cổng Giao Dịch & KwangTae Quant Terminal</strong><br>
       Tài khoản: Ngô Quang Thế (2512T51) • Đồng bộ hóa trực tuyến 24/7 trên Vercel Cloud Serverless
     </footer>
 
   </div>
 
-  <!-- MODAL: NẠP TIỀN ĐỊNH DANH MBS (QR CHUẨN CỦA ANH THẾ) -->
+  <!-- MODAL: NẠP TIỀN ĐỊNH DANH (QR CHUẨN CỦA ANH THẾ) -->
   <div class="modal-overlay" id="depositModal">
     <div class="modal-box">
       <div class="modal-header">
-        <div class="modal-title"><span style="color:var(--quant-green)">📥</span> NẠP TIỀN VÀO TÀI KHOẢN MBS</div>
+        <div class="modal-title"><span style="color:var(--quant-green)">📥</span> NẠP TIỀN VÀO TÀI KHOẢN SINH VIÊN CHƠI CHỨNG</div>
         <button class="modal-close" onclick="closeModal('depositModal')">&times;</button>
       </div>
 
@@ -1024,7 +1024,7 @@
   <div class="modal-overlay" id="withdrawModal">
     <div class="modal-box">
       <div class="modal-header">
-        <div class="modal-title"><span style="color:var(--quant-red)">📤</span> RÚT TIỀN TỪ TÀI KHOẢN MBS</div>
+        <div class="modal-title"><span style="color:var(--quant-red)">📤</span> RÚT TIỀN TỪ TÀI KHOẢN SINH VIÊN CHƠI CHỨNG</div>
         <button class="modal-close" onclick="closeModal('withdrawModal')">&times;</button>
       </div>
 
@@ -1077,7 +1077,7 @@
   <div class="modal-overlay" id="tradeModal">
     <div class="modal-box">
       <div class="modal-header">
-        <div class="modal-title" id="tradeModalTitle"><span>⚡</span> ĐẶT LỆNH GIAO DỊCH MBS</div>
+        <div class="modal-title" id="tradeModalTitle"><span>⚡</span> ĐẶT LỆNH GIAO DỊCH SINH VIÊN CHƠI CHỨNG</div>
         <button class="modal-close" onclick="closeModal('tradeModal')">&times;</button>
       </div>
 
@@ -1147,7 +1147,7 @@
           <strong id="tradeOrderValue">0 đ</strong>
         </div>
         <div class="info-row">
-          <span style="color:var(--text-muted)">Thuế & Phí (0.6% MBS):</span>
+          <span style="color:var(--text-muted)">Thuế & Phí (0.6%):</span>
           <span id="tradeFeeValue" style="color:var(--text-dim)">0 đ</span>
         </div>
         <div class="info-row" style="border-top:1px solid rgba(51,65,85,0.4); margin-top:4px; padding-top:6px;">
@@ -1411,7 +1411,7 @@
       savePortfolioState();
       updatePortfolioUI();
       closeModal('depositModal');
-      showToast(`✓ Đã nạp thành công +${formatVND(amt)} vào tài khoản MBS!`);
+      showToast(`✓ Đã nạp thành công +${formatVND(amt)} vào tài khoản Sinh Viên Chơi Chứng!`);
     }
 
     // XỬ LÝ RÚT TIỀN THỦ CÔNG (TỰ ĐỘNG TRỪ TIỀN TÀI KHOẢN)
@@ -1479,14 +1479,14 @@
         sellTab.className = 'trade-tab trade-tab-sell';
         submitBtn.className = 'btn-submit btn-submit-deposit';
         submitBtn.innerText = '✓ XÁC NHẬN MUA CỔ PHIẾU (KHỚP LỆNH)';
-        modalTitle.innerHTML = '<span style="color:var(--quant-green)">⚡</span> ĐẶT LỆNH MUA CỔ PHIẾU MBS';
+        modalTitle.innerHTML = '<span style="color:var(--quant-green)">⚡</span> ĐẶT LỆNH MUA CỔ PHIẾU (SVCC)';
         document.getElementById('tradeTotalLabel').innerText = 'Tổng Thanh Toán (Gồm 0.6% Phí):';
       } else {
         sellTab.className = 'trade-tab trade-tab-sell active';
         buyTab.className = 'trade-tab trade-tab-buy';
         submitBtn.className = 'btn-submit btn-submit-withdraw';
         submitBtn.innerText = '✓ XÁC NHẬN BÁN CỔ PHIẾU (KHỚP LỆNH)';
-        modalTitle.innerHTML = '<span style="color:var(--quant-red)">⚡</span> ĐẶT LỆNH BÁN CỔ PHIẾU MBS';
+        modalTitle.innerHTML = '<span style="color:var(--quant-red)">⚡</span> ĐẶT LỆNH BÁN CỔ PHIẾU (SVCC)';
         document.getElementById('tradeTotalLabel').innerText = 'Tổng Thu Về Ròng (Trừ 0.6% Thuế/Phí):';
       }
       renderTradeQuickChips();

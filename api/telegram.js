@@ -59,7 +59,7 @@ HỒ SƠ TÀI SẢN CỦA ANH THẾ (CHỈ DÙNG KHI ANH THẾ HỎI VỀ DANH M
       if (vpsRes.ok) {
         const vpsData = await vpsRes.json();
         if (Array.isArray(vpsData) && vpsData.length > 0) {
-          liveQuoteStr = "BẢNG GIÁ THỜI GIAN THỰC (MBS/VPS LIVE FEED):\n" + vpsData.map(s => {
+          liveQuoteStr = "BẢNG GIÁ THỜI GIAN THỰC (SINH VIÊN CHƠI CHỨNG / VPS LIVE FEED):\n" + vpsData.map(s => {
             const last = parseFloat(s.lastPrice) || parseFloat(s.r) || 0;
             const ref = parseFloat(s.r) || last;
             const ceil = parseFloat(s.c) || 0;
