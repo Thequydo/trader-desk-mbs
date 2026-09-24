@@ -1,0 +1,40 @@
+name: KwangTae Autonomous Daily Learning
+
+on:
+  schedule:
+    # 08:30 UTC = 15:30 Giờ Việt Nam (UTC+7), từ Thứ 2 đến Thứ 6 hàng tuần
+    - cron: '30 8 * * 1-5'
+  workflow_dispatch: # Cho phép bấm nút "Run workflow" thủ công bất kỳ lúc nào
+
+permissions:
+  contents: write
+
+jobs:
+  auto-learn-and-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout mã nguồn
+        uses: actions/checkout@v4
+
+      - name: Cài đặt Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Cài đặt thư viện AI Machine Learning
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas numpy lightgbm scikit-learn
+
+      - name: Chạy cỗ máy tự học KwangTae Cloud
+        run: |
+          python scripts/kwangtae_daily_learn.py
+
+      - name: Lưu trữ & Triển khai kết quả mới lên Cloud
+        run: |
+          git config --global user.name "KwangTae AI Agent"
+          git config --global user.email "kwangtae-ai@users.noreply.github.com"
+          git add public/kwangtae_radar.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 [KwangTae Auto-Learn] Tự học & cập nhật Radar mới $(date +'%d/%m/%Y %H:%M')" && git push)
