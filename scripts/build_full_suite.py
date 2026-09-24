@@ -1,5 +1,18 @@
 # -*- coding: utf-8 -*-
-HTML = r"""<!DOCTYPE html>
+"""
+Ultimate Complete Suite:
+- Reverted Sector Grouped Terminal (Họ Vin, GELEX, Bank, SSI, HPG, BĐS, FPT, Logistics, Dầu khí)
+- Authentic Portfolio of anh Thế (1,250 ACV @ 45.899k, 500k cash, 10.32 Tr sau cơ cấu)
+- 2 Full-Height MU Side Flanks (Phủ kín 2 bên hông)
+- 5 Advanced Trading Desk Features:
+  1. Live Search with autocomplete & instant sync
+  2. Trade Journal modal with local database storage & Performance Analytics modal
+  3. Running TradingView Lightweight Charts v5 with timeframes (1m, 5m, 15m, 1h, 1D, 1W), indicator toggles (MA20, MA50, Volume), and live candle pulse
+  4. Order Panel with exact exchange tick rules (HOSE 0.01/0.05/0.1 vs UPCoM 0.1), automatic fee & tax calculation, and confirmation modal with Web Audio chime
+  5. AI Chat with Gemini Flash Lite & Quant fallback, auto-analysis card, and click-to-action on every stock row!
+"""
+
+HTML = r'''<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -2549,6 +2562,15 @@ HTML = r"""<!DOCTYPE html>
   </script>
 </body>
 </html>
-"""
-with open("index.html", "w", encoding="utf-8") as f: f.write(HTML)
-with open("public/index.html", "w", encoding="utf-8") as f: f.write(HTML)
+'''
+
+with open('index.html', 'w', encoding='utf-8') as f:
+    f.write(HTML)
+
+with open('public/index.html', 'w', encoding='utf-8') as f:
+    f.write(HTML)
+
+with open('scripts/build_mu_terminal.py', 'w', encoding='utf-8') as f:
+    f.write(f'# -*- coding: utf-8 -*-\nHTML = r"""{HTML}"""\nwith open("index.html", "w", encoding="utf-8") as f: f.write(HTML)\nwith open("public/index.html", "w", encoding="utf-8") as f: f.write(HTML)\n')
+
+print("Successfully built the complete suite!")
