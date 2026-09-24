@@ -36,7 +36,45 @@ HỒ SƠ TÀI SẢN CỦA ANH THẾ (CHỈ DÙNG KHI ANH THẾ HỎI VỀ DANH M
 - Kế hoạch cơ cấu: Giữ tròn 1,000 cổ ACV cất tủ dài hạn đón sóng Sân bay Long Thành 2026, đặt bán 250 cổ quanh 39.4k để thu về ~9.82 triệu tiền mặt.`;
   }
 
-  // 2. Trích xuất dữ liệu định lượng của các mã cổ phiếu anh Thế đang hỏi
+  // 2. Kéo bảng giá thời gian thực cho mã đang hỏi từ VPS/MBS Datafeed
+  const ALL_SYMBOLS = [
+    "ACV", "VHM", "VTP", "GEX", "VIX", "GEE", "VGC", "IDC", "SSI", "HPG", 
+    "FPT", "MWG", "VIC", "VCB", "MBB", "STB", "TCB", "VPB", "DGC", "MSN", 
+    "GAS", "SSB", "VRE", "PLX", "VNM", "BVH", "HDB", "POW", "VJC", "BCM", 
+    "BID", "TPB", "SHB", "GVR", "CTG", "VIB", "ACB", "SAB", "DIG", "DXG"
+  ];
+  const queryUpper = userQuery.toUpperCase();
+  const matchedSymbols = ALL_SYMBOLS.filter(s => {
+    const reg = new RegExp(`\\b${s}\\b`);
+    return reg.test(queryUpper);
+  });
+
+  let liveQuoteStr = "";
+  if (matchedSymbols.length > 0) {
+    try {
+      const vpsRes = await fetch(`https://bgapidatafeed.vps.com.vn/getliststockdata/${matchedSymbols.join(',')}`, {
+        headers: { "User-Agent": "Mozilla/5.0" },
+        signal: AbortSignal.timeout(2500)
+      });
+      if (vpsRes.ok) {
+        const vpsData = await vpsRes.json();
+        if (Array.isArray(vpsData) && vpsData.length > 0) {
+          liveQuoteStr = "BẢNG GIÁ THỜI GIAN THỰC (MBS/VPS LIVE FEED):\n" + vpsData.map(s => {
+            const last = parseFloat(s.lastPrice) || parseFloat(s.r) || 0;
+            const ref = parseFloat(s.r) || last;
+            const ceil = parseFloat(s.c) || 0;
+            const floor = parseFloat(s.f) || 0;
+            let ot = parseFloat(s.ot) || 0;
+            let chg = parseFloat(s.changePc) || 0;
+            const sign = last >= ref ? '+' : '-';
+            return `• ${s.sym}: Khớp ${last}k (${sign}${ot}k, ${sign}${chg}%) | TC: ${ref}k | Trần: ${ceil}k | Sàn: ${floor}k | Khối lượng khớp: ${(parseFloat(s.lot)||0).toLocaleString('vi-VN')} CP`;
+          }).join('\n');
+        }
+      }
+    } catch (_) {}
+  }
+
+  // 3. Trích xuất dữ liệu định lượng của các mã cổ phiếu anh Thế đang hỏi từ Radar
   let stockDataStr = "";
   if (radarData?.radar && Array.isArray(radarData.radar)) {
     const matched = radarData.radar.filter(r => userQuery.toUpperCase().includes(r.symbol));
@@ -53,6 +91,7 @@ Bạn đang tư vấn 1-1 riêng cho khách hàng VIP là anh Quang Thế (hãy 
 QUY TẮC CỐT LÕI (BẮT BUỘC TUÂN THỦ TUYỆT ĐỐI):
 1. TRẢ LỜI ĐÚNG TRỌNG TÂM CÂU HỎI:
    - Khi anh Thế hỏi về một mã cổ phiếu cụ thể (ví dụ GEE, VHM, GEX, VTP...), hãy TẬP TRUNG 100% PHÂN TÍCH THẲNG VÀO MÃ ĐÓ.
+   - Cung cấp giá khớp thời gian thực mới nhất, biến động so với tham chiếu/trần/sàn.
    - Đưa ra nhận định dứt khoát: Có nên mua / bắt đáy hay không? Dựa vào RSI, Vol nổ, Điểm số AI và Vùng giá hỗ trợ/kháng cự.
    - TUYỆT ĐỐI KHÔNG TỰ TIỆN ĐỀ CẬP ĐẾN ACV HAY KẾ HOẠCH CƠ CẤU ACV khi anh Thế không hỏi về ACV hay cơ cấu tài khoản!
 2. 100% TIẾNG VIỆT CHUYÊN NGHIỆP:
@@ -62,6 +101,7 @@ QUY TẮC CỐT LÕI (BẮT BUỘC TUÂN THỦ TUYỆT ĐỐI):
 
 DỮ LIỆU THỊ TRƯỜNG HÔM NAY:
 - Chỉ số Vibe: ${vibe}/100 (${vibe_status}) | Độ rộng MA20: ${breadth}%
+${liveQuoteStr ? '\n' + liveQuoteStr : ''}
 ${stockDataStr ? '\n' + stockDataStr : ''}
 ${portfolioContext}`;
 

@@ -118,6 +118,51 @@
       50% { opacity: 0.4; transform: scale(1.2); }
     }
 
+    /* REALTIME FLASH ANIMATION & MBS COLOR PALETTE */
+    @keyframes flashGreen {
+      0% { background-color: rgba(0, 208, 132, 0.45); }
+      100% { background-color: transparent; }
+    }
+    @keyframes flashRed {
+      0% { background-color: rgba(255, 59, 48, 0.45); }
+      100% { background-color: transparent; }
+    }
+    .flash-up { animation: flashGreen 0.9s cubic-bezier(0.25, 1, 0.5, 1); border-radius: 6px; }
+    .flash-down { animation: flashRed 0.9s cubic-bezier(0.25, 1, 0.5, 1); border-radius: 6px; }
+
+    .color-ceil { color: #d946ef !important; }
+    .color-floor { color: #00e5ff !important; }
+    .color-up { color: #00d084 !important; }
+    .color-down { color: #ff3b30 !important; }
+    .color-ref { color: #ffb800 !important; }
+
+    .badge-price {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      white-space: nowrap;
+    }
+    .badge-price-ceil { background: rgba(217, 70, 239, 0.18); color: #d946ef; border: 1px solid rgba(217, 70, 239, 0.4); }
+    .badge-price-floor { background: rgba(0, 229, 255, 0.18); color: #00e5ff; border: 1px solid rgba(0, 229, 255, 0.4); }
+    .badge-price-up { background: rgba(0, 208, 132, 0.18); color: #00d084; border: 1px solid rgba(0, 208, 132, 0.4); }
+    .badge-price-down { background: rgba(255, 59, 48, 0.18); color: #ff3b30; border: 1px solid rgba(255, 59, 48, 0.4); }
+    .badge-price-ref { background: rgba(255, 184, 0, 0.18); color: #ffb800; border: 1px solid rgba(255, 184, 0, 0.4); }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: #00d084;
+      display: inline-block;
+      box-shadow: 0 0 8px #00d084;
+      animation: pulse 1.5s infinite;
+    }
+
     /* GRID LAYOUTS */
     .grid-2 {
       display: grid;
@@ -748,8 +793,8 @@
         </div>
       </div>
       <div class="status-badges">
-        <span class="badge badge-live">Giao Dịch Online</span>
-        <span class="badge" style="background: rgba(0, 82, 204, 0.2); color:#60a5fa; border:1px solid rgba(0, 82, 204, 0.4);">MBS Serverless</span>
+        <span class="badge badge-live" id="realtimeBadge"><span class="live-dot"></span> BẢNG GIÁ REALTIME (2.5s)</span>
+        <span class="badge" style="background: rgba(0, 82, 204, 0.2); color:#60a5fa; border:1px solid rgba(0, 82, 204, 0.4);">MBS Live Feed</span>
       </div>
     </header>
 
@@ -896,19 +941,20 @@
         <thead>
           <tr>
             <th>Mã CP</th>
-            <th>Giá Hiện Tại</th>
+            <th>Giá Khớp Lệnh</th>
+            <th>Biến Động (TC / Trần / Sàn)</th>
+            <th>KL Khớp</th>
             <th>Điểm AI</th>
             <th>Khuyến Nghị</th>
             <th>RSI (14)</th>
             <th>Dòng Tiền Vol</th>
             <th>Vùng Mua Entry</th>
-            <th>Target (+%)</th>
-            <th>Cắt Lỗ (-%)</th>
-            <th>Đặt Lệnh</th>
+            <th>Target / Cắt Lỗ</th>
+            <th style="text-align:right;">Giao Dịch</th>
           </tr>
         </thead>
         <tbody id="tableBody">
-          <tr><td colspan="10" style="text-align:center; padding:24px; color:var(--text-muted);">Đang tải dữ liệu định lượng mới nhất...</td></tr>
+          <tr><td colspan="11" style="text-align:center; padding:24px; color:var(--text-muted);">Đang kết nối luồng dữ liệu thời gian thực MBS & VPS...</td></tr>
         </tbody>
       </table>
     </div>
@@ -1044,17 +1090,34 @@
         <label class="form-label">Mã Cổ Phiếu</label>
         <select class="form-select" id="tradeSymbol" onchange="onTradeSymbolChange()">
           <option value="ACV">ACV - TCT Cảng Hàng Không VN (UPCoM)</option>
-          <option value="VHM">VHM - Vinhomes (RSI Quá Bán 17.3)</option>
-          <option value="VTP">VTP - Viettel Post (Vol Nổ 4.8x)</option>
+          <option value="VHM">VHM - Vinhomes (VN30)</option>
+          <option value="VTP">VTP - Viettel Post (HOSE)</option>
           <option value="GEX">GEX - Tập đoàn GELEX</option>
           <option value="VIX">VIX - Chứng khoán VIX</option>
           <option value="GEE">GEE - Điện lực Gelex</option>
           <option value="VGC">VGC - Viglacera</option>
           <option value="IDC">IDC - IDICO</option>
-          <option value="SSI">SSI - Chứng khoán SSI</option>
-          <option value="HPG">HPG - Tập đoàn Hòa Phát</option>
-          <option value="FPT">FPT - Tập đoàn FPT</option>
-          <option value="MWG">MWG - Thế Giới Di Động</option>
+          <option value="SSI">SSI - Chứng khoán SSI (VN30)</option>
+          <option value="HPG">HPG - Tập đoàn Hòa Phát (VN30)</option>
+          <option value="FPT">FPT - Tập đoàn FPT (VN30)</option>
+          <option value="MWG">MWG - Thế Giới Di Động (VN30)</option>
+          <option value="VIC">VIC - Tập đoàn Vingroup (VN30)</option>
+          <option value="VCB">VCB - Vietcombank (VN30)</option>
+          <option value="MBB">MBB - Ngân hàng Quân Đội MB (VN30)</option>
+          <option value="TCB">TCB - Techcombank (VN30)</option>
+          <option value="VPB">VPB - VPBank (VN30)</option>
+          <option value="STB">STB - Sacombank (VN30)</option>
+          <option value="DGC">DGC - Hóa chất Đức Giang</option>
+          <option value="MSN">MSN - Tập đoàn Masan (VN30)</option>
+          <option value="GAS">GAS - Tổng công ty Khí VN (VN30)</option>
+          <option value="SSB">SSB - SeABank (VN30)</option>
+          <option value="VRE">VRE - Vincom Retail (VN30)</option>
+          <option value="PLX">PLX - Petrolimex (VN30)</option>
+          <option value="VNM">VNM - Vinamilk (VN30)</option>
+          <option value="SHB">SHB - Ngân hàng SHB (VN30)</option>
+          <option value="TPB">TPB - TPBank (VN30)</option>
+          <option value="CTG">CTG - VietinBank (VN30)</option>
+          <option value="ACB">ACB - Ngân hàng Á Châu (VN30)</option>
         </select>
       </div>
 
@@ -1185,17 +1248,57 @@
       return Math.round(num).toLocaleString('vi-VN') + ' đ';
     }
 
-    function getStockCurrentPrice(sym) {
+    // Dữ liệu bảng giá trực tuyến thời gian thực (Realtime Price Store)
+    let liveQuotes = {};
+
+    function getPriceColorClass(price, ref, ceil, floor) {
+      if (ceil && price >= ceil) return 'color-ceil';
+      if (floor && price <= floor) return 'color-floor';
+      if (price > ref) return 'color-up';
+      if (price < ref) return 'color-down';
+      return 'color-ref';
+    }
+
+    function getPriceBadgeClass(price, ref, ceil, floor) {
+      if (ceil && price >= ceil) return 'badge-price-ceil';
+      if (floor && price <= floor) return 'badge-price-floor';
+      if (price > ref) return 'badge-price-up';
+      if (price < ref) return 'badge-price-down';
+      return 'badge-price-ref';
+    }
+
+    function formatVolume(vol) {
+      if (!vol || vol <= 0) return '0 CP';
+      if (vol >= 1000000) return (vol / 1000000).toFixed(2) + 'M CP';
+      if (vol >= 1000) return (vol / 1000).toFixed(1) + 'k CP';
+      return Math.round(vol).toLocaleString('vi-VN') + ' CP';
+    }
+
+    function getStockQuote(sym) {
+      if (liveQuotes[sym] && liveQuotes[sym].price > 0) {
+        return liveQuotes[sym];
+      }
       if (globalRadar && globalRadar.radar) {
         const found = globalRadar.radar.find(r => r.symbol === sym);
-        if (found) return found.price;
+        if (found) {
+          const p = found.price || 40.0;
+          return { sym: sym, price: p, ref: p, ceil: p * 1.07, floor: p * 0.93, ot: 0, chg: 0, vol: (found.vol_surge ? found.vol_surge * 250000 : 0) };
+        }
       }
       if (globalRadar && globalRadar.top3) {
         const found = globalRadar.top3.find(r => r.symbol === sym);
-        if (found) return found.price;
+        if (found) {
+          const p = found.price || 40.0;
+          return { sym: sym, price: p, ref: p, ceil: p * 1.07, floor: p * 0.93, ot: 0, chg: 0, vol: (found.vol_surge ? found.vol_surge * 250000 : 0) };
+        }
       }
       const defaults = { ACV: 39.4, VHM: 65.4, VTP: 52.6, GEX: 24.1, VIX: 12.75, GEE: 70.9, VGC: 55.0, IDC: 58.2, SSI: 34.5, HPG: 28.2, FPT: 135.0, MWG: 68.0 };
-      return defaults[sym] || 40.0;
+      const p = defaults[sym] || 40.0;
+      return { sym: sym, price: p, ref: p, ceil: p * 1.07, floor: p * 0.93, ot: 0, chg: 0, vol: 150000 };
+    }
+
+    function getStockCurrentPrice(sym) {
+      return getStockQuote(sym).price;
     }
 
     function updatePortfolioUI() {
@@ -1238,9 +1341,21 @@
 
       let html = '';
       items.forEach(h => {
-        const val = h.qty * h.curPrice * 1000;
-        const pl = (h.curPrice - h.avgPrice) * h.qty * 1000;
-        const plPct = (((h.curPrice - h.avgPrice) / h.avgPrice) * 100).toFixed(1);
+        const q = getStockQuote(h.symbol);
+        const curPrice = q.price;
+        const ref = q.ref || curPrice;
+        const ceil = q.ceil || 0;
+        const floor = q.floor || 0;
+        const ot = q.ot !== undefined ? q.ot : (curPrice - ref);
+        const chg = q.chg !== undefined ? q.chg : 0;
+
+        const priceColorClass = getPriceColorClass(curPrice, ref, ceil, floor);
+        const priceBadgeClass = getPriceBadgeClass(curPrice, ref, ceil, floor);
+        const arrow = curPrice > ref ? '▲' : (curPrice < ref ? '▼' : '■');
+
+        const val = h.qty * curPrice * 1000;
+        const pl = (curPrice - h.avgPrice) * h.qty * 1000;
+        const plPct = (((curPrice - h.avgPrice) / h.avgPrice) * 100).toFixed(1);
         const plColor = pl >= 0 ? 'var(--quant-green)' : 'var(--quant-red)';
         const plSign = pl >= 0 ? '+' : '';
 
@@ -1250,9 +1365,10 @@
               <div class="holding-sym">${h.symbol} <span style="font-size:11px; font-weight:600; color:var(--text-muted);">• ${h.qty.toLocaleString('vi-VN')} CP</span></div>
               <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">${(val/1000000).toFixed(2)} Tr</div>
             </div>
-            <div>
-              <div style="font-family:var(--font-mono); font-size:12px; font-weight:700;">${h.curPrice}k</div>
-              <div style="font-size:11px; color:var(--text-dim);">Vốn: ${h.avgPrice}k</div>
+            <div id="holding-price-${h.symbol}">
+              <div style="font-family:var(--font-mono); font-size:13px; font-weight:800;" class="${priceColorClass}">${curPrice.toFixed(2)}k</div>
+              <div class="badge-price ${priceBadgeClass}" style="margin-top:2px;">${arrow} ${ot >= 0 ? '+' : ''}${ot.toFixed(2)} (${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%)</div>
+              <div style="font-size:10.5px; color:var(--text-dim); margin-top:2px;">Vốn: ${h.avgPrice}k</div>
             </div>
             <div>
               <div style="font-family:var(--font-mono); font-size:12px; font-weight:700; color:${plColor};">${plSign}${plPct}%</div>
@@ -1378,9 +1494,14 @@
     }
     function onTradeSymbolChange() {
       const sym = document.getElementById('tradeSymbol').value;
-      const curP = getStockCurrentPrice(sym);
+      const q = getStockQuote(sym);
+      const curP = q.price;
       document.getElementById('tradePrice').value = curP;
-      document.getElementById('tradeMarketPriceTip').innerText = `Giá thị trường: ${curP}k`;
+      const refStr = q.ref ? `${q.ref.toFixed(2)}k` : '-';
+      const ceilStr = q.ceil ? `${q.ceil.toFixed(2)}k` : '-';
+      const floorStr = q.floor ? `${q.floor.toFixed(2)}k` : '-';
+      document.getElementById('tradeMarketPriceTip').innerHTML = 
+        `Khớp: <strong style="color:var(--mbs-cyan);">${curP.toFixed(2)}k</strong> | TC: <span style="color:#ffb800">${refStr}</span> | Trần: <span style="color:#d946ef">${ceilStr}</span> | Sàn: <span style="color:#00e5ff">${floorStr}</span>`;
       renderTradeQuickChips();
       calcTradeSummary();
     }
@@ -1644,47 +1765,249 @@
       renderTable();
     }
 
+    // ĐỘNG CƠ CẬP NHẬT GIÁ THỜI GIAN THỰC (REALTIME STREAMING ENGINE)
+    const WATCHLIST_SYMBOLS = [
+      "ACV", "VHM", "VTP", "GEX", "VIX", "GEE", "VGC", "IDC", "SSI", "HPG", 
+      "FPT", "MWG", "VIC", "VCB", "MBB", "STB", "TCB", "VPB", "DGC", "MSN", 
+      "GAS", "SSB", "VRE", "PLX", "VNM", "BVH", "HDB", "POW", "VJC", "BCM", 
+      "BID", "TPB", "SHB", "GVR", "CTG", "VIB", "ACB", "SAB"
+    ];
+
+    async function fetchRealtimePrices() {
+      const holdingSyms = Object.keys(holdings);
+      const symbolList = Array.from(new Set([...WATCHLIST_SYMBOLS, ...holdingSyms]));
+      const symStr = symbolList.join(",");
+
+      let items = null;
+
+      // 1. Kéo trực tiếp từ Datafeed VPS (sub-second, CORS cho phép)
+      try {
+        const res = await fetch(`https://bgapidatafeed.vps.com.vn/getliststockdata/${symStr}`, {
+          cache: 'no-store'
+        });
+        if (res.ok) {
+          const vpsData = await res.json();
+          if (Array.isArray(vpsData) && vpsData.length > 0) {
+            items = vpsData.map(s => {
+              const last = parseFloat(s.lastPrice) || parseFloat(s.r) || 0;
+              const ref = parseFloat(s.r) || last;
+              const ceil = parseFloat(s.c) || 0;
+              const floor = parseFloat(s.f) || 0;
+              let ot = parseFloat(s.ot) || 0;
+              let chg = parseFloat(s.changePc) || 0;
+              if (last > ref) {
+                ot = Math.abs(ot);
+                chg = Math.abs(chg);
+              } else if (last < ref) {
+                ot = -Math.abs(ot);
+                chg = -Math.abs(chg);
+              } else {
+                ot = 0;
+                chg = 0;
+              }
+              return {
+                sym: s.sym,
+                price: last,
+                ref: ref,
+                ceil: ceil,
+                floor: floor,
+                ot: ot,
+                chg: chg,
+                vol: parseFloat(s.lot) || 0,
+                high: parseFloat(s.highPrice) || last,
+                low: parseFloat(s.lowPrice) || last
+              };
+            });
+          }
+        }
+      } catch (e) {
+        // Fallback silently
+      }
+
+      // 2. Dự phòng qua Serverless /api/config nếu kết nối VPS trực tiếp bị gián đoạn
+      if (!items || items.length === 0) {
+        try {
+          const res = await fetch('/api/config?t=' + Date.now());
+          if (res.ok) {
+            const json = await res.json();
+            if (json.items && json.items.length > 0) {
+              items = json.items;
+            }
+          }
+        } catch (_) {}
+      }
+
+      if (items && items.length > 0) {
+        applyLiveQuotes(items);
+      }
+    }
+
+    function applyLiveQuotes(items) {
+      let anyPriceChanged = false;
+      const changedSyms = {};
+
+      items.forEach(it => {
+        const sym = it.sym;
+        const oldQuote = liveQuotes[sym];
+        let tickDir = null;
+
+        if (oldQuote && oldQuote.price > 0 && it.price > 0) {
+          if (it.price > oldQuote.price) tickDir = 'up';
+          else if (it.price < oldQuote.price) tickDir = 'down';
+        }
+
+        if (tickDir) {
+          changedSyms[sym] = tickDir;
+          anyPriceChanged = true;
+        }
+
+        liveQuotes[sym] = {
+          ...it,
+          prevPrice: oldQuote ? oldQuote.price : it.price,
+          tickDir: tickDir || (oldQuote ? oldQuote.tickDir : null)
+        };
+      });
+
+      // Cập nhật nhãn trạng thái và thời gian khớp lệnh mới nhất
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('vi-VN');
+      const rtBadge = document.getElementById('realtimeBadge');
+      if (rtBadge) {
+        rtBadge.innerHTML = `<span class="live-dot"></span> REALTIME: ${timeStr}`;
+      }
+
+      // Cập nhật lại giá trị danh mục và NAV theo giá thị trường
+      updatePortfolioUI();
+
+      // Cập nhật bảng tín hiệu ma trận
+      renderTable();
+
+      // Kích hoạt hiệu ứng nhấp nháy xanh/đỏ (flash tick) cho các mã có bước giá mới
+      if (anyPriceChanged) {
+        Object.keys(changedSyms).forEach(sym => {
+          const dir = changedSyms[sym];
+          const cls = dir === 'up' ? 'flash-up' : 'flash-down';
+
+          const el = document.getElementById(`price-cell-${sym}`);
+          if (el) {
+            el.classList.remove('flash-up', 'flash-down');
+            void el.offsetWidth;
+            el.classList.add(cls);
+            setTimeout(() => el.classList.remove(cls), 900);
+          }
+
+          const hEl = document.getElementById(`holding-price-${sym}`);
+          if (hEl) {
+            hEl.classList.remove('flash-up', 'flash-down');
+            void hEl.offsetWidth;
+            hEl.classList.add(cls);
+            setTimeout(() => hEl.classList.remove(cls), 900);
+          }
+        });
+      }
+    }
+
     function renderTable() {
-      if (!globalRadar) return;
-      const list = (currentTab === 'top3') ? (globalRadar.top3 || []) : (globalRadar.radar || globalRadar.top3 || []);
       const tbody = document.getElementById('tableBody');
-      if (list.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding:20px;">Không có dữ liệu</td></tr>';
-        return;
+      if (!tbody) return;
+
+      let list = [];
+      if (globalRadar) {
+        list = (currentTab === 'top3') ? (globalRadar.top3 || []) : (globalRadar.radar || globalRadar.top3 || []);
+      }
+
+      if (!list || list.length === 0) {
+        list = WATCHLIST_SYMBOLS.slice(0, 15).map(sym => {
+          const q = getStockQuote(sym);
+          return {
+            symbol: sym,
+            price: q.price,
+            score: 65,
+            rsi: 45.0,
+            vol_surge: 1.2,
+            action: "🟡 THEO DÕI",
+            entry_min: (q.price * 0.98).toFixed(1),
+            entry_max: (q.price * 1.01).toFixed(1),
+            target: (q.price * 1.15).toFixed(1),
+            stop_loss: (q.price * 0.94).toFixed(1)
+          };
+        });
       }
 
       let html = '';
       list.forEach(item => {
+        const sym = item.symbol;
+        const q = getStockQuote(sym);
+        const curPrice = q.price || item.price || 40.0;
+        const ref = q.ref || curPrice;
+        const ceil = q.ceil || 0;
+        const floor = q.floor || 0;
+        const ot = q.ot !== undefined ? q.ot : (curPrice - ref);
+        const chg = q.chg !== undefined ? q.chg : 0;
+        const vol = q.vol || (item.vol_surge ? item.vol_surge * 200000 : 0);
+
+        const priceColorClass = getPriceColorClass(curPrice, ref, ceil, floor);
+        const priceBadgeClass = getPriceBadgeClass(curPrice, ref, ceil, floor);
+        const arrow = curPrice > ref ? '▲' : (curPrice < ref ? '▼' : '■');
+
         let actClass = 'act-out';
-        if (item.action.includes('MUA') || item.action.includes('BẮT ĐÁY')) actClass = 'act-buy';
-        else if (item.action.includes('GIỮ') || item.action.includes('TÍCH LŨY') || item.action.includes('QUAN SÁT')) actClass = 'act-hold';
+        const actText = item.action || '🟡 THEO DÕI';
+        if (actText.includes('MUA') || actText.includes('BẮT ĐÁY')) actClass = 'act-buy';
+        else if (actText.includes('GIỮ') || actText.includes('TÍCH LŨY') || actText.includes('QUAN SÁT') || actText.includes('THEO DÕI')) actClass = 'act-hold';
 
         let scoreColor = '#3b82f6';
-        if (item.score >= 70) scoreColor = '#00d084';
-        else if (item.score < 40) scoreColor = '#ff3b30';
+        const score = item.score || 60;
+        if (score >= 70) scoreColor = '#00d084';
+        else if (score < 40) scoreColor = '#ff3b30';
+
+        const entryMin = item.entry_min || (curPrice * 0.98).toFixed(1);
+        const entryMax = item.entry_max || (curPrice * 1.01).toFixed(1);
+        const target = item.target || (curPrice * 1.15).toFixed(1);
+        const stopLoss = item.stop_loss || (curPrice * 0.94).toFixed(1);
+        const rsi = item.rsi || 50;
+        const volSurge = item.vol_surge || 1.0;
 
         html += `
           <tr>
             <td>
-              <div class="sym-badge">${item.symbol}</div>
+              <div class="sym-badge">${sym}</div>
             </td>
-            <td style="font-family:var(--font-mono); font-weight:700;">${item.price}k</td>
+            <td id="price-cell-${sym}">
+              <div class="${priceColorClass}" style="font-family:var(--font-mono); font-size:14px; font-weight:800;">${curPrice.toFixed(2)}k</div>
+              <div class="badge-price ${priceBadgeClass}" style="margin-top:2px;">
+                ${arrow} ${ot >= 0 ? '+' : ''}${ot.toFixed(2)} (${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%)
+              </div>
+            </td>
+            <td>
+              <div style="font-family:var(--font-mono); font-size:11px; line-height:1.5;">
+                <span style="color:#ffb800;">TC: ${ref.toFixed(2)}</span><br>
+                <span style="color:#d946ef;">T: ${ceil ? ceil.toFixed(2) : '-'}</span> | 
+                <span style="color:#00e5ff;">S: ${floor ? floor.toFixed(2) : '-'}</span>
+              </div>
+            </td>
+            <td>
+              <div style="font-family:var(--font-mono); font-weight:700; color:var(--text-main); font-size:12px;">${formatVolume(vol)}</div>
+            </td>
             <td>
               <div class="score-bar-wrap">
                 <div class="score-bar-bg">
-                  <div class="score-bar-fill" style="width:${item.score}%; background:${scoreColor};"></div>
+                  <div class="score-bar-fill" style="width:${score}%; background:${scoreColor};"></div>
                 </div>
-                <span style="font-family:var(--font-mono); font-weight:700; color:${scoreColor}; font-size:12px;">${item.score}</span>
+                <span style="font-family:var(--font-mono); font-weight:700; color:${scoreColor}; font-size:12px;">${score}</span>
               </div>
             </td>
-            <td><span class="action-badge ${actClass}">${item.action}</span></td>
-            <td style="font-family:var(--font-mono); font-weight:700; color:${item.rsi < 30 ? 'var(--quant-green)' : (item.rsi > 70 ? 'var(--quant-red)' : 'var(--text-main)')};">${item.rsi}</td>
-            <td style="font-family:var(--font-mono); font-weight:700; color:${item.vol_surge > 2.0 ? 'var(--mbs-cyan)' : 'var(--text-main)'};">${item.vol_surge}x</td>
-            <td style="font-family:var(--font-mono); color:var(--text-muted);">${item.entry_min} - ${item.entry_max}k</td>
-            <td style="font-family:var(--font-mono); color:var(--quant-green); font-weight:700;">${item.target}k</td>
-            <td style="font-family:var(--font-mono); color:var(--quant-red); font-weight:700;">${item.stop_loss}k</td>
+            <td><span class="action-badge ${actClass}">${actText}</span></td>
+            <td style="font-family:var(--font-mono); font-weight:700; color:${rsi < 30 ? 'var(--quant-green)' : (rsi > 70 ? 'var(--quant-red)' : 'var(--text-main)')};">${rsi}</td>
+            <td style="font-family:var(--font-mono); font-weight:700; color:${volSurge > 2.0 ? 'var(--mbs-cyan)' : 'var(--text-main)'};">${volSurge}x</td>
+            <td style="font-family:var(--font-mono); color:var(--text-muted); font-size:12px;">${entryMin} - ${entryMax}k</td>
             <td>
-              <button class="mini-btn mini-buy" style="font-weight:800; padding:6px 10px;" onclick="openTradeForSymbol('${item.symbol}', 'BUY')">⚡ Đặt Lệnh</button>
+              <div style="font-family:var(--font-mono); font-size:12px;">
+                <span style="color:var(--quant-green); font-weight:700;">T: ${target}k</span><br>
+                <span style="color:var(--quant-red); font-weight:700;">SL: ${stopLoss}k</span>
+              </div>
+            </td>
+            <td style="text-align:right;">
+              <button class="mini-btn mini-buy" style="font-weight:800; padding:6px 12px;" onclick="openTradeForSymbol('${sym}', 'BUY')">⚡ Đặt Lệnh</button>
             </td>
           </tr>
         `;
@@ -1698,9 +2021,22 @@
       }).catch(() => {});
     }
 
+    // KHỞI ĐỘNG HỆ THỐNG
     initPortfolioState();
     loadRadarData();
+    fetchRealtimePrices();
+
+    // Chu kỳ cập nhật giá thời gian thực mỗi 2.5 giây
+    setInterval(fetchRealtimePrices, 2500);
+    // Chu kỳ cập nhật mô hình định lượng mỗi 30 giây
     setInterval(loadRadarData, 30000);
+
+    // Tự động làm mới ngay khi người dùng chuyển lại tab trình duyệt
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) {
+        fetchRealtimePrices();
+      }
+    });
   </script>
 </body>
 </html>

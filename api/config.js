@@ -1,6 +1,6 @@
 // api/config.js - Vercel Serverless Function cho Trader Desk Pro
 let inMemoryConfig = {
-  stocks: "VN-INDEX,ACV,GEE,VIC,VCB,GEX,VTP,MBB,VHM,VIX",
+  stocks: "VN-INDEX,ACV,VHM,VTP,GEX,VIX,GEE,VGC,IDC,SSI,HPG,FPT,MWG,VIC,VCB,MBB,STB,TCB,VPB,DGC,MSN,GAS",
   owned: "ACV",
   qty: 1250,
   avg: 45.899,
@@ -109,9 +109,23 @@ export default async function handler(req, res) {
         const vpsData = await vpsRes.json();
         for (const s of vpsData) {
           const last = parseFloat(s.lastPrice) || parseFloat(s.r) || 0;
-          const chg = parseFloat(s.changePc) || 0;
-          const vol = (parseFloat(s.lot) || 0) / 1000000;
-          items.push({ sym: s.sym, price: last, chg: chg, vol: vol });
+          const ref = parseFloat(s.r) || last;
+          const ceil = parseFloat(s.c) || 0;
+          const floor = parseFloat(s.f) || 0;
+          let ot = parseFloat(s.ot) || 0;
+          let chg = parseFloat(s.changePc) || 0;
+          if (last > ref) {
+            ot = Math.abs(ot);
+            chg = Math.abs(chg);
+          } else if (last < ref) {
+            ot = -Math.abs(ot);
+            chg = -Math.abs(chg);
+          } else {
+            ot = 0;
+            chg = 0;
+          }
+          const vol = parseFloat(s.lot) || 0;
+          items.push({ sym: s.sym, price: last, ref: ref, ceil: ceil, floor: floor, chg: chg, ot: ot, vol: vol });
         }
       }
     } catch (e) {
@@ -126,8 +140,11 @@ export default async function handler(req, res) {
       owned: inMemoryConfig.owned,
       qty: inMemoryConfig.qty,
       avg: inMemoryConfig.avg,
+      cash: inMemoryConfig.cash,
+      holdings: inMemoryConfig.holdings,
+      transactions: inMemoryConfig.transactions,
       ip: "Vercel Cloud",
-      session: "CHOT PHIEN",
+      session: "ONLINE",
       time: vnTime,
       items: items
     });
