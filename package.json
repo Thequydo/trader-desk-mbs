@@ -1,0 +1,11 @@
+{
+  "name": "trader-desk-pro-mbs",
+  "version": "1.0.0",
+  "description": "Trader Desk Pro - Giao diện Web MBS cho Bàn Giao Dịch ESP32",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "keywords": ["trader-desk", "stock-market", "esp32", "mbs"],
+  "author": "TraderDesk",
+  "license": "MIT"
+}

@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/save", "destination": "/api/config" },
+    { "source": "/api/config", "destination": "/api/config" }
+  ]
+}
