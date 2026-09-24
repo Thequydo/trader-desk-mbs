@@ -38,10 +38,11 @@ HỒ SƠ TÀI SẢN CỦA ANH THẾ (CHỈ DÙNG KHI ANH THẾ HỎI VỀ DANH M
 
   // 2. Kéo bảng giá thời gian thực cho mã đang hỏi từ VPS/MBS Datafeed
   const ALL_SYMBOLS = [
-    "ACV", "VHM", "VTP", "GEX", "VIX", "GEE", "VGC", "IDC", "SSI", "HPG", 
-    "FPT", "MWG", "VIC", "VCB", "MBB", "STB", "TCB", "VPB", "DGC", "MSN", 
-    "GAS", "SSB", "VRE", "PLX", "VNM", "BVH", "HDB", "POW", "VJC", "BCM", 
-    "BID", "TPB", "SHB", "GVR", "CTG", "VIB", "ACB", "SAB", "DIG", "DXG"
+    "VIC", "VHM", "VRE", "GEX", "VIX", "GEE", "VGC", "IDC", "VCB", "MBB", 
+    "TCB", "CTG", "STB", "SSI", "VND", "HCM", "VCI", "SHS", "HPG", "HSG", 
+    "NKG", "DGC", "DPM", "NVL", "PDR", "DIG", "DXG", "KDH", "FPT", "MWG", 
+    "FRT", "MSN", "VNM", "ACV", "VTP", "GMD", "HAH", "VJC", "GAS", "PLX", 
+    "PVD", "PVS", "POW", "SAB", "BVH", "HDB", "BID", "TPB", "SHB"
   ];
   const queryUpper = userQuery.toUpperCase();
   const matchedSymbols = ALL_SYMBOLS.filter(s => {
@@ -60,18 +61,21 @@ HỒ SƠ TÀI SẢN CỦA ANH THẾ (CHỈ DÙNG KHI ANH THẾ HỎI VỀ DANH M
         const vpsData = await vpsRes.json();
         if (Array.isArray(vpsData) && vpsData.length > 0) {
           liveQuoteStr = "BẢNG GIÁ THỜI GIAN THỰC (SINH VIÊN CHƠI CHỨNG / VPS LIVE FEED):\n" + vpsData.map(s => {
-            const last = parseFloat(s.lastPrice) || parseFloat(s.r) || 0;
-            const ave = parseFloat(s.avePrice) || last;
-            const ref = parseFloat(s.r) || last;
+            const rawLast = parseFloat(s.lastPrice) || parseFloat(s.r) || 0;
+            const ave = parseFloat(s.avePrice) || rawLast;
+            const ref = parseFloat(s.r) || rawLast;
             const ceil = parseFloat(s.c) || 0;
             const floor = parseFloat(s.f) || 0;
             const m = s.marketId;
-            const market = (m === 'UPX' || s.sym === 'ACV') ? 'UPCoM' : ((m === 'STX' || s.sym === 'IDC') ? 'HNX' : 'HOSE');
-            let ot = parseFloat(s.ot) || 0;
-            let chg = parseFloat(s.changePc) || 0;
-            const sign = last >= ref ? '+' : '-';
-            const extra = (market === 'UPCoM') ? ` | Giá BQ chốt phiên UPCoM: ${ave}k (±15%)` : ` | Khớp ATC: ${last}k (${market === 'HNX' ? '±10%' : '±7%'})`;
-            return `• ${s.sym} [${market}]: Khớp ${last}k (${sign}${ot}k, ${sign}${chg}%)${extra} | TC: ${ref}k | Trần: ${ceil}k | Sàn: ${floor}k | Khối lượng khớp: ${(parseFloat(s.lot)||0).toLocaleString('vi-VN')} CP`;
+            const market = (m === 'UPX' || s.sym === 'ACV') ? 'UPCoM' : ((m === 'STX' || s.sym === 'IDC' || s.sym === 'SHS' || s.sym === 'PVS') ? 'HNX' : 'HOSE');
+            const isUpcom = market === 'UPCoM';
+            const effectivePrice = isUpcom ? parseFloat(ave.toFixed(1)) : rawLast;
+            const dec = isUpcom ? 1 : 2;
+            let ot = effectivePrice - ref;
+            let chg = ref > 0 ? ((ot / ref) * 100) : 0;
+            const sign = ot >= 0 ? '+' : '';
+            const extra = isUpcom ? ` | Giá BQ chốt phiên UPCoM: ${effectivePrice.toFixed(1)}k (±15%)` : ` | Khớp ATC: ${effectivePrice.toFixed(2)}k (${market === 'HNX' ? '±10%' : '±7%'})`;
+            return `• ${s.sym} [${market}]: Giá ${effectivePrice.toFixed(dec)}k (${sign}${ot.toFixed(dec)}k, ${sign}${chg.toFixed(2)}%)${extra} | TC: ${ref.toFixed(dec)}k | Trần: ${ceil.toFixed(dec)}k | Sàn: ${floor.toFixed(dec)}k | Khối lượng khớp: ${(parseFloat(s.lot)||0).toLocaleString('vi-VN')} CP`;
           }).join('\n');
         }
       }

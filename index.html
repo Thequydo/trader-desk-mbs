@@ -969,6 +969,7 @@
 
         <div class="tab-pills" id="sectorTabPills">
           <button class="tab-pill active" onclick="switchTab('all', this)">🌐 Tất Cả Theo Nhóm Ngành</button>
+          <button class="tab-pill" onclick="switchTab('owned', this)">⭐ Danh Mục Sở Hữu</button>
           <button class="tab-pill" onclick="switchTab('top3', this)">🔥 Top 3 Cơ Hội</button>
           <button class="tab-pill" onclick="switchTab('vin', this)">👑 Họ Vin</button>
           <button class="tab-pill" onclick="switchTab('gelex', this)">⚡ Hệ Sinh Thái GELEX</button>
@@ -2142,11 +2143,19 @@
       const rsi = item ? item.rsi : Math.min(85, Math.max(25, Math.round(48 + chg * 2.2)));
       const volSurge = item ? item.vol_surge : (vol > 500000 ? (vol / 400000).toFixed(1) : 1.1);
 
+      const isOwned = holdings[sym] && holdings[sym].qty > 0;
+      const ownedBadge = isOwned 
+        ? `<div style="margin-top:4px;"><span class="badge" style="background:rgba(16, 185, 129, 0.2); color:#34d399; font-size:10px; border:1px solid rgba(16,185,129,0.4); padding:2px 6px; border-radius:4px;">💼 Sở hữu: ${holdings[sym].qty.toLocaleString('vi-VN')} CP</span></div>` 
+        : '';
+
       return `
         <tr>
           <td>
-            <div class="sym-badge">${sym}</div>
-            <div style="margin-top:3px;"><span class="badge-market ${marketBadgeCls}">${market}</span></div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <div class="sym-badge">${sym}</div>
+              <span class="badge-market ${marketBadgeCls}">${market}</span>
+            </div>
+            ${ownedBadge}
           </td>
           <td id="price-cell-${sym}">
             <div class="${priceColorClass}" style="font-family:var(--font-mono); font-size:14px; font-weight:800;">
@@ -2196,8 +2205,18 @@
       if (!tbody) return;
 
       let html = '';
+      const ownedList = Object.keys(holdings).filter(s => holdings[s] && holdings[s].qty > 0);
 
-      if (currentTab === 'top3') {
+      if (currentTab === 'owned') {
+        html += `<tr class="sector-header-row" style="background:linear-gradient(90deg, rgba(16, 185, 129, 0.3), rgba(30, 41, 59, 0.85)) !important; color:#34d399 !important;"><td colspan="11">⭐ DANH MỤC CỔ PHIẾU ĐANG SỞ HỮU (${ownedList.length} MÃ)</td></tr>`;
+        if (ownedList.length === 0) {
+          html += `<tr><td colspan="11" style="text-align:center; padding:30px; color:var(--text-muted); font-size:13px;">Hiện tại anh chưa nắm giữ cổ phiếu nào. Hãy bấm <strong>⚡ Đặt Lệnh</strong> ở các danh mục bên dưới để mở vị thế!</td></tr>`;
+        } else {
+          ownedList.forEach(sym => {
+            html += renderStockRowHtml(sym);
+          });
+        }
+      } else if (currentTab === 'top3') {
         const top3List = (globalRadar && globalRadar.top3 && globalRadar.top3.length > 0)
           ? globalRadar.top3.map(t => t.symbol)
           : ["VTP", "GEX", "SSI"];
@@ -2206,6 +2225,12 @@
           html += renderStockRowHtml(sym);
         });
       } else if (currentTab === 'all') {
+        if (ownedList.length > 0) {
+          html += `<tr class="sector-header-row" style="background:linear-gradient(90deg, rgba(16, 185, 129, 0.25), rgba(30, 41, 59, 0.85)) !important; color:#34d399 !important;"><td colspan="11">⭐ DANH MỤC ĐANG SỞ HỮU CỦA ANH THẾ (${ownedList.length} MÃ)</td></tr>`;
+          ownedList.forEach(sym => {
+            html += renderStockRowHtml(sym);
+          });
+        }
         SECTOR_GROUPS.forEach(group => {
           html += `<tr class="sector-header-row"><td colspan="11">${group.name} (${group.symbols.length} mã phổ biến)</td></tr>`;
           group.symbols.forEach(sym => {
