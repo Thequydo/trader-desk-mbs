@@ -3,694 +3,719 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MBS | Trader Desk Pro - Quản Lý Bàn Giao Dịch</title>
+  <title>KwangTae | Institutional Quant Terminal & AI Broker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #080d1a;
-      --card-bg: #10192e;
-      --card-gradient: linear-gradient(145deg, #131e36 0%, #0c1426 100%);
-      --border-color: rgba(0, 210, 255, 0.18);
-      --mbs-cyan: #00d2ff;
-      --mbs-blue: #0066ff;
-      --mbs-green: #00e676;
-      --mbs-red: #ff334b;
-      --mbs-yellow: #ffb800;
+      --bg-dark: #070b14;
+      --card-bg: rgba(15, 23, 42, 0.75);
+      --card-border: rgba(30, 41, 59, 0.8);
+      --card-hover-border: rgba(56, 189, 248, 0.4);
+      --accent-blue: #2563eb;
+      --accent-cyan: #06b6d4;
+      --accent-glow: rgba(6, 182, 212, 0.25);
+      --quant-green: #10b981;
+      --quant-red: #ef4444;
+      --quant-yellow: #f59e0b;
+      --quant-purple: #8b5cf6;
       --text-main: #f8fafc;
-      --text-muted: #8899b5;
-    }
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      margin: 0;
-      padding: 12px;
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-    }
-    .container {
-      width: 100%;
-      max-width: 520px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      padding-bottom: 24px;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-mono: 'JetBrains Mono', monospace;
     }
 
-    /* HEADER */
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.05) 0px, transparent 60%);
+      color: var(--text-main);
+      margin: 0;
+      padding: 16px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding-bottom: 40px;
+    }
+
+    /* TOP HEADER */
     .header {
-      background: var(--card-gradient);
-      border: 1px solid var(--border-color);
-      border-radius: 18px;
-      padding: 14px 18px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 18px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.12);
+      flex-wrap: wrap;
+      gap: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
     }
-    .brand-group { display: flex; align-items: center; gap: 10px; }
-    .brand-logo {
-      background: linear-gradient(135deg, var(--mbs-blue), var(--mbs-cyan));
-      color: #fff;
-      font-weight: 900;
-      font-size: 13px;
-      padding: 6px 10px;
-      border-radius: 8px;
-      letter-spacing: 0.5px;
-      box-shadow: 0 0 12px rgba(0, 210, 255, 0.4);
-    }
-    .brand-title { font-size: 15px; font-weight: 800; color: #fff; letter-spacing: 0.3px; }
-    .brand-sub { font-size: 11px; color: var(--text-muted); }
-    .online-badge {
+    .brand-wrap { display: flex; align-items: center; gap: 14px; }
+    .brand-logo-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+      border-radius: 14px;
       display: flex;
       align-items: center;
-      gap: 5px;
-      background: rgba(0, 230, 118, 0.12);
-      border: 1px solid rgba(0, 230, 118, 0.35);
-      color: var(--mbs-green);
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .brand-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .brand-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+    .status-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge {
       font-size: 11px;
       font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 20px;
+      padding: 6px 12px;
+      border-radius: 100px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
     }
-    .pulse-dot {
-      width: 7px;
-      height: 7px;
-      background: var(--mbs-green);
+    .badge-live {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+    .badge-live::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #10b981;
       border-radius: 50%;
-      box-shadow: 0 0 8px var(--mbs-green);
+      box-shadow: 0 0 8px #10b981;
       animation: pulse 1.8s infinite;
     }
-    @keyframes pulse { 0%{opacity:1; transform:scale(1);} 50%{opacity:0.4; transform:scale(0.8);} 100%{opacity:1; transform:scale(1);} }
+    .badge-ai {
+      background: rgba(139, 92, 246, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(139, 92, 246, 0.35);
+    }
 
-    /* CARD CHUNG */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.2); }
+    }
+
+    /* GRID LAYOUTS */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    @media (max-width: 820px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
     .card {
-      background: var(--card-gradient);
-      border: 1px solid var(--border-color);
-      border-radius: 18px;
-      padding: 16px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    }
-    .card-title {
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--mbs-cyan);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* HERO PORTFOLIO ASSET CARD */
-    .hero-card {
-      background: linear-gradient(145deg, #102142 0%, #0d172e 100%);
-      border: 1px solid rgba(0, 210, 255, 0.3);
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 22px;
       position: relative;
       overflow: hidden;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    .hero-card::after {
-      content: "";
-      position: absolute;
-      top: -30px;
-      right: -30px;
-      width: 100px;
-      height: 100px;
-      background: radial-gradient(circle, rgba(0, 210, 255, 0.15) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
+    .card:hover {
+      border-color: var(--card-hover-border);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     }
-    .asset-val {
-      font-size: 27px;
-      font-weight: 800;
-      color: #fff;
-      margin: 4px 0 6px 0;
-      letter-spacing: -0.5px;
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
     }
-    .pnl-pill {
+    .card-title-icon { display: flex; align-items: center; gap: 8px; }
+
+    /* PORTFOLIO CARD */
+    .client-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 12px;
+      background: rgba(37, 99, 235, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 4px 10px;
       border-radius: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-    .pnl-loss { background: rgba(255, 51, 75, 0.15); color: var(--mbs-red); border: 1px solid rgba(255, 51, 75, 0.3); }
-    .pnl-profit { background: rgba(0, 230, 118, 0.15); color: var(--mbs-green); border: 1px solid rgba(0, 230, 118, 0.3); }
-    .stat-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
-      background: rgba(8, 13, 26, 0.6);
-      border-radius: 12px;
-      padding: 10px;
-      margin-top: 4px;
-    }
-    .stat-item { text-align: center; }
-    .stat-lbl { font-size: 10px; color: var(--text-muted); margin-bottom: 2px; text-transform: uppercase; }
-    .stat-val { font-size: 12px; font-weight: 700; color: #fff; }
-
-    /* REALTIME BOARD TABLE */
-    .mbs-table {
-      width: 100%;
-      border-collapse: collapse;
       font-size: 12px;
+      font-weight: 700;
     }
-    .mbs-table th {
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .stat-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      padding: 12px 14px;
+      border-radius: 14px;
+    }
+    .stat-label {
+      font-size: 11px;
       color: var(--text-muted);
-      font-size: 10px;
       font-weight: 600;
       text-transform: uppercase;
-      padding: 6px 4px;
-      text-align: right;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 4px;
     }
-    .mbs-table th:first-child { text-align: left; }
-    .mbs-table td {
-      padding: 8px 4px;
-      text-align: right;
-      font-family: "Consolas", monospace;
-      font-weight: 700;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+    .stat-value {
+      font-size: 18px;
+      font-weight: 800;
+      font-family: var(--font-mono);
     }
-    .mbs-table td:first-child { text-align: left; font-family: inherit; }
-    .sym-tag { font-weight: 800; font-size: 13px; color: #fff; }
-    .sym-owned { color: var(--mbs-yellow); }
-    .badge-chg {
-      display: inline-block;
-      padding: 2px 6px;
-      border-radius: 4px;
+    .stat-sub {
       font-size: 11px;
-      font-weight: 700;
-      min-width: 52px;
-      text-align: center;
+      margin-top: 2px;
+      font-weight: 600;
     }
-    .txt-up { color: var(--mbs-green); }
-    .txt-down { color: var(--mbs-red); }
-    .txt-ref { color: var(--mbs-yellow); }
-    .bg-up { background: rgba(0, 230, 118, 0.15); color: var(--mbs-green); }
-    .bg-down { background: rgba(255, 51, 75, 0.15); color: var(--mbs-red); }
-    .bg-ref { background: rgba(255, 184, 0, 0.15); color: var(--mbs-yellow); }
+    .val-green { color: var(--quant-green); }
+    .val-red { color: var(--quant-red); }
+    .val-cyan { color: var(--accent-cyan); }
+    .val-yellow { color: var(--quant-yellow); }
 
-    /* TAGS & CHIPS */
-    .chip-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 12px;
-      min-height: 38px;
-      padding: 4px;
-      background: rgba(8, 13, 26, 0.5);
-      border-radius: 12px;
+    .advice-banner {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(6, 182, 212, 0.08));
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 10px;
+      font-size: 13px;
+      line-height: 1.5;
     }
-    .chip {
-      background: #172440;
-      border: 1px solid rgba(0, 210, 255, 0.25);
+    .advice-banner strong { color: #38bdf8; }
+
+    /* RADAR METRICS */
+    .radar-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .radar-pill {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      padding: 12px 14px;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .radar-pill-title {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .radar-pill-val {
+      font-size: 20px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      margin: 4px 0 2px 0;
+    }
+
+    /* TELEGRAM INTEGRATION CTA */
+    .telegram-card {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.15) 0%, rgba(37, 99, 235, 0.15) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .tg-btn {
+      background: linear-gradient(135deg, #0284c7, #0ea5e9);
       color: #fff;
-      padding: 5px 10px;
-      border-radius: 8px;
+      font-weight: 800;
+      font-size: 14px;
+      padding: 14px 20px;
+      border-radius: 14px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 10px 25px rgba(14, 165, 233, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-top: 14px;
+    }
+    .tg-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(14, 165, 233, 0.5);
+    }
+    .quick-prompts {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .prompt-chip {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: #bae6fd;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .prompt-chip:hover {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    /* TABLE SECTION */
+    .table-card {
+      overflow-x: auto;
+    }
+    .table-header-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .tab-pills {
+      display: flex;
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.8);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid rgba(51, 65, 85, 0.6);
+    }
+    .tab-pill {
       font-size: 12px;
       font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+      transition: all 0.2s ease;
+    }
+    .tab-pill.active {
+      background: var(--accent-blue);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    th {
+      color: var(--text-dim);
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+      vertical-align: middle;
+    }
+    tr:hover td {
+      background: rgba(30, 41, 59, 0.35);
+    }
+
+    .sym-badge {
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 14px;
+      color: #fff;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      cursor: grab;
-      user-select: none;
     }
-    .chip.owned {
-      border-color: var(--mbs-yellow);
-      background: rgba(255, 184, 0, 0.12);
-      color: var(--mbs-yellow);
-    }
-    .chip-del {
-      color: #ff5c72;
-      font-weight: 800;
-      font-size: 14px;
-      cursor: pointer;
-      line-height: 1;
-      padding: 0 2px;
-    }
-    .chip-del:hover { color: #fff; }
-
-    /* INPUTS & CONTROLS */
-    .input-row { display: flex; gap: 8px; margin-bottom: 10px; }
-    input[type=text], input[type=number] {
-      width: 100%;
-      background: #091021;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 10px;
-      padding: 10px 12px;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 600;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    input:focus {
-      border-color: var(--mbs-cyan);
-      box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.2);
-    }
-    .btn-add {
-      background: linear-gradient(135deg, #0284c7, #0369a1);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 0 16px;
-      font-size: 13px;
+    .sym-tag {
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 4px;
       font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
+      text-transform: uppercase;
     }
-    .quick-picks {
+    .tag-core { background: rgba(14, 165, 233, 0.2); color: #38bdf8; }
+    .tag-mượt { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .tag-dip { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+
+    .score-bar-wrap {
       display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-top: 6px;
+      align-items: center;
+      gap: 8px;
     }
-    .pick-btn {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--mbs-cyan);
+    .score-bar-bg {
+      width: 60px;
+      height: 6px;
+      background: rgba(51, 65, 85, 0.5);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+    }
+
+    .action-badge {
       font-size: 11px;
       font-weight: 700;
       padding: 4px 8px;
       border-radius: 6px;
-      cursor: pointer;
+      display: inline-block;
+      white-space: nowrap;
     }
-    .pick-btn:hover { background: rgba(0, 210, 255, 0.15); border-color: var(--mbs-cyan); }
+    .act-buy { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .act-hold { background: rgba(14, 165, 233, 0.2); color: #38bdf8; }
+    .act-out { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+    .act-dip { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
 
-    /* STEPPERS */
-    .stepper-row { display: flex; gap: 4px; margin-top: 6px; }
-    .step-btn {
-      flex: 1;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--text-main);
-      font-size: 11px;
-      font-weight: 600;
-      padding: 6px 0;
-      border-radius: 6px;
-      cursor: pointer;
+    /* FOOTER */
+    .footer {
       text-align: center;
-    }
-    .step-btn:hover { background: rgba(0, 210, 255, 0.2); color: var(--mbs-cyan); }
-
-    /* ACTION BUTTON */
-    .btn-sync {
-      background: linear-gradient(135deg, #0066ff, #00d2ff);
-      color: #fff;
-      border: none;
-      border-radius: 14px;
-      padding: 15px;
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
-      transition: transform 0.1s, box-shadow 0.2s;
-      width: 100%;
-      margin-top: 8px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-sync:active { transform: scale(0.98); box-shadow: 0 2px 10px rgba(0, 102, 255, 0.3); }
-
-    /* TOAST ALERT */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: linear-gradient(135deg, #065f46, #047857);
-      border: 1px solid #10b981;
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-size: 13px;
-      font-weight: 700;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-      z-index: 999;
-      pointer-events: none;
-    }
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
-    .field-lbl {
+      color: var(--text-dim);
       font-size: 12px;
-      font-weight: 700;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-      display: block;
-    }
-    .capital-box {
-      background: rgba(0, 210, 255, 0.08);
-      border: 1px solid rgba(0, 210, 255, 0.2);
-      border-radius: 10px;
-      padding: 10px 12px;
+      line-height: 1.6;
       margin-top: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
   </style>
 </head>
 <body>
   <div class="container">
+    
     <!-- HEADER -->
-    <div class="header">
-      <div class="brand-group">
-        <div class="brand-logo">MBS</div>
+    <header class="header">
+      <div class="brand-wrap">
+        <div class="brand-logo-icon">👔</div>
         <div>
-          <div class="brand-title">TRADER DESK PRO</div>
-          <div class="brand-sub" id="hdrSub">ESP32-C3 • 192.168.1.27</div>
+          <div class="brand-title">KWANGTAE QUANT TERMINAL</div>
+          <div class="brand-sub">Hệ Thống Phân Tích Định Lượng & Cố Vấn Danh Mục Cá Nhân 1-1</div>
         </div>
       </div>
-      <div class="online-badge">
-        <div class="pulse-dot"></div>
-        <span id="sessionStatus">ONLINE</span>
+      <div class="status-badges">
+        <span class="badge badge-live">Live Cloud 24/7</span>
+        <span class="badge badge-ai">Gemini 3.6 Flash</span>
+        <span class="badge badge-ai" style="background: rgba(6,182,212,0.15); color:#22d3ee; border-color:rgba(6,182,212,0.35);">MLOps 15:35 Daily</span>
+      </div>
+    </header>
+
+    <!-- SECTION: PORTFOLIO & TELEGRAM ASSISTANT -->
+    <div class="grid-2">
+      <!-- PORTFOLIO PROFILE -->
+      <div class="card">
+        <div class="card-title">
+          <div class="card-title-icon">
+            <span>💼</span> Danh Mục Đầu Tư Thực Tế
+          </div>
+          <span class="client-badge">VIP: Anh Quang Thế</span>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="stat-label">Cổ Phiếu Nắm Giữ</div>
+            <div class="stat-value val-cyan">1,250 ACV</div>
+            <div class="stat-sub val-red">Giá vốn: 45.9k (-14.1%)</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Tiền Mặt Khả Dụng</div>
+            <div class="stat-value val-yellow" id="cashVal">500,000 đ</div>
+            <div class="stat-sub" style="color:var(--text-muted);">Sẵn sàng cơ cấu</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Hầu Bao Sau Cơ Cấu</div>
+            <div class="stat-value val-green">10.32 Tr</div>
+            <div class="stat-sub val-green">+9.82 Tr từ 250 ACV</div>
+          </div>
+        </div>
+
+        <div class="advice-banner">
+          <strong>🎯 Kế hoạch tái cơ cấu đã thống nhất cùng KwangTae:</strong><br>
+          1. <strong>Khóa 1,000 cổ ACV cất tủ dài hạn</strong>: Đón trọn chu kỳ khai trương Siêu Cảng Hàng Không Quốc Tế Long Thành 2026.<br>
+          2. <strong>Bán 250 cổ ACV quanh 39.4k</strong>: Thu về ròng <strong>~9.82 triệu</strong>, dồn vào tổng tiền mặt <strong>10.32 triệu</strong> rình mồi lướt sóng nhịp hồi các mã quá bán sâu (như VHM RSI 17.3).
+        </div>
+      </div>
+
+      <!-- TELEGRAM BROKER ASSISTANT -->
+      <div class="card telegram-card">
+        <div>
+          <div class="card-title">
+            <div class="card-title-icon">
+              <span>🤖</span> Trợ Lý AI Broker 24/7
+            </div>
+            <span class="badge badge-live">Đang trực tuyến</span>
+          </div>
+          <div style="font-size: 13.5px; line-height: 1.5; color: var(--text-main);">
+            <strong>KwangTae Broker Bot</strong> đã được kết nối máy chủ Cloud Serverless. Anh có thể nhắn tin hỏi phân tích bất kỳ mã cổ phiếu nào hoặc tâm sự thị trường bất kể ngày đêm kể cả khi tắt máy tính!
+          </div>
+
+          <div class="quick-prompts">
+            <span class="prompt-chip" onclick="copyPrompt('Tình hình cổ phiếu ACV của anh giờ sao rồi em?')">💬 Phân tích ACV</span>
+            <span class="prompt-chip" onclick="copyPrompt('Kế hoạch cơ cấu danh mục tài khoản của anh?')">💼 Cơ cấu danh mục</span>
+            <span class="prompt-chip" onclick="copyPrompt('Hôm nay thị trường thế nào em, chỉ số Vibe sao?')">📡 Nhịp đập thị trường</span>
+            <span class="prompt-chip" onclick="copyPrompt('Top 3 cổ phiếu đẹp nhất hôm nay là gì?')">🔥 Top 3 cơ hội</span>
+            <span class="prompt-chip" onclick="copyPrompt('Soi kỹ thuật mã VHM bắt đáy được chưa?')">🎯 Bắt đáy VHM</span>
+          </div>
+        </div>
+
+        <a href="https://t.me/kwangtae_broker_bot" target="_blank" class="tg-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+          MỞ TELEGRAM CHAT VỚI KWANGTAE
+        </a>
       </div>
     </div>
 
-    <!-- TỔNG QUAN TÀI SẢN (PORTFOLIO HERO) -->
-    <div class="card hero-card">
-      <div class="card-title">💼 Tổng Quan Danh Mục Tài Sản</div>
-      <div style="font-size:11px; color:var(--text-muted);">GIÁ TRỊ TÀI SẢN ƯỚC TÍNH:</div>
-      <div class="asset-val" id="totalAssetVal">-- VNĐ</div>
-      <div>
-        <span class="pnl-pill pnl-loss" id="pnlBadge">P/L: -- VNĐ (--%)</span>
-      </div>
-      <div class="stat-grid">
-        <div class="stat-item">
-          <div class="stat-lbl">Mã nắm giữ</div>
-          <div class="stat-val" id="stSym" style="color:var(--mbs-yellow);">ACV</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-lbl">Số lượng</div>
-          <div class="stat-val" id="stQty">1,250 CP</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-lbl">Giá vốn TB</div>
-          <div class="stat-val" id="stAvg">45.899 k</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- BẢNG GIÁ THEO DÕI REALTIME PHONG CÁCH MBS -->
+    <!-- SECTION: QUANT RADAR METRICS -->
     <div class="card">
-      <div class="card-title" style="justify-content:space-between;">
-        <span>📊 Bảng Giá Realtime (MBS Datafeed)</span>
-        <span id="boardClock" style="font-size:11px; font-weight:600; color:var(--text-muted);">--:--:--</span>
+      <div class="card-title">
+        <div class="card-title-icon">
+          <span>📡</span> Cỗ Máy Định Lượng KwangTae Quant Radar
+        </div>
+        <span style="font-size: 11px; font-family: var(--font-mono); color: var(--text-dim);" id="updatedAt">Đang kết nối...</span>
       </div>
-      <table class="mbs-table">
+
+      <div class="radar-grid">
+        <div class="radar-pill">
+          <div class="radar-pill-title">Chỉ Số Vibe Thị Trường</div>
+          <div class="radar-pill-val val-yellow" id="vibeScore">54.7 / 100</div>
+          <div style="font-size: 11.5px; font-weight: 600; color: var(--quant-yellow);" id="vibeStatus">🟡 Thận Trọng / Tích Lũy</div>
+        </div>
+
+        <div class="radar-pill">
+          <div class="radar-pill-title">Độ Rộng Dòng Tiền (MA20)</div>
+          <div class="radar-pill-val val-cyan" id="marketBreadth">45.9%</div>
+          <div style="font-size: 11.5px; color: var(--text-muted);">Tỷ lệ cổ phiếu giữ trend tăng</div>
+        </div>
+
+        <div class="radar-pill">
+          <div class="radar-pill-title">Cổng Gác Đền Shadow AI</div>
+          <div class="radar-pill-val val-green" id="modelAuc">AUC 0.631</div>
+          <div style="font-size: 11.5px; color: var(--quant-green);">✓ Vượt ngưỡng triển khai (≥ 0.58)</div>
+        </div>
+
+        <div class="radar-pill">
+          <div class="radar-pill-title">Cầu Dao Thiên Nga Đen</div>
+          <div class="radar-pill-val val-green" id="circuitBreaker">BÌNH THƯỜNG</div>
+          <div style="font-size: 11.5px; color: var(--text-muted);">Không phát hiện rủi ro sập sàn diện rộng</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: SIGNAL MATRIX TABLE -->
+    <div class="card table-card">
+      <div class="table-header-wrap">
+        <div class="card-title" style="margin-bottom:0;">
+          <div class="card-title-icon">
+            <span>📊</span> Ma Trận Tín Hiệu & Khuyến Nghị Cổ Phiếu
+          </div>
+        </div>
+
+        <div class="tab-pills">
+          <button class="tab-pill active" onclick="switchTab('top3', this)">🔥 Top 3 Nổi Bật</button>
+          <button class="tab-pill" onclick="switchTab('all', this)">Tất Cả Danh Mục (VN30 + Tuấn Mượt + ACV + VTP)</button>
+        </div>
+      </div>
+
+      <table id="signalTable">
         <thead>
           <tr>
-            <th>Mã CK</th>
-            <th>Thị Giá</th>
-            <th>+/- %</th>
-            <th>Khối Lượng</th>
+            <th>Mã CP</th>
+            <th>Giá Hiện Tại</th>
+            <th>Điểm AI</th>
+            <th>Khuyến Nghị</th>
+            <th>RSI (14)</th>
+            <th>Dòng Tiền Vol</th>
+            <th>Vùng Mua Entry</th>
+            <th>Target (+%)</th>
+            <th>Cắt Lỗ (-%)</th>
           </tr>
         </thead>
-        <tbody id="boardBody">
-          <tr><td colspan="4" style="text-align:center; padding:16px; color:var(--text-muted);">Đang tải dữ liệu từ ESP32...</td></tr>
+        <tbody id="tableBody">
+          <tr><td colspan="9" style="text-align:center; padding:24px; color:var(--text-muted);">Đang tải dữ liệu định lượng mới nhất...</td></tr>
         </tbody>
       </table>
     </div>
 
-    <!-- CẤU HÌNH DANH MỤC NẮM GIỮ -->
-    <div class="card">
-      <div class="card-title">⭐ Cấu Hình Danh Mục Sở Hữu</div>
-      
-      <label class="field-lbl">MÃ CỔ PHIẾU BẠN SỞ HỮU:</label>
-      <input type="text" id="ownedInput" placeholder="Ví dụ: ACV" style="margin-bottom:10px;" oninput="this.value=this.value.toUpperCase(); calcCapital();">
+    <!-- FOOTER -->
+    <footer class="footer">
+      <strong>KwangTae Institutional Quantitative Engine v2.0</strong><br>
+      Tự học & cập nhật tự động sau phiên ATC mỗi ngày lúc 15:35 qua GitHub Actions • Vercel Serverless 24/7 Cloud<br>
+      Thiết kế chuyên biệt cho danh mục đầu tư của anh Quang Thế • Không phụ thuộc phần cứng máy tính
+    </footer>
 
-      <label class="field-lbl">SỐ LƯỢNG NẮM GIỮ (CP):</label>
-      <input type="number" id="qtyInput" placeholder="1250" oninput="calcCapital();">
-      <div class="stepper-row">
-        <div class="step-btn" onclick="addQty(100)">+100</div>
-        <div class="step-btn" onclick="addQty(500)">+500</div>
-        <div class="step-btn" onclick="addQty(1000)">+1K</div>
-        <div class="step-btn" onclick="addQty(5000)">+5K</div>
-        <div class="step-btn" onclick="setQty(0)">Reset</div>
-      </div>
-
-      <label class="field-lbl" style="margin-top:10px;">GIÁ VỐN MUA TRUNG BÌNH (k VNĐ / 1 CP):</label>
-      <input type="number" step="0.001" id="avgInput" placeholder="45.899" oninput="calcCapital();">
-
-      <div class="capital-box">
-        <span style="font-size:11px; color:var(--text-muted); font-weight:600;">TỔNG TIỀN VỐN:</span>
-        <span id="calcCapitalVal" style="font-size:14px; font-weight:800; color:var(--mbs-cyan);">-- VNĐ</span>
-      </div>
-    </div>
-
-    <!-- QUẢN LÝ DANH SÁCH THEO DÕI (WATCHLIST CHIPS) -->
-    <div class="card">
-      <div class="card-title" style="justify-content:space-between;">
-        <span>📋 Quản Lý Danh Sách Theo Dõi</span>
-        <span id="chipCount" style="font-size:11px; color:var(--text-muted); font-weight:600;">0/10 mã</span>
-      </div>
-
-      <div class="chip-container" id="chipBox"></div>
-
-      <div class="input-row">
-        <input type="text" id="newSymInput" placeholder="Nhập mã (SSI, HPG...)" onkeydown="if(event.key==='Enter') addChip();">
-        <button class="btn-add" onclick="addChip()">+ Thêm</button>
-      </div>
-
-      <div style="font-size:11px; color:var(--text-muted); margin-top:6px;">Mã phổ biến VN30 / Hot picks:</div>
-      <div class="quick-picks">
-        <span class="pick-btn" onclick="quickAdd('VN-INDEX')">+ VN-INDEX</span>
-        <span class="pick-btn" onclick="quickAdd('ACV')">+ ACV</span>
-        <span class="pick-btn" onclick="quickAdd('FPT')">+ FPT</span>
-        <span class="pick-btn" onclick="quickAdd('HPG')">+ HPG</span>
-        <span class="pick-btn" onclick="quickAdd('SSI')">+ SSI</span>
-        <span class="pick-btn" onclick="quickAdd('MWG')">+ MWG</span>
-        <span class="pick-btn" onclick="quickAdd('MBB')">+ MBB</span>
-        <span class="pick-btn" onclick="quickAdd('VHM')">+ VHM</span>
-        <span class="pick-btn" onclick="quickAdd('VIC')">+ VIC</span>
-        <span class="pick-btn" onclick="quickAdd('VCB')">+ VCB</span>
-      </div>
-    </div>
-
-    <!-- NÚT LƯU VÀ ĐỒNG BỘ -->
-    <button class="btn-sync" onclick="saveConfig()">
-      <span>🚀 LƯU & ĐỒNG BỘ XUỐNG ESP32</span>
-    </button>
-  </div>
-
-  <!-- TOAST NOTIFICATION -->
-  <div class="toast" id="toast">
-    <span>✓</span>
-    <span id="toastMsg">Đã lưu & đồng bộ thành công!</span>
   </div>
 
   <script>
-    let watchlist = [];
-    let ownedSym = "ACV";
-    let liveItems = [];
+    let globalRadar = null;
+    let currentTab = 'top3';
 
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      document.getElementById('toastMsg').innerText = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 3500);
+    async function loadRadarData() {
+      try {
+        const res = await fetch('/public/kwangtae_radar.json?t=' + Date.now()).catch(() => fetch('/kwangtae_radar.json?t=' + Date.now()));
+        if (res.ok) {
+          globalRadar = await res.json();
+          renderUI(globalRadar);
+        } else {
+          renderFallback();
+        }
+      } catch (e) {
+        console.warn("Using fallback radar data:", e);
+        renderFallback();
+      }
     }
 
-    function addQty(num) {
-      let q = parseInt(document.getElementById('qtyInput').value) || 0;
-      document.getElementById('qtyInput').value = q + num;
-      calcCapital();
-    }
-    function setQty(num) {
-      document.getElementById('qtyInput').value = num;
-      calcCapital();
+    function renderUI(data) {
+      if (!data) return;
+      document.getElementById('updatedAt').innerText = 'CẬP NHẬT: ' + (data.updated_at || 'Hôm nay');
+      document.getElementById('vibeScore').innerText = (data.vibe_score || 54.7) + ' / 100';
+      document.getElementById('vibeStatus').innerText = data.vibe_status || '🟡 Thận Trọng / Tích Lũy';
+      document.getElementById('marketBreadth').innerText = (data.market_breadth || 45.9) + '%';
+      document.getElementById('modelAuc').innerText = 'AUC ' + (data.validation_auc || 0.631);
+      document.getElementById('circuitBreaker').innerText = data.circuit_breaker ? '⚠️ KÍCH HOẠT' : 'BÌNH THƯỜNG';
+      document.getElementById('circuitBreaker').className = 'radar-pill-val ' + (data.circuit_breaker ? 'val-red' : 'val-green');
+
+      renderTable();
     }
 
-    function calcCapital() {
-      let q = parseInt(document.getElementById('qtyInput').value) || 0;
-      let a = parseFloat(document.getElementById('avgInput').value) || 0.0;
-      let tot = q * a * 1000;
-      document.getElementById('calcCapitalVal').innerText = tot.toLocaleString('vi-VN') + ' đ (' + (tot/1000000).toFixed(3) + ' Tr)';
-      updateHeroCard();
+    function renderFallback() {
+      const fallback = {
+        updated_at: "2026-09-24 15:35",
+        vibe_score: 54.7,
+        vibe_status: "🟡 THẬN TRỌNG / TÍCH LŨY",
+        market_breadth: 45.9,
+        validation_auc: 0.631,
+        circuit_breaker: false,
+        top3: [
+          { symbol: "VHM", price: 65.4, score: 68, rsi: 17.3, vol_surge: 1.83, action: "🎯 BẮT ĐÁY QUÁ BÁN", entry_min: 65.0, entry_max: 65.8, target: 73.6, stop_loss: 61.3, reward_pct: 12.6, risk_pct: 6.3 },
+          { symbol: "VTP", price: 52.5, score: 72, rsi: 54.2, vol_surge: 4.86, action: "🚀 NỔ VOL MUA THĂM DÒ", entry_min: 52.0, entry_max: 53.0, target: 60.5, stop_loss: 49.5, reward_pct: 15.2, risk_pct: 5.7 },
+          { symbol: "ACV", price: 39.4, score: 65, rsi: 41.2, vol_surge: 0.88, action: "🔒 GIỮ 1,000 / BÁN 250", entry_min: 39.0, entry_max: 40.0, target: 48.0, stop_loss: 36.5, reward_pct: 21.8, risk_pct: 7.4 }
+        ],
+        radar: [
+          { symbol: "ACV", price: 39.4, score: 65, rsi: 41.2, vol_surge: 0.88, action: "🔒 GIỮ 1,000 / BÁN 250", entry_min: 39.0, entry_max: 40.0, target: 48.0, stop_loss: 36.5, tag: "core" },
+          { symbol: "VHM", price: 65.4, score: 68, rsi: 17.3, vol_surge: 1.83, action: "🎯 BẮT ĐÁY QUÁ BÁN", entry_min: 65.0, entry_max: 65.8, target: 73.6, stop_loss: 61.3, tag: "dip" },
+          { symbol: "VTP", price: 52.5, score: 72, rsi: 54.2, vol_surge: 4.86, action: "🚀 NỔ VOL MUA THĂM DÒ", entry_min: 52.0, entry_max: 53.0, target: 60.5, stop_loss: 49.5, tag: "dip" },
+          { symbol: "GEX", price: 23.6, score: 58, rsi: 48.5, vol_surge: 1.15, action: "🟡 TÍCH LŨY QUAN SÁT", entry_min: 23.0, entry_max: 23.8, target: 27.2, stop_loss: 21.8, tag: "mượt" },
+          { symbol: "VIX", price: 16.8, score: 52, rsi: 46.2, vol_surge: 0.94, action: "🔴 ĐỨNG NGOÀI", entry_min: 16.2, entry_max: 17.0, target: 19.5, stop_loss: 15.5, tag: "mượt" },
+          { symbol: "GEE", price: 42.1, score: 55, rsi: 51.0, vol_surge: 1.02, action: "🟡 QUAN SÁT", entry_min: 41.5, entry_max: 42.5, target: 48.0, stop_loss: 39.0, tag: "mượt" }
+        ]
+      };
+      globalRadar = fallback;
+      renderUI(fallback);
     }
 
-    function renderChips() {
-      const box = document.getElementById('chipBox');
-      box.innerHTML = '';
-      const owned = document.getElementById('ownedInput').value.trim().toUpperCase();
-      watchlist.forEach((sym, idx) => {
-        const chip = document.createElement('div');
-        const isOwned = (sym === owned);
-        chip.className = 'chip' + (isOwned ? ' owned' : '');
-        chip.innerHTML = (isOwned ? '⭐ ' : '') + sym + ' <span class="chip-del" onclick="delChip(' + idx + ')">×</span>';
-        box.appendChild(chip);
-      });
-      document.getElementById('chipCount').innerText = watchlist.length + '/10 mã';
+    function switchTab(tab, btn) {
+      currentTab = tab;
+      document.querySelectorAll('.tab-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTable();
     }
 
-    function addChip() {
-      const inp = document.getElementById('newSymInput');
-      const val = inp.value.trim().toUpperCase();
-      if (!val) return;
-      if (watchlist.includes(val)) {
-        showToast('Mã ' + val + ' đã có trong danh sách!');
+    function renderTable() {
+      if (!globalRadar) return;
+      const list = (currentTab === 'top3') ? (globalRadar.top3 || []) : (globalRadar.radar || globalRadar.top3 || []);
+      const tbody = document.getElementById('tableBody');
+      if (list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:20px;">Không có dữ liệu</td></tr>';
         return;
       }
-      if (watchlist.length >= 10) {
-        showToast('Hệ thống hỗ trợ tối đa 10 mã!');
-        return;
-      }
-      watchlist.push(val);
-      inp.value = '';
-      renderChips();
+
+      let html = '';
+      list.forEach(item => {
+        let tagHtml = '';
+        if (item.symbol === 'ACV') tagHtml = '<span class="sym-tag tag-core">Tài sản lõi</span>';
+        else if (['GEX','VIX','GEE','VGC','IDC'].includes(item.symbol)) tagHtml = '<span class="sym-tag tag-mượt">Tuấn Mượt</span>';
+        else if (item.rsi < 25) tagHtml = '<span class="sym-tag tag-dip">RSI Sâu</span>';
+
+        let actClass = 'act-out';
+        if (item.action.includes('MUA') || item.action.includes('BẮT ĐÁY')) actClass = 'act-buy';
+        else if (item.action.includes('GIỮ') || item.action.includes('TÍCH LŨY')) actClass = 'act-hold';
+
+        let scoreColor = '#3b82f6';
+        if (item.score >= 70) scoreColor = '#10b981';
+        else if (item.score < 40) scoreColor = '#ef4444';
+
+        html += `
+          <tr>
+            <td>
+              <div class="sym-badge">${item.symbol} ${tagHtml}</div>
+            </td>
+            <td style="font-family:var(--font-mono); font-weight:700;">${item.price}k</td>
+            <td>
+              <div class="score-bar-wrap">
+                <div class="score-bar-bg">
+                  <div class="score-bar-fill" style="width:${item.score}%; background:${scoreColor};"></div>
+                </div>
+                <span style="font-family:var(--font-mono); font-weight:700; color:${scoreColor}; font-size:12px;">${item.score}</span>
+              </div>
+            </td>
+            <td><span class="action-badge ${actClass}">${item.action}</span></td>
+            <td style="font-family:var(--font-mono); font-weight:700; color:${item.rsi < 30 ? 'var(--quant-green)' : (item.rsi > 70 ? 'var(--quant-red)' : 'var(--text-main)')};">${item.rsi}</td>
+            <td style="font-family:var(--font-mono); font-weight:700; color:${item.vol_surge > 2.0 ? 'var(--accent-cyan)' : 'var(--text-main)'};">${item.vol_surge}x</td>
+            <td style="font-family:var(--font-mono); color:var(--text-muted);">${item.entry_min} - ${item.entry_max}k</td>
+            <td style="font-family:var(--font-mono); color:var(--quant-green); font-weight:700;">${item.target}k</td>
+            <td style="font-family:var(--font-mono); color:var(--quant-red); font-weight:700;">${item.stop_loss}k</td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
     }
 
-    function quickAdd(sym) {
-      if (!watchlist.includes(sym)) {
-        if (watchlist.length >= 10) {
-          showToast('Đã đạt tối đa 10 mã!');
-          return;
-        }
-        watchlist.push(sym);
-        renderChips();
-      }
-    }
-
-    function delChip(idx) {
-      if (watchlist.length <= 1) {
-        showToast('Cần giữ ít nhất 1 mã trong danh sách!');
-        return;
-      }
-      watchlist.splice(idx, 1);
-      renderChips();
-    }
-
-    function renderBoard(items) {
-      const tbody = document.getElementById('boardBody');
-      if (!items || items.length === 0) return;
-      const owned = document.getElementById('ownedInput').value.trim().toUpperCase();
-      tbody.innerHTML = '';
-      items.forEach(it => {
-        const tr = document.createElement('tr');
-        const isOwned = (it.sym === owned);
-        const isUp = it.chg > 0;
-        const isDown = it.chg < 0;
-        const colClass = isUp ? 'txt-up' : (isDown ? 'txt-down' : 'txt-ref');
-        const bgClass = isUp ? 'bg-up' : (isDown ? 'bg-down' : 'bg-ref');
-        const chgSign = isUp ? '+' : '';
-
-        tr.innerHTML = 
-          '<td><span class="sym-tag' + (isOwned ? ' sym-owned' : '') + '">' + (isOwned ? '⭐ ' : '') + it.sym + '</span></td>' +
-          '<td class="' + colClass + '">' + (it.price > 0 ? it.price.toFixed(2) : '---') + '</td>' +
-          '<td><span class="badge-chg ' + bgClass + '">' + chgSign + it.chg.toFixed(2) + '%</span></td>' +
-          '<td style="color:var(--text-muted);">' + (it.vol > 0 ? it.vol.toFixed(1) + 'M' : '--') + '</td>';
-        tbody.appendChild(tr);
+    function copyPrompt(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("✓ Đã sao chép câu hỏi:\n\"" + text + "\"\n\nBây giờ anh chỉ cần dán vào khung chat Telegram với KwangTae là xong!");
+      }).catch(() => {
+        alert("Câu hỏi: " + text);
       });
     }
 
-    function updateHeroCard() {
-      const owned = document.getElementById('ownedInput').value.trim().toUpperCase();
-      const qty = parseInt(document.getElementById('qtyInput').value) || 0;
-      const avg = parseFloat(document.getElementById('avgInput').value) || 0.0;
-      document.getElementById('stSym').innerText = owned;
-      document.getElementById('stQty').innerText = qty.toLocaleString('vi-VN') + ' CP';
-      document.getElementById('stAvg').innerText = avg.toFixed(3) + ' k';
-
-      // Tìm giá hiện tại của mã sở hữu trong liveItems
-      let curPrice = 0.0;
-      if (liveItems && liveItems.length > 0) {
-        const f = liveItems.find(x => x.sym === owned);
-        if (f && f.price > 0) curPrice = f.price;
-      }
-      if (curPrice > 0 && qty > 0 && avg > 0) {
-        const curVal = curPrice * 1000 * qty;
-        const costVal = avg * 1000 * qty;
-        const pnl = curVal - costVal;
-        const pnlPct = ((curPrice - avg) / avg) * 100;
-        document.getElementById('totalAssetVal').innerText = curVal.toLocaleString('vi-VN') + ' đ (' + (curVal/1000000).toFixed(3) + ' Tr)';
-        
-        const pnlBadge = document.getElementById('pnlBadge');
-        const sign = pnl >= 0 ? '+' : '';
-        pnlBadge.innerText = 'P/L: ' + sign + pnl.toLocaleString('vi-VN') + ' đ (' + sign + pnlPct.toFixed(2) + '%)';
-        pnlBadge.className = 'pnl-pill ' + (pnl >= 0 ? 'pnl-profit' : 'pnl-loss');
-      } else {
-        document.getElementById('totalAssetVal').innerText = '-- VNĐ';
-      }
-    }
-
-    function loadConfig() {
-      fetch('/api/config')
-      .then(r => r.json())
-      .then(d => {
-        if (d.stocks) {
-          watchlist = d.stocks.split(',').map(s => s.trim().toUpperCase()).filter(s => s.length > 0);
-        }
-        if (d.owned) document.getElementById('ownedInput').value = d.owned;
-        if (d.qty) document.getElementById('qtyInput').value = d.qty;
-        if (d.avg) document.getElementById('avgInput').value = d.avg;
-        if (d.ip) document.getElementById('hdrSub').innerText = 'ESP32-C3 • ' + d.ip;
-        if (d.session) document.getElementById('sessionStatus').innerText = d.session;
-        if (d.time) document.getElementById('boardClock').innerText = d.time;
-
-        if (d.items) {
-          liveItems = d.items;
-          renderBoard(d.items);
-        }
-        renderChips();
-        calcCapital();
-      })
-      .catch(e => console.log('Fetch error:', e));
-    }
-
-    function saveConfig() {
-      const owned = document.getElementById('ownedInput').value.trim().toUpperCase();
-      const qty = parseInt(document.getElementById('qtyInput').value);
-      const avg = parseFloat(document.getElementById('avgInput').value);
-
-      if (!owned) { showToast('Vui lòng nhập mã cổ phiếu sở hữu!'); return; }
-      if (isNaN(qty) || qty <= 0) { showToast('Vui lòng nhập số lượng hợp lệ!'); return; }
-      if (isNaN(avg) || avg <= 0) { showToast('Vui lòng nhập giá vốn hợp lệ!'); return; }
-
-      if (!watchlist.includes(owned)) {
-        if (watchlist.length >= 10) watchlist.pop();
-        watchlist.push(owned);
-        renderChips();
-      }
-
-      const stocksStr = watchlist.join(',');
-      const payload = new URLSearchParams({
-        stocks: stocksStr,
-        owned: owned,
-        qty: qty,
-        avg: avg.toFixed(3)
-      });
-
-      fetch('/save', { method: 'POST', body: payload })
-      .then(r => r.json())
-      .then(d => {
-        showToast('✓ Đã lưu & đồng bộ thành công xuống ESP32!');
-        setTimeout(loadConfig, 1000);
-      })
-      .catch(e => {
-        showToast('Lỗi lưu: ' + e);
-      });
-    }
-
-    // Nạp cấu hình lần đầu
-    loadConfig();
-    // Tự động cập nhật bảng giá mỗi 5 giây
-    setInterval(loadConfig, 5000);
+    loadRadarData();
+    setInterval(loadRadarData, 30000);
   </script>
 </body>
 </html>

@@ -1,11 +1,11 @@
 {
-  "name": "trader-desk-pro-mbs",
-  "version": "1.0.0",
-  "description": "Trader Desk Pro - Giao diện Web MBS cho Bàn Giao Dịch ESP32",
+  "name": "kwangtae-quant-terminal",
+  "version": "2.0.0",
+  "description": "KwangTae Institutional Quantitative AI Broker & Asset Management Portal",
   "scripts": {
     "start": "vercel dev"
   },
-  "keywords": ["trader-desk", "stock-market", "esp32", "mbs"],
-  "author": "TraderDesk",
+  "keywords": ["kwangtae", "quant", "stock-market", "mbs", "vietnam", "gemini-ai", "mlops"],
+  "author": "KwangTae Quant",
   "license": "MIT"
 }

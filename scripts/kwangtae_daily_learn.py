@@ -294,7 +294,7 @@ for sym in WATCHLIST:
 radar_list.sort(key=lambda x: x['score'], reverse=True)
 top3 = radar_list[:3]
 
-# Đóng gói JSON gửi tới Vercel & ESP32
+# Đóng gói JSON gửi tới Vercel & KwangTae Quant Terminal
 output_payload = {
     'updated_at': latest_t.strftime('%Y-%m-%d %H:%M'),
     'vibe_score': round(cur_vibe, 1),

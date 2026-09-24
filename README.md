@@ -1,36 +1,35 @@
-# 🚀 Hướng Dẫn Đẩy Lên Vercel (1 Cú Click Chuột)
+# 👔 KWANGTAE QUANT TERMINAL & AI BROKER
 
-Dự án này đã được đóng gói hoàn chỉnh gồm:
-- **`public/index.html`**: Giao diện MBS chuyên nghiệp (Thẻ tài sản, Bảng giá realtime, Quản lý mã chip).
-- **`api/config.js`**: Vercel Serverless Function (Lưu cấu hình và tự động kéo giá trực tiếp từ VPS API).
-- **`vercel.json`**: Cấu hình rewrite URL.
+Cổng thông tin Cố vấn Quản lý Danh mục Định lượng & AI Broker 24/7 chuyên biệt cho nhà đầu tư **Quang Thế (`QTheee`)**.
 
 ---
 
-## Cách 1: Đẩy Qua GitHub Lên Vercel (Khuyên Dùng - Tự Động 100%)
+## 🏛️ Các Tính Năng Cốt Lõi
 
-### Bước 1: Tạo Repository Trên GitHub
-1. Vào [github.com/new](https://github.com/new).
-2. Đặt tên Repository (ví dụ: `trader-desk-mbs`) và chọn **Public** hoặc **Private**.
-3. Bấm **Create repository**.
-4. Copy đường link repo (dạng `https://github.com/<tên-bạn>/trader-desk-mbs.git`).
+1. **Quản Lý Danh Mục Cá Nhân Hóa (VIP Portfolio)**:
+   - Theo dõi cổ phiếu cốt lõi **ACV** (1,250 CP) và lộ trình cơ cấu dài hạn đón sóng Siêu Cảng Hàng Không Quốc Tế Long Thành 2026.
+   - Quản trị thanh khoản và điều phối nguồn vốn rình mồi lướt sóng.
 
-### Bước 2: Đẩy Code Lên
-Mở CMD tại thư mục này và gõ:
-```bash
-git remote add origin <đường_link_github_của_bạn>
-git branch -M main
-git push -u origin main
-```
+2. **Cỗ Máy Định Lượng KwangTae Quant Radar**:
+   - Chỉ số **Market Vibe** & Độ rộng dòng tiền thị trường MA20.
+   - Cổng kiểm duyệt mô hình **Shadow AUC $\ge 0.58$** (thực tế đạt 0.631).
+   - Cầu dao tự ngắt bảo vệ rủi ro Thiên nga đen (**Black Swan Circuit Breaker**).
 
-### Bước 3: Deploy Trên Vercel
-1. Đăng nhập [vercel.com](https://vercel.com).
-2. Bấm nút **"Add New..."** -> Chọn **"Project"**.
-3. Chọn repo `trader-desk-mbs` vừa tạo -> Bấm **"Deploy"**.
-4. Sau 30 giây, Vercel sẽ cấp cho bạn đường link công khai miễn phí có HTTPS (ví dụ: `https://trader-desk-mbs.vercel.app`)!
+3. **Ma Trận Tín Hiệu & Khuyến Nghị Cổ Phiếu (Signal Matrix)**:
+   - Tự động phân tích nhóm cổ phiếu: VN30 + Nhóm Tuấn Mượt (`GEX, VIX, GEE, VGC, IDC`) + `ACV, VTP`.
+   - Vùng mua Entry, Mục tiêu chốt lời Target, Cắt lỗ Stop-loss dựa trên biến động ATR thực tế.
+
+4. **Trợ Lý AI Broker 24/7 Trên Telegram (`@kwangtae_broker_bot`)**:
+   - Vận hành trên máy chủ đám mây Vercel Serverless kết hợp **Google Gemini 3.6 Flash**.
+   - Phân tích và trò chuyện tự nhiên 24/7/365, không phụ thuộc vào máy tính cá nhân.
 
 ---
 
-## Đồng Bộ Với Board ESP32 Ở Nhà:
-Khi bạn mở web Vercel ở trường hay ngoài đường để đổi mã:
-ESP32 ở nhà sẽ kéo cấu hình từ link Vercel của bạn (`https://<tên-của-bạn>.vercel.app/api/config`) để cập nhật màn hình OLED!
+## ⚙️ Chu Trình Tự Động Hóa MLOps (Daily Post-Close)
+
+- Cứ đúng **15:35 mỗi ngày** sau phiên ATC (Thứ 2 - Thứ 6), GitHub Actions sẽ tự động kích hoạt:
+  1. Cào dữ liệu giá đóng cửa mới nhất của toàn bộ danh mục theo dõi.
+  2. Tính toán lại bộ chỉ báo kỹ thuật trên cửa sổ trượt 700 phiên.
+  3. Kiểm định Shadow Gatekeeper.
+  4. Xuất bản tệp dữ liệu `public/kwangtae_radar.json`.
+  5. Đồng bộ hóa trực tiếp lên Web Terminal và gửi báo cáo phân tích cho anh Thế qua Telegram.
