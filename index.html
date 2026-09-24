@@ -216,25 +216,25 @@
     .val-cyan { color: var(--accent-cyan); }
     .val-yellow { color: var(--quant-yellow); }
 
-    /* CASH ACTIONS BAR */
+    /* ACTION BAR */
     .cash-actions-bar {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       margin-bottom: 14px;
       flex-wrap: wrap;
     }
     .btn-cash {
       flex: 1;
-      min-width: 120px;
-      padding: 10px 14px;
+      min-width: 105px;
+      padding: 10px 12px;
       border-radius: 12px;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.2s ease;
       border: none;
     }
@@ -260,11 +260,21 @@
       box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
       transform: translateY(-1px);
     }
+    .btn-trade {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.3), rgba(6, 182, 212, 0.35));
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.5);
+    }
+    .btn-trade:hover {
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.4);
+      transform: translateY(-1px);
+    }
     .btn-history {
       background: rgba(30, 41, 59, 0.6);
       color: var(--text-muted);
       border: 1px solid rgba(51, 65, 85, 0.8);
-      flex: 0.8;
     }
     .btn-history:hover {
       background: rgba(51, 65, 85, 0.8);
@@ -272,12 +282,62 @@
       border-color: rgba(148, 163, 184, 0.5);
     }
 
+    /* HOLDINGS LIST */
+    .holdings-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .holdings-header {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .holding-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 6px;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+      font-size: 13px;
+    }
+    .holding-item:last-child { border-bottom: none; }
+    .holding-sym {
+      font-family: var(--font-mono);
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .holding-act-btns {
+      display: flex;
+      gap: 6px;
+    }
+    .mini-btn {
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s ease;
+    }
+    .mini-btn:hover { opacity: 0.85; }
+    .mini-buy { background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .mini-sell { background: rgba(239, 68, 68, 0.25); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+
     .advice-banner {
       background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(6, 182, 212, 0.08));
       border: 1px solid rgba(6, 182, 212, 0.3);
       border-radius: 14px;
       padding: 14px;
-      margin-top: 10px;
       font-size: 13px;
       line-height: 1.5;
     }
@@ -517,11 +577,43 @@
     }
     .modal-close:hover { color: #fff; background: rgba(255,255,255,0.1); }
 
-    .form-group {
+    /* TRADE TABS */
+    .trade-tabs {
+      display: flex;
+      gap: 8px;
+      background: rgba(30, 41, 59, 0.6);
+      padding: 4px;
+      border-radius: 12px;
       margin-bottom: 16px;
     }
+    .trade-tab {
+      flex: 1;
+      padding: 10px;
+      font-weight: 800;
+      font-size: 13px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    .trade-tab-buy.active {
+      background: #10b981;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    }
+    .trade-tab-sell.active {
+      background: #ef4444;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+
+    .form-group { margin-bottom: 14px; }
     .form-label {
-      display: block;
+      display: flex;
+      justify-content: space-between;
       font-size: 12px;
       font-weight: 700;
       color: var(--text-muted);
@@ -536,7 +628,7 @@
       border-radius: 12px;
       padding: 12px 14px;
       color: #fff;
-      font-size: 16px;
+      font-size: 15px;
       font-family: var(--font-mono);
       font-weight: 700;
       outline: none;
@@ -554,7 +646,8 @@
       padding: 12px 14px;
       color: #fff;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
+      font-family: var(--font-mono);
       outline: none;
     }
 
@@ -579,6 +672,22 @@
       background: rgba(37, 99, 235, 0.25);
       border-color: #3b82f6;
       color: #60a5fa;
+    }
+
+    .trade-summary-box {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(51, 65, 85, 0.8);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 14px 0;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3px 0;
     }
 
     .qr-box {
@@ -608,12 +717,6 @@
       line-height: 1.6;
       margin-bottom: 16px;
     }
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 3px 0;
-    }
     .copy-tag {
       cursor: pointer;
       color: var(--accent-cyan);
@@ -641,19 +744,13 @@
       color: #fff;
       box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
     }
-    .btn-submit-deposit:hover {
-      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.6);
-      transform: translateY(-1px);
-    }
+    .btn-submit-deposit:hover { box-shadow: 0 8px 24px rgba(16, 185, 129, 0.6); transform: translateY(-1px); }
     .btn-submit-withdraw {
       background: linear-gradient(135deg, #ef4444, #dc2626);
       color: #fff;
       box-shadow: 0 6px 18px rgba(239, 68, 68, 0.4);
     }
-    .btn-submit-withdraw:hover {
-      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.6);
-      transform: translateY(-1px);
-    }
+    .btn-submit-withdraw:hover { box-shadow: 0 8px 24px rgba(239, 68, 68, 0.6); transform: translateY(-1px); }
 
     /* TOAST */
     .toast-msg {
@@ -718,9 +815,9 @@
 
         <div class="stats-row">
           <div class="stat-box">
-            <div class="stat-label">Cổ Phiếu Nắm Giữ</div>
-            <div class="stat-value val-cyan">1,250 ACV</div>
-            <div class="stat-sub val-red">Giá vốn: 45.9k (-14.1%)</div>
+            <div class="stat-label">Tổng Tài Sản (NAV)</div>
+            <div class="stat-value val-cyan" id="totalNavVal">49.75 Tr</div>
+            <div class="stat-sub" id="navPlSub" style="color:var(--quant-red);">-8.12 Tr (-14.0%)</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Tiền Mặt Khả Dụng</div>
@@ -728,14 +825,17 @@
             <div class="stat-sub" style="color:var(--quant-green);">Sẵn sàng giải ngân</div>
           </div>
           <div class="stat-box">
-            <div class="stat-label">Hầu Bao Sau Cơ Cấu</div>
-            <div class="stat-value val-green" id="totalPowerVal">10.32 Tr</div>
-            <div class="stat-sub val-green">+9.82 Tr từ 250 ACV</div>
+            <div class="stat-label">Giá Trị Cổ Phiếu</div>
+            <div class="stat-value val-green" id="stockVal">49.25 Tr</div>
+            <div class="stat-sub" id="holdingCountSub" style="color:var(--text-muted);">1 mã cổ phiếu</div>
           </div>
         </div>
 
-        <!-- CASH ACTIONS -->
+        <!-- ACTION BUTTONS: NẠP / RÚT / GIAO DỊCH -->
         <div class="cash-actions-bar">
+          <button class="btn-cash btn-trade" onclick="openTradeModal('BUY')">
+            <span>⚡</span> Đặt Lệnh Mua / Bán
+          </button>
           <button class="btn-cash btn-deposit" onclick="openDepositModal()">
             <span>📥</span> Nạp Tiền
           </button>
@@ -743,14 +843,25 @@
             <span>📤</span> Rút Tiền
           </button>
           <button class="btn-cash btn-history" onclick="openHistoryModal()">
-            <span>📜</span> Lịch Sử GD
+            <span>📜</span> Sổ Cái GD
           </button>
         </div>
 
+        <!-- HOLDINGS LIST TABLE -->
+        <div class="holdings-box">
+          <div class="holdings-header">
+            <span>Mã CP & Số Lượng</span>
+            <span>Giá Vốn / Hiện Tại</span>
+            <span>Lãi / Lỗ</span>
+            <span>Thao Tác</span>
+          </div>
+          <div id="holdingsList">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
         <div class="advice-banner" id="adviceText">
-          <strong>🎯 Kế hoạch tái cơ cấu đã thống nhất cùng KwangTae:</strong><br>
-          1. <strong>Khóa 1,000 cổ ACV cất tủ dài hạn</strong>: Đón trọn chu kỳ khai trương Siêu Cảng Hàng Không Quốc Tế Long Thành 2026.<br>
-          2. <strong>Bán 250 cổ ACV quanh 39.4k</strong>: Thu về ròng <strong>~9.82 triệu</strong>, dồn vào tổng tiền mặt rình mồi lướt sóng nhịp hồi các mã quá bán sâu (như VHM RSI 17.3).
+          <strong>🎯 Kế hoạch cơ cấu danh mục:</strong> Đang tải...
         </div>
       </div>
 
@@ -846,10 +957,11 @@
             <th>Vùng Mua Entry</th>
             <th>Target (+%)</th>
             <th>Cắt Lỗ (-%)</th>
+            <th>Giao Dịch</th>
           </tr>
         </thead>
         <tbody id="tableBody">
-          <tr><td colspan="9" style="text-align:center; padding:24px; color:var(--text-muted);">Đang tải dữ liệu định lượng mới nhất...</td></tr>
+          <tr><td colspan="10" style="text-align:center; padding:24px; color:var(--text-muted);">Đang tải dữ liệu định lượng mới nhất...</td></tr>
         </tbody>
       </table>
     </div>
@@ -861,6 +973,78 @@
       Thiết kế chuyên biệt cho danh mục đầu tư của anh Quang Thế • Không phụ thuộc phần cứng máy tính
     </footer>
 
+  </div>
+
+  <!-- MODAL: ĐẶT LỆNH MUA / BÁN CỔ PHIẾU -->
+  <div class="modal-overlay" id="tradeModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title" id="tradeModalTitle"><span>⚡</span> ĐẶT LỆNH GIAO DỊCH</div>
+        <button class="modal-close" onclick="closeModal('tradeModal')">&times;</button>
+      </div>
+
+      <div class="trade-tabs">
+        <button class="trade-tab trade-tab-buy active" id="tabBuyBtn" onclick="switchTradeType('BUY')">🟢 MUA THÊM CP</button>
+        <button class="trade-tab trade-tab-sell" id="tabSellBtn" onclick="switchTradeType('SELL')">🔴 BÁN CỔ PHIẾU</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Mã Cổ Phiếu</label>
+        <select class="form-select" id="tradeSymbol" onchange="onTradeSymbolChange()">
+          <option value="ACV">ACV - TCT Cảng Hàng Không VN (UPCoM)</option>
+          <option value="VHM">VHM - Vinhomes (RSI Quá Bán 17.3)</option>
+          <option value="VTP">VTP - Viettel Post (Vol Nổ 4.8x)</option>
+          <option value="GEX">GEX - Tập đoàn GELEX (Tuấn Mượt)</option>
+          <option value="VIX">VIX - Chứng khoán VIX (Tuấn Mượt)</option>
+          <option value="GEE">GEE - Điện lực Gelex (Tuấn Mượt)</option>
+          <option value="VGC">VGC - Viglacera (Tuấn Mượt)</option>
+          <option value="IDC">IDC - IDICO (Tuấn Mượt)</option>
+          <option value="SSI">SSI - Chứng khoán SSI</option>
+          <option value="HPG">HPG - Tập đoàn Hòa Phát</option>
+          <option value="FPT">FPT - Tập đoàn FPT</option>
+          <option value="MWG">MWG - Thế Giới Di Động</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <span>Giá Đặt (k VNĐ)</span>
+          <span style="color:var(--accent-cyan); font-weight:600;" id="tradeMarketPriceTip">Giá thị trường: 39.4k</span>
+        </label>
+        <input type="number" class="form-input" id="tradePrice" step="0.05" oninput="calcTradeSummary()">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <span>Khối Lượng Đặt (CP)</span>
+          <span id="tradeAvailableLimit" style="color:var(--text-muted);">Sức mua: 0 CP</span>
+        </label>
+        <input type="number" class="form-input" id="tradeQty" step="100" min="100" value="100" oninput="calcTradeSummary()">
+        
+        <div class="quick-chips" id="tradeQuickChips">
+          <!-- Populated by JS based on BUY / SELL -->
+        </div>
+      </div>
+
+      <div class="trade-summary-box">
+        <div class="info-row">
+          <span style="color:var(--text-muted)">Giá trị lệnh khớp:</span>
+          <strong id="tradeOrderValue">0 đ</strong>
+        </div>
+        <div class="info-row">
+          <span style="color:var(--text-muted)">Thuế & Phí (0.6% MBS):</span>
+          <span id="tradeFeeValue" style="color:var(--text-dim)">0 đ</span>
+        </div>
+        <div class="info-row" style="border-top:1px solid rgba(51,65,85,0.4); margin-top:4px; padding-top:6px;">
+          <strong id="tradeTotalLabel">Tổng Thanh Toán:</strong>
+          <strong id="tradeTotalValue" style="font-size:16px; font-family:var(--font-mono); color:var(--quant-green);">0 đ</strong>
+        </div>
+      </div>
+
+      <button class="btn-submit btn-submit-deposit" id="tradeSubmitBtn" onclick="confirmTrade()">
+        ✓ XÁC NHẬN MUA CỔ PHIẾU
+      </button>
+    </div>
   </div>
 
   <!-- MODAL: NẠP TIỀN -->
@@ -970,9 +1154,9 @@
 
   <!-- MODAL: LỊCH SỬ GIAO DỊCH -->
   <div class="modal-overlay" id="historyModal">
-    <div class="modal-box" style="max-width:580px;">
+    <div class="modal-box" style="max-width:600px;">
       <div class="modal-header">
-        <div class="modal-title"><span>📜</span> SỔ CÁI LỊCH SỬ GIAO DỊCH</div>
+        <div class="modal-title"><span>📜</span> SỔ CÁI LỊCH SỬ GIAO DỊCH & LỆNH KHỚP</div>
         <button class="modal-close" onclick="closeModal('historyModal')">&times;</button>
       </div>
 
@@ -981,10 +1165,10 @@
           <thead>
             <tr>
               <th>Thời Gian</th>
-              <th>Loại GD</th>
+              <th>Loại Giao Dịch</th>
+              <th>Chi Tiết</th>
               <th>Số Tiền</th>
               <th>Số Dư</th>
-              <th>Trạng Thái</th>
             </tr>
           </thead>
           <tbody id="historyTableBody">
@@ -994,7 +1178,7 @@
       </div>
 
       <div style="margin-top:16px; display:flex; justify-content:space-between; align-items:center;">
-        <button class="chip" onclick="resetTransactions()">Làm mới sổ cái</button>
+        <button class="chip" onclick="resetTransactions()">Thiết lập lại danh mục gốc</button>
         <button class="btn-cash btn-history" style="flex:none; padding:8px 16px;" onclick="closeModal('historyModal')">Đóng</button>
       </div>
     </div>
@@ -1007,29 +1191,39 @@
     let globalRadar = null;
     let currentTab = 'top3';
 
-    // State quản lý tiền mặt & lịch sử
+    // State quản lý tiền mặt & danh mục cổ phiếu
     let currentCash = 500000;
+    let holdings = {
+      "ACV": { symbol: "ACV", qty: 1250, avgPrice: 45.899, curPrice: 39.4, name: "TCT Cảng Hàng Không VN" }
+    };
     let transactions = [
-      { id: "GD1001", time: "24/09/2026 09:15", type: "deposit", amount: 500000, balance: 500000, desc: "Số dư khởi tạo tài khoản", status: "Thành công" }
+      { id: "GD1001", time: "24/09/2026 09:15", type: "deposit", amount: 500000, balance: 500000, desc: "Số dư khởi tạo tài khoản", status: "Thành công" },
+      { id: "GD1000", time: "20/09/2026 14:00", type: "buy", amount: 57373750, balance: 500000, desc: "Khớp mua 1,250 ACV giá vốn 45.899k", status: "Thành công" }
     ];
 
-    // Khởi động nạp dữ liệu từ localStorage
-    function initCashState() {
+    let currentTradeType = 'BUY'; // 'BUY' hoặc 'SELL'
+
+    // Khởi động dữ liệu từ localStorage
+    function initPortfolioState() {
       try {
         const savedCash = localStorage.getItem('kwangtae_cash');
         if (savedCash !== null) currentCash = parseFloat(savedCash);
+
+        const savedHoldings = localStorage.getItem('kwangtae_holdings');
+        if (savedHoldings !== null) holdings = JSON.parse(savedHoldings);
 
         const savedTx = localStorage.getItem('kwangtae_tx');
         if (savedTx !== null) transactions = JSON.parse(savedTx);
       } catch (e) {
         console.warn("Storage error:", e);
       }
-      updateCashUI();
+      updatePortfolioUI();
     }
 
-    function saveCashState() {
+    function savePortfolioState() {
       try {
         localStorage.setItem('kwangtae_cash', currentCash.toString());
+        localStorage.setItem('kwangtae_holdings', JSON.stringify(holdings));
         localStorage.setItem('kwangtae_tx', JSON.stringify(transactions));
       } catch (e) {}
 
@@ -1037,41 +1231,332 @@
       fetch('/api/config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cash: currentCash, transactions: transactions })
+        body: JSON.stringify({ cash: currentCash, holdings: holdings, transactions: transactions })
       }).catch(() => {});
     }
 
     function formatVND(num) {
-      return num.toLocaleString('vi-VN') + ' đ';
+      return Math.round(num).toLocaleString('vi-VN') + ' đ';
     }
 
-    function updateCashUI() {
+    function getStockCurrentPrice(sym) {
+      if (globalRadar && globalRadar.radar) {
+        const found = globalRadar.radar.find(r => r.symbol === sym);
+        if (found) return found.price;
+      }
+      if (globalRadar && globalRadar.top3) {
+        const found = globalRadar.top3.find(r => r.symbol === sym);
+        if (found) return found.price;
+      }
+      const defaults = { ACV: 39.4, VHM: 65.4, VTP: 52.5, GEX: 23.6, VIX: 16.8, GEE: 42.1, VGC: 55.0, IDC: 58.2, SSI: 34.5, HPG: 28.2, FPT: 135.0, MWG: 68.0 };
+      return defaults[sym] || 40.0;
+    }
+
+    function updatePortfolioUI() {
+      // 1. Tính toán giá trị cổ phiếu & P/L
+      let totalStockValue = 0;
+      let totalCost = 0;
+      let holdingItems = Object.values(holdings).filter(h => h.qty > 0);
+
+      holdingItems.forEach(h => {
+        h.curPrice = getStockCurrentPrice(h.symbol);
+        const val = h.qty * h.curPrice * 1000;
+        const cost = h.qty * h.avgPrice * 1000;
+        totalStockValue += val;
+        totalCost += cost;
+      });
+
+      const totalNAV = currentCash + totalStockValue;
+      const totalPL = totalStockValue - totalCost;
+      const plPercent = totalCost > 0 ? ((totalPL / totalCost) * 100).toFixed(1) : "0.0";
+
       document.getElementById('cashVal').innerText = formatVND(currentCash);
       document.getElementById('modalAvailCash').innerText = formatVND(currentCash);
+      document.getElementById('stockVal').innerText = (totalStockValue / 1000000).toFixed(2) + ' Tr';
+      document.getElementById('totalNavVal').innerText = (totalNAV / 1000000).toFixed(2) + ' Tr';
 
-      // Tính toán hầu bao sau cơ cấu: Tiền mặt hiện có + 9,825,000đ (Bán 250 cổ ACV @ 39.4k - thuế phí)
-      const afterRestructure = currentCash + 9825000;
-      const totalMillions = (afterRestructure / 1000000).toFixed(2);
-      document.getElementById('totalPowerVal').innerText = totalMillions + ' Tr';
+      const plSub = document.getElementById('navPlSub');
+      const plSign = totalPL >= 0 ? '+' : '';
+      plSub.innerText = `${plSign}${(totalPL / 1000000).toFixed(2)} Tr (${plSign}${plPercent}%)`;
+      plSub.style.color = totalPL >= 0 ? 'var(--quant-green)' : 'var(--quant-red)';
+      document.getElementById('holdingCountSub').innerText = `${holdingItems.length} mã cổ phiếu`;
 
-      // Cập nhật lời khuyên tư vấn theo lượng vốn mới
-      updateAdviceText(currentCash, afterRestructure);
+      renderHoldingsList(holdingItems);
+      updateAdviceText(currentCash, totalNAV);
     }
 
-    function updateAdviceText(cash, total) {
+    function renderHoldingsList(items) {
+      const container = document.getElementById('holdingsList');
+      if (items.length === 0) {
+        container.innerHTML = '<div style="text-align:center; padding:12px; color:var(--text-muted); font-size:12px;">Đang không nắm giữ cổ phiếu nào. Bấm "+ Đặt Lệnh Mua" để giải ngân!</div>';
+        return;
+      }
+
+      let html = '';
+      items.forEach(h => {
+        const val = h.qty * h.curPrice * 1000;
+        const pl = (h.curPrice - h.avgPrice) * h.qty * 1000;
+        const plPct = (((h.curPrice - h.avgPrice) / h.avgPrice) * 100).toFixed(1);
+        const plColor = pl >= 0 ? 'var(--quant-green)' : 'var(--quant-red)';
+        const plSign = pl >= 0 ? '+' : '';
+
+        html += `
+          <div class="holding-item">
+            <div>
+              <div class="holding-sym">${h.symbol} <span style="font-size:11px; font-weight:600; color:var(--text-muted);">• ${h.qty.toLocaleString('vi-VN')} CP</span></div>
+              <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">${(val/1000000).toFixed(2)} Tr</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-mono); font-size:12px; font-weight:700;">${h.curPrice}k</div>
+              <div style="font-size:11px; color:var(--text-dim);">Vốn: ${h.avgPrice}k</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-mono); font-size:12px; font-weight:700; color:${plColor};">${plSign}${plPct}%</div>
+              <div style="font-size:10.5px; color:${plColor};">${plSign}${(pl/1000000).toFixed(2)} Tr</div>
+            </div>
+            <div class="holding-act-btns">
+              <button class="mini-btn mini-buy" onclick="openTradeForSymbol('${h.symbol}', 'BUY')">+ Mua</button>
+              <button class="mini-btn mini-sell" onclick="openTradeForSymbol('${h.symbol}', 'SELL')">- Bán</button>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function updateAdviceText(cash, nav) {
       const banner = document.getElementById('adviceText');
-      if (total >= 30000000) {
-        banner.innerHTML = `<strong>🎯 Kế hoạch dòng tiền lớn (~${(total/1000000).toFixed(1)} Tr):</strong><br>
-        1. <strong>Giữ trọn 1,000 cổ ACV cất tủ dài hạn</strong>: Đón siêu dự án Long Thành 2026.<br>
-        2. Với hầu bao dồi dào, KwangTae khuyến nghị chia 3 phần: gom 1 lô <strong>VHM (vùng 65.4k)</strong>, 1 lô <strong>VTP (vùng 52.5k)</strong> và 1 phần tiền mặt dự phòng bắt nhịp nổ <strong>GEX</strong>.`;
+      const acv = holdings["ACV"];
+      const acvQty = acv ? acv.qty : 0;
+
+      if (acvQty >= 1250) {
+        banner.innerHTML = `<strong>🎯 Kế hoạch cơ cấu danh mục đã thống nhất:</strong><br>
+        1. <strong>Bán 250 cổ ACV quanh 39.4k</strong>: Thu về ròng <strong>~9.82 triệu</strong>, đưa tiền mặt lên <strong>${formatVND(cash + 9825000)}</strong>.<br>
+        2. <strong>Khóa chặt 1,000 cổ ACV cất tủ dài hạn</strong>: Đón trọn chu kỳ khai trương Sân Bay Long Thành 2026. Dùng tiền mặt rình gom 1 lô <strong>VHM (RSI 17.3)</strong> hoặc <strong>VTP</strong>.`;
+      } else if (acvQty === 1000) {
+        banner.innerHTML = `<strong>🎯 Danh mục đã chuẩn hóa thành công:</strong><br>
+        ✓ Đã khóa chuẩn <strong>1,000 cổ ACV</strong> cất tủ chờ Long Thành 2026.<br>
+        ✓ Tiền mặt hiện có <strong>${formatVND(cash)}</strong> đang sẵn sàng để rình mồi lướt sóng nhịp hồi các mã bùng nổ (VHM quá bán sâu, VTP bùng nổ Vol)!`;
       } else {
-        banner.innerHTML = `<strong>🎯 Kế hoạch tái cơ cấu đã thống nhất cùng KwangTae:</strong><br>
-        1. <strong>Khóa 1,000 cổ ACV cất tủ dài hạn</strong>: Đón trọn chu kỳ khai trương Siêu Cảng Hàng Không Quốc Tế Long Thành 2026.<br>
-        2. <strong>Bán 250 cổ ACV quanh 39.4k</strong>: Thu về ròng <strong>~9.82 triệu</strong>, dồn vào tổng tiền mặt (đạt <strong>${(total/1000000).toFixed(2)} Tr</strong>) rình mồi lướt sóng nhịp hồi các mã quá bán sâu (như VHM RSI 17.3).`;
+        banner.innerHTML = `<strong>🎯 Phân bổ dòng tiền danh mục:</strong><br>
+        • Tiền mặt: <strong>${formatVND(cash)}</strong> | Tổng NAV: <strong>${(nav/1000000).toFixed(2)} Tr</strong>.<br>
+        • KwangTae khuyến nghị luôn duy trì ít nhất 20% tiền mặt phòng thủ, chỉ giải ngân theo lô 100 cổ tuân thủ Stop-loss ATR.`;
       }
     }
 
-    // Xử lý Modal
+    // ĐẶT LỆNH MUA / BÁN (TRADE SYSTEM)
+    function openTradeModal(type) {
+      currentTradeType = type || 'BUY';
+      document.getElementById('tradeModal').style.display = 'flex';
+      switchTradeType(currentTradeType);
+      onTradeSymbolChange();
+    }
+
+    function openTradeForSymbol(sym, type) {
+      currentTradeType = type || 'BUY';
+      document.getElementById('tradeSymbol').value = sym;
+      document.getElementById('tradeModal').style.display = 'flex';
+      switchTradeType(currentTradeType);
+      onTradeSymbolChange();
+    }
+
+    function switchTradeType(type) {
+      currentTradeType = type;
+      const buyTab = document.getElementById('tabBuyBtn');
+      const sellTab = document.getElementById('tabSellBtn');
+      const submitBtn = document.getElementById('tradeSubmitBtn');
+      const modalTitle = document.getElementById('tradeModalTitle');
+
+      if (type === 'BUY') {
+        buyTab.className = 'trade-tab trade-tab-buy active';
+        sellTab.className = 'trade-tab trade-tab-sell';
+        submitBtn.className = 'btn-submit btn-submit-deposit';
+        submitBtn.innerText = '✓ XÁC NHẬN MUA CỔ PHIẾU (KHỚP LỆNH)';
+        modalTitle.innerHTML = '<span style="color:var(--quant-green)">⚡</span> ĐẶT LỆNH MUA THÊM CỔ PHIẾU';
+        document.getElementById('tradeTotalLabel').innerText = 'Tổng Thanh Toán (Gồm 0.6% Phí):';
+      } else {
+        sellTab.className = 'trade-tab trade-tab-sell active';
+        buyTab.className = 'trade-tab trade-tab-buy';
+        submitBtn.className = 'btn-submit btn-submit-withdraw';
+        submitBtn.innerText = '✓ XÁC NHẬN BÁN CỔ PHIẾU (KHỚP LỆNH)';
+        modalTitle.innerHTML = '<span style="color:var(--quant-red)">⚡</span> ĐẶT LỆNH BÁN CỔ PHIẾU';
+        document.getElementById('tradeTotalLabel').innerText = 'Tổng Thu Về Ròng (Trừ 0.6% Thuế/Phí):';
+      }
+      renderTradeQuickChips();
+      calcTradeSummary();
+    }
+
+    function onTradeSymbolChange() {
+      const sym = document.getElementById('tradeSymbol').value;
+      const curP = getStockCurrentPrice(sym);
+      document.getElementById('tradePrice').value = curP;
+      document.getElementById('tradeMarketPriceTip').innerText = `Giá thị trường: ${curP}k`;
+      renderTradeQuickChips();
+      calcTradeSummary();
+    }
+
+    function renderTradeQuickChips() {
+      const sym = document.getElementById('tradeSymbol').value;
+      const curP = parseFloat(document.getElementById('tradePrice').value) || getStockCurrentPrice(sym);
+      const chipsContainer = document.getElementById('tradeQuickChips');
+      const limitLabel = document.getElementById('tradeAvailableLimit');
+
+      if (currentTradeType === 'BUY') {
+        // Sức mua tối đa = Tiền mặt / (Giá * 1000 * 1.006)
+        const costPerShare = curP * 1000 * 1.006;
+        const maxBuyShares = Math.floor(currentCash / costPerShare / 100) * 100;
+        limitLabel.innerText = `Sức mua tối đa: ${maxBuyShares.toLocaleString('vi-VN')} CP`;
+
+        chipsContainer.innerHTML = `
+          <span class="chip" onclick="setTradeQty(100)">100 CP</span>
+          <span class="chip" onclick="setTradeQty(200)">200 CP</span>
+          <span class="chip" onclick="setTradeQty(500)">500 CP</span>
+          <span class="chip" onclick="setTradeQty(1000)">1,000 CP</span>
+          <span class="chip" onclick="setTradeQty(${maxBuyShares})">Tối Đa (${maxBuyShares})</span>
+        `;
+      } else {
+        // Khối lượng khả dụng để bán
+        const held = holdings[sym] ? holdings[sym].qty : 0;
+        limitLabel.innerText = `Khả dụng bán: ${held.toLocaleString('vi-VN')} CP`;
+
+        let extraChip = '';
+        if (sym === 'ACV' && held >= 250) {
+          extraChip = `<span class="chip" style="color:#fbbf24; border-color:#fbbf24;" onclick="setTradeQty(250)">🎯 250 CP (Cơ Cấu)</span>`;
+        }
+
+        chipsContainer.innerHTML = `
+          <span class="chip" onclick="setTradeQty(100)">100 CP</span>
+          ${extraChip}
+          <span class="chip" onclick="setTradeQty(500)">500 CP</span>
+          <span class="chip" onclick="setTradeQty(${Math.floor(held * 0.5 / 100) * 100})">50% CP</span>
+          <span class="chip" onclick="setTradeQty(${held})">Bán Hết (${held})</span>
+        `;
+      }
+    }
+
+    function setTradeQty(q) {
+      if (q > 0) {
+        document.getElementById('tradeQty').value = q;
+        calcTradeSummary();
+      }
+    }
+
+    function calcTradeSummary() {
+      const sym = document.getElementById('tradeSymbol').value;
+      const price = parseFloat(document.getElementById('tradePrice').value) || 0;
+      const qty = parseInt(document.getElementById('tradeQty').value) || 0;
+
+      const orderVal = qty * price * 1000;
+      const fee = orderVal * 0.006; // 0.6% phí thuế
+      document.getElementById('tradeOrderValue').innerText = formatVND(orderVal);
+      document.getElementById('tradeFeeValue').innerText = formatVND(fee);
+
+      const totalVal = currentTradeType === 'BUY' ? (orderVal + fee) : (orderVal - fee);
+      const totalBox = document.getElementById('tradeTotalValue');
+      totalBox.innerText = formatVND(totalVal);
+      totalBox.style.color = currentTradeType === 'BUY' ? 'var(--quant-green)' : 'var(--quant-red)';
+    }
+
+    function confirmTrade() {
+      const sym = document.getElementById('tradeSymbol').value;
+      const price = parseFloat(document.getElementById('tradePrice').value);
+      const qty = parseInt(document.getElementById('tradeQty').value);
+
+      if (!price || price <= 0 || !qty || qty <= 0) {
+        alert("Vui lòng nhập giá đặt và khối lượng hợp lệ!");
+        return;
+      }
+      if (qty % 100 !== 0) {
+        alert("Khối lượng đặt lệnh phải là bội số của 100 (lô chẵn)!");
+        return;
+      }
+
+      const orderVal = qty * price * 1000;
+      const fee = orderVal * 0.006;
+      const nowStr = new Date().toLocaleString('vi-VN');
+
+      if (currentTradeType === 'BUY') {
+        const totalCost = orderVal + fee;
+        if (totalCost > currentCash) {
+          alert(`Số dư tiền mặt không đủ! Cần ${formatVND(totalCost)}, hiện có ${formatVND(currentCash)}. Vui lòng nạp thêm tiền hoặc giảm số lượng!`);
+          return;
+        }
+
+        // Trừ tiền mặt
+        currentCash -= totalCost;
+
+        // Cập nhật cổ phiếu nắm giữ
+        if (holdings[sym]) {
+          const oldQty = holdings[sym].qty;
+          const oldCost = oldQty * holdings[sym].avgPrice * 1000;
+          const newQty = oldQty + qty;
+          const newAvgPrice = (oldCost + orderVal) / (newQty * 1000);
+          holdings[sym].qty = newQty;
+          holdings[sym].avgPrice = parseFloat(newAvgPrice.toFixed(3));
+          holdings[sym].curPrice = price;
+        } else {
+          holdings[sym] = {
+            symbol: sym,
+            qty: qty,
+            avgPrice: price,
+            curPrice: price,
+            name: `Cổ phiếu ${sym}`
+          };
+        }
+
+        // Ghi sổ cái
+        transactions.unshift({
+          id: "KH" + Math.floor(1000 + Math.random() * 9000),
+          time: nowStr,
+          type: "buy",
+          amount: totalCost,
+          balance: currentCash,
+          desc: `Khớp MUA +${qty.toLocaleString('vi-VN')} ${sym} @ ${price}k`,
+          status: "Thành công"
+        });
+
+        savePortfolioState();
+        updatePortfolioUI();
+        closeModal('tradeModal');
+        showToast(`✓ Khớp MUA thành công +${qty} ${sym} giá ${price}k!`);
+
+      } else {
+        // Lệnh BÁN
+        const held = holdings[sym] ? holdings[sym].qty : 0;
+        if (qty > held) {
+          alert(`Không đủ cổ phiếu để bán! Anh chỉ đang nắm giữ ${held} CP ${sym}.`);
+          return;
+        }
+
+        const netProceeds = orderVal - fee;
+        // Cộng tiền mặt
+        currentCash += netProceeds;
+
+        // Cập nhật số lượng cổ phiếu
+        holdings[sym].qty -= qty;
+        if (holdings[sym].qty <= 0) {
+          delete holdings[sym];
+        }
+
+        // Ghi sổ cái
+        transactions.unshift({
+          id: "KH" + Math.floor(1000 + Math.random() * 9000),
+          time: nowStr,
+          type: "sell",
+          amount: netProceeds,
+          balance: currentCash,
+          desc: `Khớp BÁN -${qty.toLocaleString('vi-VN')} ${sym} @ ${price}k`,
+          status: "Thành công"
+        });
+
+        savePortfolioState();
+        updatePortfolioUI();
+        closeModal('tradeModal');
+        showToast(`✓ Khớp BÁN thành công -${qty} ${sym}! Thu về +${formatVND(netProceeds)}`);
+      }
+    }
+
+    // XỬ LÝ MODAL NẠP / RÚT / SỔ CÁI
     function openDepositModal() {
       document.getElementById('depositModal').style.display = 'flex';
       updateQrCode();
@@ -1089,7 +1574,6 @@
       document.getElementById(id).style.display = 'none';
     }
 
-    // Modal Nạp tiền
     function setDepositAmount(amt) {
       document.getElementById('depositAmount').value = amt;
       updateQrCode();
@@ -1117,13 +1601,12 @@
         desc: "Nạp tiền vào tài khoản MBS",
         status: "Thành công"
       });
-      saveCashState();
-      updateCashUI();
+      savePortfolioState();
+      updatePortfolioUI();
       closeModal('depositModal');
       showToast(`✓ Nạp thành công +${formatVND(amt)} vào tài khoản!`);
     }
 
-    // Modal Rút tiền
     function setWithdrawPercent(pct) {
       const amt = Math.floor(currentCash * pct);
       document.getElementById('withdrawAmount').value = amt;
@@ -1151,13 +1634,12 @@
         desc: `Rút tiền về ${bank} (${acc})`,
         status: "Thành công"
       });
-      saveCashState();
-      updateCashUI();
+      savePortfolioState();
+      updatePortfolioUI();
       closeModal('withdrawModal');
       showToast(`✓ Đã chuyển lệnh rút -${formatVND(amt)} về ${bank}!`);
     }
 
-    // Lịch sử giao dịch
     function renderHistoryTable() {
       const tbody = document.getElementById('historyTableBody');
       if (transactions.length === 0) {
@@ -1166,16 +1648,20 @@
       }
       let html = '';
       transactions.forEach(t => {
-        const isDep = t.type === 'deposit';
-        const color = isDep ? 'var(--quant-green)' : 'var(--quant-red)';
-        const sign = isDep ? '+' : '-';
+        let tag = '📥 Nạp tiền';
+        let color = 'var(--quant-green)';
+        let sign = '+';
+        if (t.type === 'withdraw') { tag = '📤 Rút tiền'; color = 'var(--quant-red)'; sign = '-'; }
+        else if (t.type === 'buy') { tag = '🟢 Khớp MUA'; color = 'var(--quant-red)'; sign = '-'; }
+        else if (t.type === 'sell') { tag = '🔴 Khớp BÁN'; color = 'var(--quant-green)'; sign = '+'; }
+
         html += `
           <tr>
             <td style="color:var(--text-muted); font-size:11px;">${t.time}</td>
-            <td><strong>${isDep ? '📥 Nạp tiền' : '📤 Rút tiền'}</strong><br><span style="font-size:10px; color:var(--text-dim);">${t.desc}</span></td>
-            <td style="font-family:var(--font-mono); font-weight:700; color:${color};">${sign}${t.amount.toLocaleString('vi-VN')} đ</td>
-            <td style="font-family:var(--font-mono); color:var(--text-muted);">${(t.balance || 0).toLocaleString('vi-VN')} đ</td>
-            <td><span class="action-badge act-buy" style="font-size:10px;">${t.status}</span></td>
+            <td><strong>${tag}</strong></td>
+            <td style="font-size:11px; color:var(--text-dim);">${t.desc}</td>
+            <td style="font-family:var(--font-mono); font-weight:700; color:${color};">${sign}${formatVND(t.amount)}</td>
+            <td style="font-family:var(--font-mono); color:var(--text-muted);">${formatVND(t.balance || 0)}</td>
           </tr>
         `;
       });
@@ -1183,15 +1669,19 @@
     }
 
     function resetTransactions() {
-      if (confirm("Anh có chắc muốn thiết lập lại số dư về mặc định (500,000 đ)?")) {
+      if (confirm("Anh có chắc muốn thiết lập lại danh mục gốc (1,250 ACV và 500,000 đ)?")) {
         currentCash = 500000;
+        holdings = {
+          "ACV": { symbol: "ACV", qty: 1250, avgPrice: 45.899, curPrice: 39.4, name: "TCT Cảng Hàng Không VN" }
+        };
         transactions = [
-          { id: "GD1001", time: "24/09/2026 09:15", type: "deposit", amount: 500000, balance: 500000, desc: "Số dư khởi tạo ban đầu", status: "Thành công" }
+          { id: "GD1001", time: "24/09/2026 09:15", type: "deposit", amount: 500000, balance: 500000, desc: "Số dư khởi tạo ban đầu", status: "Thành công" },
+          { id: "GD1000", time: "20/09/2026 14:00", type: "buy", amount: 57373750, balance: 500000, desc: "Khớp mua 1,250 ACV giá vốn 45.899k", status: "Thành công" }
         ];
-        saveCashState();
-        updateCashUI();
+        savePortfolioState();
+        updatePortfolioUI();
         renderHistoryTable();
-        showToast("✓ Đã thiết lập lại số dư!");
+        showToast("✓ Đã thiết lập lại danh mục gốc!");
       }
     }
 
@@ -1208,7 +1698,7 @@
       });
     }
 
-    // Đọc Radar Data
+    // ĐỌC VÀ HIỂN THỊ DỮ LIỆU ĐỊNH LƯỢNG RADAR
     async function loadRadarData() {
       try {
         let res = await fetch('/kwangtae_radar.json?t=' + Date.now());
@@ -1235,6 +1725,7 @@
       document.getElementById('circuitBreaker').innerText = data.circuit_breaker ? '⚠️ KÍCH HOẠT' : 'BÌNH THƯỜNG';
       document.getElementById('circuitBreaker').className = 'radar-pill-val ' + (data.circuit_breaker ? 'val-red' : 'val-green');
 
+      updatePortfolioUI();
       renderTable();
     }
 
@@ -1276,7 +1767,7 @@
       const list = (currentTab === 'top3') ? (globalRadar.top3 || []) : (globalRadar.radar || globalRadar.top3 || []);
       const tbody = document.getElementById('tableBody');
       if (list.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:20px;">Không có dữ liệu</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding:20px;">Không có dữ liệu</td></tr>';
         return;
       }
 
@@ -1315,6 +1806,9 @@
             <td style="font-family:var(--font-mono); color:var(--text-muted);">${item.entry_min} - ${item.entry_max}k</td>
             <td style="font-family:var(--font-mono); color:var(--quant-green); font-weight:700;">${item.target}k</td>
             <td style="font-family:var(--font-mono); color:var(--quant-red); font-weight:700;">${item.stop_loss}k</td>
+            <td>
+              <button class="mini-btn mini-buy" style="font-weight:800; padding:6px 10px;" onclick="openTradeForSymbol('${item.symbol}', 'BUY')">⚡ Đặt Lệnh</button>
+            </td>
           </tr>
         `;
       });
@@ -1323,12 +1817,12 @@
 
     function copyPrompt(text) {
       navigator.clipboard.writeText(text).then(() => {
-        showToast("✓ Đã sao chép câu hỏi: " + text);
+        showToast("✓ Đã sao chép: " + text);
       }).catch(() => {});
     }
 
     // Khởi chạy
-    initCashState();
+    initPortfolioState();
     loadRadarData();
     setInterval(loadRadarData, 30000);
   </script>

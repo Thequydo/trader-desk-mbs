@@ -5,6 +5,9 @@ let inMemoryConfig = {
   qty: 1250,
   avg: 45.899,
   cash: 500000,
+  holdings: {
+    "ACV": { symbol: "ACV", qty: 1250, avgPrice: 45.899, curPrice: 39.4, name: "TCT Cảng Hàng Không VN" }
+  },
   transactions: [
     { id: "GD1001", time: "24/09/2026 09:15", type: "deposit", amount: 500000, desc: "Số dư khởi tạo tài khoản", status: "Thành công" }
   ],
@@ -39,6 +42,7 @@ export default async function handler(req, res) {
       if (body.qty) inMemoryConfig.qty = parseInt(body.qty) || inMemoryConfig.qty;
       if (body.avg) inMemoryConfig.avg = parseFloat(body.avg) || inMemoryConfig.avg;
       if (body.cash !== undefined) inMemoryConfig.cash = parseFloat(body.cash);
+      if (body.holdings) inMemoryConfig.holdings = body.holdings;
       if (body.transactions) inMemoryConfig.transactions = body.transactions;
     }
 
