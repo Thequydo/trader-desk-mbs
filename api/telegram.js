@@ -83,7 +83,7 @@ HỒ SƠ TÀI SẢN CỦA ANH THẾ (CHỈ DÙNG KHI ANH THẾ HỎI VỀ DANH M
   if (radarData?.radar && Array.isArray(radarData.radar)) {
     const matched = radarData.radar.filter(r => userQuery.toUpperCase().includes(r.symbol));
     if (matched.length > 0) {
-      stockDataStr = "DỮ LIỆU ĐỊNH LƯỢNG MÃ ĐANG HỎI TỪ CỖ MÁY KWANGTAE QUANT RADAR:\n" + matched.map(m => 
+      stockDataStr = "DỮ LIỆU ĐỊNH LƯỢNG MÃ ĐANG HỎI TỪ KWANGTAE QUANT RADAR:\n" + matched.map(m => 
         `• Mã ${m.symbol}: Giá ${m.price}k | Điểm AI: ${m.score}/100 | RSI(14): ${m.rsi} | Khối lượng Vol nổ: ${m.vol_surge}x | Tín hiệu: ${m.action} | Vùng mua: ${m.entry_min} - ${m.entry_max}k | Target chốt lời: ${m.target}k | Cắt lỗ Stop-loss: ${m.stop_loss}k`
       ).join('\n');
     }
