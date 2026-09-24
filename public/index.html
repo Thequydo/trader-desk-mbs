@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>KwangTae | Institutional Quant Terminal & AI Broker</title>
+  <title>MBS Plus | Quản Lý Tài Khoản & Giao Dịch Chứng Khoán MB</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #070b14;
-      --card-bg: rgba(15, 23, 42, 0.75);
-      --card-border: rgba(30, 41, 59, 0.8);
-      --card-hover-border: rgba(56, 189, 248, 0.4);
-      --accent-blue: #2563eb;
-      --accent-cyan: #06b6d4;
-      --accent-glow: rgba(6, 182, 212, 0.25);
-      --quant-green: #10b981;
-      --quant-red: #ef4444;
-      --quant-yellow: #f59e0b;
+      --bg-dark: #080d1a;
+      --card-bg: #10192e;
+      --card-border: #1e293b;
+      --card-hover-border: #38bdf8;
+      --mbs-blue: #0052cc;
+      --mbs-cyan: #00e5ff;
+      --mbs-glow: rgba(0, 82, 204, 0.35);
+      --quant-green: #00d084;
+      --quant-red: #ff3b30;
+      --quant-yellow: #ffb800;
       --quant-purple: #8b5cf6;
       --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      --text-muted: #8899b5;
       --text-dim: #64748b;
       --font-mono: 'JetBrains Mono', monospace;
     }
@@ -31,9 +31,8 @@
       font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
       background-color: var(--bg-dark);
       background-image: 
-        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.12) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%),
-        radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.05) 0px, transparent 60%);
+        radial-gradient(at 0% 0%, rgba(0, 82, 204, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(0, 229, 255, 0.08) 0px, transparent 50%);
       color: var(--text-main);
       margin: 0;
       padding: 16px;
@@ -47,51 +46,44 @@
       max-width: 1100px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
       padding-bottom: 40px;
     }
 
-    /* TOP HEADER */
+    /* TOP HEADER - MBS BRANDING */
     .header {
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 18px 24px;
+      background: linear-gradient(135deg, #101a33 0%, #0c1426 100%);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      border-radius: 18px;
+      padding: 16px 22px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      gap: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     }
     .brand-wrap { display: flex; align-items: center; gap: 14px; }
     .brand-logo-icon {
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 0 20px var(--accent-glow);
+      background: linear-gradient(135deg, #e11d48, #0052cc);
+      color: #fff;
+      font-weight: 900;
+      font-size: 15px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 14px rgba(0, 82, 204, 0.4);
     }
     .brand-title {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 800;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: linear-gradient(135deg, #ffffff 40%, var(--accent-cyan) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.3px;
+      color: #fff;
     }
     .brand-sub {
       font-size: 13px;
-      color: var(--text-muted);
-      font-weight: 500;
+      color: var(--mbs-cyan);
+      font-weight: 600;
       margin-top: 2px;
     }
     .status-badges { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -107,23 +99,18 @@
       text-transform: uppercase;
     }
     .badge-live {
-      background: rgba(16, 185, 129, 0.15);
-      color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.35);
+      background: rgba(0, 208, 132, 0.15);
+      color: #00d084;
+      border: 1px solid rgba(0, 208, 132, 0.35);
     }
     .badge-live::before {
       content: '';
       width: 6px;
       height: 6px;
-      background: #10b981;
+      background: #00d084;
       border-radius: 50%;
-      box-shadow: 0 0 8px #10b981;
+      box-shadow: 0 0 8px #00d084;
       animation: pulse 1.8s infinite;
-    }
-    .badge-ai {
-      background: rgba(139, 92, 246, 0.15);
-      color: #c084fc;
-      border: 1px solid rgba(139, 92, 246, 0.35);
     }
 
     @keyframes pulse {
@@ -135,7 +122,7 @@
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 18px;
+      gap: 16px;
     }
     @media (max-width: 820px) {
       .grid-2 { grid-template-columns: 1fr; }
@@ -143,21 +130,20 @@
 
     .card {
       background: var(--card-bg);
-      backdrop-filter: blur(14px);
       border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 22px;
+      border-radius: 18px;
+      padding: 20px;
       position: relative;
       overflow: hidden;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .card:hover {
-      border-color: var(--card-hover-border);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      border-color: rgba(0, 229, 255, 0.3);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     }
 
     .card-title {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
@@ -174,9 +160,9 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(37, 99, 235, 0.15);
+      background: rgba(0, 82, 204, 0.2);
       color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.3);
+      border: 1px solid rgba(0, 82, 204, 0.4);
       padding: 4px 10px;
       border-radius: 8px;
       font-size: 12px;
@@ -185,12 +171,12 @@
     .stats-row {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 12px;
+      gap: 10px;
       margin-bottom: 14px;
     }
     .stat-box {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(51, 65, 85, 0.6);
+      background: rgba(11, 17, 30, 0.8);
+      border: 1px solid rgba(51, 65, 85, 0.7);
       padding: 12px 14px;
       border-radius: 14px;
     }
@@ -213,7 +199,7 @@
     }
     .val-green { color: var(--quant-green); }
     .val-red { color: var(--quant-red); }
-    .val-cyan { color: var(--accent-cyan); }
+    .val-cyan { color: var(--mbs-cyan); }
     .val-yellow { color: var(--quant-yellow); }
 
     /* ACTION BAR */
@@ -226,9 +212,9 @@
     .btn-cash {
       flex: 1;
       min-width: 105px;
-      padding: 10px 12px;
+      padding: 11px 12px;
       border-radius: 12px;
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -239,36 +225,35 @@
       border: none;
     }
     .btn-deposit {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.35));
-      color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.4);
+      background: linear-gradient(135deg, rgba(0, 208, 132, 0.25), rgba(5, 150, 105, 0.35));
+      color: #00d084;
+      border: 1px solid rgba(0, 208, 132, 0.4);
     }
     .btn-deposit:hover {
-      background: linear-gradient(135deg, #10b981, #059669);
+      background: linear-gradient(135deg, #00d084, #059669);
       color: #fff;
-      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+      box-shadow: 0 4px 14px rgba(0, 208, 132, 0.4);
       transform: translateY(-1px);
     }
     .btn-withdraw {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(185, 28, 28, 0.25));
-      color: #f87171;
-      border: 1px solid rgba(239, 68, 68, 0.35);
+      background: linear-gradient(135deg, rgba(255, 59, 48, 0.2), rgba(185, 28, 28, 0.25));
+      color: #ff6b6b;
+      border: 1px solid rgba(255, 59, 48, 0.35);
     }
     .btn-withdraw:hover {
-      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      background: linear-gradient(135deg, #ff3b30, #b91c1c);
       color: #fff;
-      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+      box-shadow: 0 4px 14px rgba(255, 59, 48, 0.4);
       transform: translateY(-1px);
     }
     .btn-trade {
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.3), rgba(6, 182, 212, 0.35));
-      color: #38bdf8;
-      border: 1px solid rgba(56, 189, 248, 0.5);
+      background: linear-gradient(135deg, #0052cc, #0066ff);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(0, 82, 204, 0.4);
     }
     .btn-trade:hover {
-      background: linear-gradient(135deg, #2563eb, #06b6d4);
-      color: #fff;
-      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.4);
+      background: linear-gradient(135deg, #0066ff, #00e5ff);
+      color: #0b111e;
       transform: translateY(-1px);
     }
     .btn-history {
@@ -279,16 +264,14 @@
     .btn-history:hover {
       background: rgba(51, 65, 85, 0.8);
       color: var(--text-main);
-      border-color: rgba(148, 163, 184, 0.5);
     }
 
     /* HOLDINGS LIST */
     .holdings-box {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(51, 65, 85, 0.6);
+      background: rgba(11, 17, 30, 0.8);
+      border: 1px solid rgba(51, 65, 85, 0.7);
       border-radius: 14px;
       padding: 12px;
-      margin-bottom: 12px;
     }
     .holdings-header {
       font-size: 11px;
@@ -296,14 +279,14 @@
       color: var(--text-dim);
       text-transform: uppercase;
       margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 2fr 1.5fr 1.5fr 1fr;
     }
     .holding-item {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 2fr 1.5fr 1.5fr 1fr;
       align-items: center;
-      padding: 8px 6px;
+      padding: 10px 4px;
       border-bottom: 1px solid rgba(51, 65, 85, 0.4);
       font-size: 13px;
     }
@@ -319,9 +302,10 @@
     .holding-act-btns {
       display: flex;
       gap: 6px;
+      justify-content: flex-end;
     }
     .mini-btn {
-      padding: 4px 8px;
+      padding: 5px 9px;
       border-radius: 6px;
       font-size: 11px;
       font-weight: 700;
@@ -330,18 +314,8 @@
       transition: opacity 0.15s ease;
     }
     .mini-btn:hover { opacity: 0.85; }
-    .mini-buy { background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
-    .mini-sell { background: rgba(239, 68, 68, 0.25); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
-
-    .advice-banner {
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(6, 182, 212, 0.08));
-      border: 1px solid rgba(6, 182, 212, 0.3);
-      border-radius: 14px;
-      padding: 14px;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-    .advice-banner strong { color: #38bdf8; }
+    .mini-buy { background: rgba(0, 208, 132, 0.25); color: #00d084; border: 1px solid rgba(0, 208, 132, 0.4); }
+    .mini-sell { background: rgba(255, 59, 48, 0.25); color: #ff6b6b; border: 1px solid rgba(255, 59, 48, 0.4); }
 
     /* RADAR METRICS */
     .radar-grid {
@@ -350,8 +324,8 @@
       gap: 12px;
     }
     .radar-pill {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(51, 65, 85, 0.6);
+      background: rgba(11, 17, 30, 0.8);
+      border: 1px solid rgba(51, 65, 85, 0.7);
       padding: 12px 14px;
       border-radius: 14px;
       display: flex;
@@ -373,31 +347,31 @@
 
     /* TELEGRAM INTEGRATION CTA */
     .telegram-card {
-      background: linear-gradient(135deg, rgba(14, 165, 233, 0.15) 0%, rgba(37, 99, 235, 0.15) 100%);
-      border: 1px solid rgba(56, 189, 248, 0.4);
+      background: linear-gradient(135deg, rgba(0, 82, 204, 0.15) 0%, rgba(0, 229, 255, 0.1) 100%);
+      border: 1px solid rgba(0, 229, 255, 0.3);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
     .tg-btn {
-      background: linear-gradient(135deg, #0284c7, #0ea5e9);
+      background: linear-gradient(135deg, #0052cc, #0066ff);
       color: #fff;
       font-weight: 800;
       font-size: 14px;
-      padding: 14px 20px;
-      border-radius: 14px;
+      padding: 13px 20px;
+      border-radius: 12px;
       text-decoration: none;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      box-shadow: 0 10px 25px rgba(14, 165, 233, 0.35);
+      box-shadow: 0 8px 20px rgba(0, 82, 204, 0.4);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       margin-top: 14px;
     }
     .tg-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 14px 30px rgba(14, 165, 233, 0.5);
+      box-shadow: 0 12px 28px rgba(0, 82, 204, 0.6);
     }
     .quick-prompts {
       display: flex;
@@ -406,8 +380,8 @@
       margin-top: 12px;
     }
     .prompt-chip {
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(56, 189, 248, 0.25);
+      background: rgba(11, 17, 30, 0.9);
+      border: 1px solid rgba(0, 229, 255, 0.25);
       color: #bae6fd;
       font-size: 11px;
       font-weight: 600;
@@ -417,8 +391,8 @@
       transition: all 0.15s ease;
     }
     .prompt-chip:hover {
-      background: rgba(56, 189, 248, 0.2);
-      border-color: #38bdf8;
+      background: rgba(0, 229, 255, 0.2);
+      border-color: #00e5ff;
       color: #fff;
     }
 
@@ -435,10 +409,10 @@
     .tab-pills {
       display: flex;
       gap: 8px;
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(11, 17, 30, 0.9);
       padding: 4px;
       border-radius: 12px;
-      border: 1px solid rgba(51, 65, 85, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.7);
     }
     .tab-pill {
       font-size: 12px;
@@ -452,9 +426,9 @@
       transition: all 0.2s ease;
     }
     .tab-pill.active {
-      background: var(--accent-blue);
+      background: #0052cc;
       color: #fff;
-      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+      box-shadow: 0 2px 8px rgba(0, 82, 204, 0.5);
     }
 
     table {
@@ -488,16 +462,6 @@
       align-items: center;
       gap: 6px;
     }
-    .sym-tag {
-      font-size: 9px;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-    .tag-core { background: rgba(14, 165, 233, 0.2); color: #38bdf8; }
-    .tag-mượt { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
-    .tag-dip { background: rgba(16, 185, 129, 0.2); color: #34d399; }
 
     .score-bar-wrap { display: flex; align-items: center; gap: 8px; }
     .score-bar-bg {
@@ -517,16 +481,15 @@
       display: inline-block;
       white-space: nowrap;
     }
-    .act-buy { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-    .act-hold { background: rgba(14, 165, 233, 0.2); color: #38bdf8; }
-    .act-out { background: rgba(239, 68, 68, 0.15); color: #f87171; }
-    .act-dip { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .act-buy { background: rgba(0, 208, 132, 0.2); color: #00d084; }
+    .act-hold { background: rgba(0, 229, 255, 0.2); color: #00e5ff; }
+    .act-out { background: rgba(255, 59, 48, 0.15); color: #ff6b6b; }
 
     /* MODAL STYLES */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(8px);
       display: none;
       align-items: center;
@@ -536,12 +499,12 @@
     }
     .modal-box {
       background: #0f172a;
-      border: 1px solid rgba(56, 189, 248, 0.3);
+      border: 1px solid rgba(0, 229, 255, 0.3);
       border-radius: 20px;
       width: 100%;
       max-width: 480px;
       padding: 24px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
       animation: modalFadeIn 0.25s ease;
       max-height: 90vh;
       overflow-y: auto;
@@ -554,7 +517,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       border-bottom: 1px solid rgba(51, 65, 85, 0.6);
       padding-bottom: 12px;
     }
@@ -600,14 +563,14 @@
       text-align: center;
     }
     .trade-tab-buy.active {
-      background: #10b981;
+      background: #00d084;
       color: #fff;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 208, 132, 0.4);
     }
     .trade-tab-sell.active {
-      background: #ef4444;
+      background: #ff3b30;
       color: #fff;
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+      box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
     }
 
     .form-group { margin-bottom: 14px; }
@@ -623,7 +586,7 @@
     }
     .form-input {
       width: 100%;
-      background: rgba(15, 23, 42, 0.9);
+      background: rgba(11, 17, 30, 0.9);
       border: 1px solid rgba(51, 65, 85, 0.9);
       border-radius: 12px;
       padding: 12px 14px;
@@ -635,19 +598,18 @@
       transition: border-color 0.2s;
     }
     .form-input:focus {
-      border-color: var(--accent-cyan);
-      box-shadow: 0 0 10px rgba(6, 182, 212, 0.25);
+      border-color: var(--mbs-cyan);
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
     }
     .form-select {
       width: 100%;
-      background: #0f172a;
+      background: #0b111e;
       border: 1px solid rgba(51, 65, 85, 0.9);
       border-radius: 12px;
       padding: 12px 14px;
       color: #fff;
       font-size: 14px;
       font-weight: 700;
-      font-family: var(--font-mono);
       outline: none;
     }
 
@@ -669,47 +631,31 @@
       transition: all 0.15s ease;
     }
     .chip:hover {
-      background: rgba(37, 99, 235, 0.25);
-      border-color: #3b82f6;
-      color: #60a5fa;
+      background: rgba(0, 82, 204, 0.3);
+      border-color: #0052cc;
+      color: #fff;
     }
 
-    .trade-summary-box {
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(51, 65, 85, 0.8);
+    /* REAL MBS QR BOX */
+    .qr-container {
+      background: #1e1b4b;
+      border: 2px solid rgba(139, 92, 246, 0.4);
+      border-radius: 18px;
+      padding: 16px;
+      text-align: center;
+      margin: 14px 0;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+    .mbs-qr-img {
+      width: 220px;
+      height: 250px;
+      object-fit: cover;
       border-radius: 12px;
-      padding: 12px 14px;
-      font-size: 13px;
-      line-height: 1.6;
-      margin: 14px 0;
-    }
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 3px 0;
-    }
-
-    .qr-box {
-      background: #ffffff;
-      padding: 14px;
-      border-radius: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 14px 0;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-    }
-    .qr-img {
-      width: 190px;
-      height: 190px;
-      object-fit: contain;
-      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
     }
 
     .bank-info-box {
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(11, 17, 30, 0.85);
       border: 1px solid rgba(51, 65, 85, 0.8);
       border-radius: 12px;
       padding: 12px 14px;
@@ -717,9 +663,15 @@
       line-height: 1.6;
       margin-bottom: 16px;
     }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3px 0;
+    }
     .copy-tag {
       cursor: pointer;
-      color: var(--accent-cyan);
+      color: var(--mbs-cyan);
       font-size: 11px;
       font-weight: 700;
       text-decoration: underline;
@@ -740,30 +692,30 @@
       transition: all 0.2s ease;
     }
     .btn-submit-deposit {
-      background: linear-gradient(135deg, #10b981, #059669);
+      background: linear-gradient(135deg, #00d084, #059669);
       color: #fff;
-      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+      box-shadow: 0 6px 18px rgba(0, 208, 132, 0.4);
     }
-    .btn-submit-deposit:hover { box-shadow: 0 8px 24px rgba(16, 185, 129, 0.6); transform: translateY(-1px); }
+    .btn-submit-deposit:hover { box-shadow: 0 8px 24px rgba(0, 208, 132, 0.6); transform: translateY(-1px); }
     .btn-submit-withdraw {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
+      background: linear-gradient(135deg, #ff3b30, #dc2626);
       color: #fff;
-      box-shadow: 0 6px 18px rgba(239, 68, 68, 0.4);
+      box-shadow: 0 6px 18px rgba(255, 59, 48, 0.4);
     }
-    .btn-submit-withdraw:hover { box-shadow: 0 8px 24px rgba(239, 68, 68, 0.6); transform: translateY(-1px); }
+    .btn-submit-withdraw:hover { box-shadow: 0 8px 24px rgba(255, 59, 48, 0.6); transform: translateY(-1px); }
 
     /* TOAST */
     .toast-msg {
       position: fixed;
       top: 24px;
       right: 24px;
-      background: #10b981;
+      background: #00d084;
       color: #fff;
       padding: 14px 20px;
       border-radius: 14px;
       font-weight: 700;
       font-size: 14px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       display: none;
       z-index: 10000;
       animation: toastIn 0.3s ease;
@@ -789,28 +741,27 @@
     <!-- HEADER -->
     <header class="header">
       <div class="brand-wrap">
-        <div class="brand-logo-icon">👔</div>
+        <div class="brand-logo-icon">MBS</div>
         <div>
-          <div class="brand-title">KWANGTAE QUANT TERMINAL</div>
-          <div class="brand-sub">Hệ Thống Phân Tích Định Lượng & Cố Vấn Danh Mục Cá Nhân 1-1</div>
+          <div class="brand-title">MBS PLUS • GIAO DỊCH CHỨNG KHOÁN MB</div>
+          <div class="brand-sub">TÀI KHOẢN: NGÔ QUANG THẾ • 2512T51</div>
         </div>
       </div>
       <div class="status-badges">
-        <span class="badge badge-live">Live Cloud 24/7</span>
-        <span class="badge badge-ai">Gemini 3.6 Flash</span>
-        <span class="badge badge-ai" style="background: rgba(6,182,212,0.15); color:#22d3ee; border-color:rgba(6,182,212,0.35);">MLOps 15:35 Daily</span>
+        <span class="badge badge-live">Giao Dịch Online</span>
+        <span class="badge" style="background: rgba(0, 82, 204, 0.2); color:#60a5fa; border:1px solid rgba(0, 82, 204, 0.4);">MBS Serverless</span>
       </div>
     </header>
 
-    <!-- SECTION: PORTFOLIO & TELEGRAM ASSISTANT -->
+    <!-- SECTION: ASSET PORTFOLIO & TELEGRAM ASSISTANT -->
     <div class="grid-2">
       <!-- PORTFOLIO PROFILE -->
       <div class="card">
         <div class="card-title">
           <div class="card-title-icon">
-            <span>💼</span> Danh Mục Đầu Tư Thực Tế
+            <span>💼</span> Quản Lý Tài Sản & Danh Mục
           </div>
-          <span class="client-badge">VIP: Anh Quang Thế</span>
+          <span class="client-badge">MBS: 2512T51</span>
         </div>
 
         <div class="stats-row">
@@ -821,8 +772,8 @@
           </div>
           <div class="stat-box">
             <div class="stat-label">Tiền Mặt Khả Dụng</div>
-            <div class="stat-value val-yellow" id="cashVal">500,000 đ</div>
-            <div class="stat-sub" style="color:var(--quant-green);">Sẵn sàng giải ngân</div>
+            <div class="stat-value val-yellow" id="cashVal">500.000 đ</div>
+            <div class="stat-sub" style="color:var(--quant-green);">Sức mua sẵn sàng</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Giá Trị Cổ Phiếu</div>
@@ -837,7 +788,7 @@
             <span>⚡</span> Đặt Lệnh Mua / Bán
           </button>
           <button class="btn-cash btn-deposit" onclick="openDepositModal()">
-            <span>📥</span> Nạp Tiền
+            <span>📥</span> Nạp Tiền (QR MB)
           </button>
           <button class="btn-cash btn-withdraw" onclick="openWithdrawModal()">
             <span>📤</span> Rút Tiền
@@ -853,15 +804,11 @@
             <span>Mã CP & Số Lượng</span>
             <span>Giá Vốn / Hiện Tại</span>
             <span>Lãi / Lỗ</span>
-            <span>Thao Tác</span>
+            <span style="text-align:right;">Thao Tác</span>
           </div>
           <div id="holdingsList">
             <!-- Rendered by JS -->
           </div>
-        </div>
-
-        <div class="advice-banner" id="adviceText">
-          <strong>🎯 Kế hoạch cơ cấu danh mục:</strong> Đang tải...
         </div>
       </div>
 
@@ -870,20 +817,20 @@
         <div>
           <div class="card-title">
             <div class="card-title-icon">
-              <span>🤖</span> Trợ Lý AI Broker 24/7
+              <span>🤖</span> Trợ Lý Cố Vấn KwangTae 24/7
             </div>
-            <span class="badge badge-live">Đang trực tuyến</span>
+            <span class="badge badge-live">Trực Tuyến</span>
           </div>
           <div style="font-size: 13.5px; line-height: 1.5; color: var(--text-main);">
-            <strong>KwangTae Broker Bot</strong> đã được kết nối máy chủ Cloud Serverless. Anh có thể nhắn tin hỏi phân tích bất kỳ mã cổ phiếu nào hoặc kiểm tra số dư nạp rút 24/7 kể cả khi tắt máy tính!
+            Trợ lý định lượng <strong>KwangTae Broker</strong> kết nối 24/7 trên Cloud. Anh có thể hỏi thẳng phân tích kỹ thuật bất kỳ mã cổ phiếu nào:
           </div>
 
           <div class="quick-prompts">
-            <span class="prompt-chip" onclick="copyPrompt('Tình hình cổ phiếu ACV của anh giờ sao rồi em?')">💬 Phân tích ACV</span>
-            <span class="prompt-chip" onclick="copyPrompt('Kế hoạch cơ cấu danh mục tài khoản của anh?')">💼 Cơ cấu danh mục</span>
+            <span class="prompt-chip" onclick="copyPrompt('Soi kỹ thuật mã GEE, có nên mua không em?')">⚡ Soi mã GEE</span>
+            <span class="prompt-chip" onclick="copyPrompt('Soi kỹ thuật mã VHM bắt đáy được chưa?')">🎯 Bắt đáy VHM</span>
+            <span class="prompt-chip" onclick="copyPrompt('Dòng tiền mã VTP thế nào em?')">🚀 Soi mã VTP</span>
             <span class="prompt-chip" onclick="copyPrompt('Hôm nay thị trường thế nào em, chỉ số Vibe sao?')">📡 Nhịp đập thị trường</span>
             <span class="prompt-chip" onclick="copyPrompt('Top 3 cổ phiếu đẹp nhất hôm nay là gì?')">🔥 Top 3 cơ hội</span>
-            <span class="prompt-chip" onclick="copyPrompt('Soi kỹ thuật mã VHM bắt đáy được chưa?')">🎯 Bắt đáy VHM</span>
           </div>
         </div>
 
@@ -935,12 +882,12 @@
       <div class="table-header-wrap">
         <div class="card-title" style="margin-bottom:0;">
           <div class="card-title-icon">
-            <span>📊</span> Ma Trận Tín Hiệu & Khuyến Nghị Cổ Phiếu
+            <span>📊</span> Bảng Giá & Ma Trận Tín Hiệu Khuyến Nghị
           </div>
         </div>
 
         <div class="tab-pills">
-          <button class="tab-pill active" onclick="switchTab('top3', this)">🔥 Top 3 Nổi Bật</button>
+          <button class="tab-pill active" onclick="switchTab('top3', this)">🔥 Top 3 Cơ Hội</button>
           <button class="tab-pill" onclick="switchTab('all', this)">Tất Cả Danh Mục (VN30 + Tuấn Mượt + ACV + VTP)</button>
         </div>
       </div>
@@ -957,7 +904,7 @@
             <th>Vùng Mua Entry</th>
             <th>Target (+%)</th>
             <th>Cắt Lỗ (-%)</th>
-            <th>Giao Dịch</th>
+            <th>Đặt Lệnh</th>
           </tr>
         </thead>
         <tbody id="tableBody">
@@ -968,96 +915,49 @@
 
     <!-- FOOTER -->
     <footer class="footer">
-      <strong>KwangTae Institutional Quantitative Engine v2.0</strong><br>
-      Tự học & cập nhật tự động sau phiên ATC mỗi ngày lúc 15:35 qua GitHub Actions • Vercel Serverless 24/7 Cloud<br>
-      Thiết kế chuyên biệt cho danh mục đầu tư của anh Quang Thế • Không phụ thuộc phần cứng máy tính
+      <strong>MBS Plus • Cổng Thông Tin Giao Dịch Chứng Khoán MB & KwangTae Quant Terminal</strong><br>
+      Tài khoản: Ngô Quang Thế (2512T51) • Đồng bộ hóa trực tuyến 24/7 trên Vercel Cloud Serverless
     </footer>
 
   </div>
 
-  <!-- MODAL: ĐẶT LỆNH MUA / BÁN CỔ PHIẾU -->
-  <div class="modal-overlay" id="tradeModal">
-    <div class="modal-box">
-      <div class="modal-header">
-        <div class="modal-title" id="tradeModalTitle"><span>⚡</span> ĐẶT LỆNH GIAO DỊCH</div>
-        <button class="modal-close" onclick="closeModal('tradeModal')">&times;</button>
-      </div>
-
-      <div class="trade-tabs">
-        <button class="trade-tab trade-tab-buy active" id="tabBuyBtn" onclick="switchTradeType('BUY')">🟢 MUA THÊM CP</button>
-        <button class="trade-tab trade-tab-sell" id="tabSellBtn" onclick="switchTradeType('SELL')">🔴 BÁN CỔ PHIẾU</button>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Mã Cổ Phiếu</label>
-        <select class="form-select" id="tradeSymbol" onchange="onTradeSymbolChange()">
-          <option value="ACV">ACV - TCT Cảng Hàng Không VN (UPCoM)</option>
-          <option value="VHM">VHM - Vinhomes (RSI Quá Bán 17.3)</option>
-          <option value="VTP">VTP - Viettel Post (Vol Nổ 4.8x)</option>
-          <option value="GEX">GEX - Tập đoàn GELEX (Tuấn Mượt)</option>
-          <option value="VIX">VIX - Chứng khoán VIX (Tuấn Mượt)</option>
-          <option value="GEE">GEE - Điện lực Gelex (Tuấn Mượt)</option>
-          <option value="VGC">VGC - Viglacera (Tuấn Mượt)</option>
-          <option value="IDC">IDC - IDICO (Tuấn Mượt)</option>
-          <option value="SSI">SSI - Chứng khoán SSI</option>
-          <option value="HPG">HPG - Tập đoàn Hòa Phát</option>
-          <option value="FPT">FPT - Tập đoàn FPT</option>
-          <option value="MWG">MWG - Thế Giới Di Động</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">
-          <span>Giá Đặt (k VNĐ)</span>
-          <span style="color:var(--accent-cyan); font-weight:600;" id="tradeMarketPriceTip">Giá thị trường: 39.4k</span>
-        </label>
-        <input type="number" class="form-input" id="tradePrice" step="0.05" oninput="calcTradeSummary()">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">
-          <span>Khối Lượng Đặt (CP)</span>
-          <span id="tradeAvailableLimit" style="color:var(--text-muted);">Sức mua: 0 CP</span>
-        </label>
-        <input type="number" class="form-input" id="tradeQty" step="100" min="100" value="100" oninput="calcTradeSummary()">
-        
-        <div class="quick-chips" id="tradeQuickChips">
-          <!-- Populated by JS based on BUY / SELL -->
-        </div>
-      </div>
-
-      <div class="trade-summary-box">
-        <div class="info-row">
-          <span style="color:var(--text-muted)">Giá trị lệnh khớp:</span>
-          <strong id="tradeOrderValue">0 đ</strong>
-        </div>
-        <div class="info-row">
-          <span style="color:var(--text-muted)">Thuế & Phí (0.6% MBS):</span>
-          <span id="tradeFeeValue" style="color:var(--text-dim)">0 đ</span>
-        </div>
-        <div class="info-row" style="border-top:1px solid rgba(51,65,85,0.4); margin-top:4px; padding-top:6px;">
-          <strong id="tradeTotalLabel">Tổng Thanh Toán:</strong>
-          <strong id="tradeTotalValue" style="font-size:16px; font-family:var(--font-mono); color:var(--quant-green);">0 đ</strong>
-        </div>
-      </div>
-
-      <button class="btn-submit btn-submit-deposit" id="tradeSubmitBtn" onclick="confirmTrade()">
-        ✓ XÁC NHẬN MUA CỔ PHIẾU
-      </button>
-    </div>
-  </div>
-
-  <!-- MODAL: NẠP TIỀN -->
+  <!-- MODAL: NẠP TIỀN ĐỊNH DANH MBS (QR CHUẨN CỦA ANH THẾ) -->
   <div class="modal-overlay" id="depositModal">
     <div class="modal-box">
       <div class="modal-header">
-        <div class="modal-title"><span style="color:var(--quant-green)">📥</span> NẠP TIỀN ĐẦU TƯ MBS</div>
+        <div class="modal-title"><span style="color:var(--quant-green)">📥</span> NẠP TIỀN VÀO TÀI KHOẢN MBS</div>
         <button class="modal-close" onclick="closeModal('depositModal')">&times;</button>
       </div>
 
+      <!-- ẢNH QR CHUẨN CỦA ANH THẾ -->
+      <div class="qr-container">
+        <img src="/mbs_qr.jpg" class="mbs-qr-img" alt="MBS QR Ngô Quang Thế">
+        <div style="font-size:12px; font-weight:700; color:#cbd5e1; margin-top:8px;">
+          Quét mã QR để nộp tiền hoặc chuyển khoản trực tiếp:
+        </div>
+      </div>
+
+      <div class="bank-info-box">
+        <div class="info-row">
+          <span style="color:var(--text-muted)">Chủ tài khoản:</span>
+          <strong>NGÔ QUANG THẾ</strong>
+        </div>
+        <div class="info-row">
+          <span style="color:var(--text-muted)">Số tài khoản:</span>
+          <strong style="color:var(--mbs-cyan)">MBS2512T51 <span class="copy-tag" onclick="copyText('MBS2512T51')">Sao chép</span></strong>
+        </div>
+        <div class="info-row">
+          <span style="color:var(--text-muted)">Ngân hàng:</span>
+          <strong>Ngân hàng TMCP Quân đội (MB)</strong>
+        </div>
+      </div>
+
       <div class="form-group">
-        <label class="form-label">Số Tiền Nạp (VNĐ)</label>
-        <input type="number" class="form-input" id="depositAmount" value="5000000" step="500000" oninput="updateQrCode()">
+        <label class="form-label">
+          <span>Nhập Số Tiền Đã Chuyển (VNĐ)</span>
+          <span style="color:var(--quant-green); font-size:11px;">Bấm xác nhận để cộng tiền vào tài khoản</span>
+        </label>
+        <input type="number" class="form-input" id="depositAmount" value="5000000" step="500000">
         <div class="quick-chips">
           <span class="chip" onclick="setDepositAmount(1000000)">+1 Tr</span>
           <span class="chip" onclick="setDepositAmount(2000000)">+2 Tr</span>
@@ -1068,63 +968,38 @@
         </div>
       </div>
 
-      <div class="qr-box">
-        <div style="font-size:11px; font-weight:700; color:#475569; margin-bottom:6px; text-transform:uppercase;">Quét VietQR MBBank Nhanh 24/7</div>
-        <img src="" id="vietQrImg" class="qr-img" alt="VietQR Nạp Tiền">
-        <div style="font-size:12px; font-weight:800; color:#1e293b; margin-top:6px;" id="qrAmountLabel">5,000,000 VNĐ</div>
-      </div>
-
-      <div class="bank-info-box">
-        <div class="info-row">
-          <span style="color:var(--text-muted)">Ngân hàng:</span>
-          <strong>MBBank (Quân Đội)</strong>
-        </div>
-        <div class="info-row">
-          <span style="color:var(--text-muted)">STK Định Danh MBS:</span>
-          <strong>963855951966097 <span class="copy-tag" onclick="copyText('963855951966097')">Sao chép</span></strong>
-        </div>
-        <div class="info-row">
-          <span style="color:var(--text-muted)">Người thụ hưởng:</span>
-          <strong>CTCP CHUNG KHOAN MB - QUANG THE</strong>
-        </div>
-        <div class="info-row">
-          <span style="color:var(--text-muted)">Nội dung chuyển:</span>
-          <strong>MBS NOPTIEN QTHEEE <span class="copy-tag" onclick="copyText('MBS NOPTIEN QTHEEE')">Sao chép</span></strong>
-        </div>
-      </div>
-
       <button class="btn-submit btn-submit-deposit" onclick="confirmDeposit()">
-        ✓ XÁC NHẬN NẠP TIỀN NGAY
+        ✓ XÁC NHẬN NẠP TIỀN (CỘNG VÀO TÀI KHOẢN)
       </button>
     </div>
   </div>
 
-  <!-- MODAL: RÚT TIỀN -->
+  <!-- MODAL: RÚT TIỀN THỦ CÔNG (TỰ ĐỘNG TRỪ TIỀN) -->
   <div class="modal-overlay" id="withdrawModal">
     <div class="modal-box">
       <div class="modal-header">
-        <div class="modal-title"><span style="color:var(--quant-red)">📤</span> RÚT TIỀN VỀ NGÂN HÀNG</div>
+        <div class="modal-title"><span style="color:var(--quant-red)">📤</span> RÚT TIỀN TỪ TÀI KHOẢN MBS</div>
         <button class="modal-close" onclick="closeModal('withdrawModal')">&times;</button>
       </div>
 
-      <div style="background:rgba(30, 41, 59, 0.5); padding:10px 14px; border-radius:12px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:12px; color:var(--text-muted);">Số dư khả dụng:</span>
-        <strong style="font-family:var(--font-mono); font-size:16px; color:var(--quant-green);" id="modalAvailCash">500,000 đ</strong>
+      <div style="background:rgba(30, 41, 59, 0.6); padding:10px 14px; border-radius:12px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:12px; color:var(--text-muted);">Số dư tiền mặt hiện tại:</span>
+        <strong style="font-family:var(--font-mono); font-size:16px; color:var(--quant-green);" id="modalAvailCash">500.000 đ</strong>
       </div>
 
       <div class="form-group">
         <label class="form-label">Số Tiền Muốn Rút (VNĐ)</label>
-        <input type="number" class="form-input" id="withdrawAmount" placeholder="Nhập số tiền..." min="50000">
+        <input type="number" class="form-input" id="withdrawAmount" placeholder="Nhập số tiền muốn rút..." min="50000">
         <div class="quick-chips">
           <span class="chip" onclick="setWithdrawPercent(0.25)">25%</span>
           <span class="chip" onclick="setWithdrawPercent(0.50)">50%</span>
           <span class="chip" onclick="setWithdrawPercent(0.75)">75%</span>
-          <span class="chip" onclick="setWithdrawPercent(1.00)">100% (Tất Cả)</span>
+          <span class="chip" onclick="setWithdrawPercent(1.00)">100% (Rút Hết)</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Ngân Hàng Thụ Hưởng</label>
+        <label class="form-label">Ngân Hàng Nhận Tiền</label>
         <select class="form-select" id="withdrawBank">
           <option value="MBBank">MBBank - Ngân hàng TMCP Quân Đội</option>
           <option value="Vietcombank">Vietcombank - Ngân hàng Ngoại Thương</option>
@@ -1142,12 +1017,84 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label">Chủ Tài Khoản (Định danh)</label>
-        <input type="text" class="form-input" value="QUANG THE" readonly style="opacity:0.8; cursor:not-allowed;">
+        <label class="form-label">Chủ Tài Khoản Nhận</label>
+        <input type="text" class="form-input" value="NGÔ QUANG THẾ" readonly style="opacity:0.85; cursor:not-allowed;">
       </div>
 
       <button class="btn-submit btn-submit-withdraw" onclick="confirmWithdraw()">
-        ✓ XÁC NHẬN RÚT TIỀN
+        ✓ XÁC NHẬN RÚT TIỀN (TRỪ TRỰC TIẾP SỐ DƯ)
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: ĐẶT LỆNH MUA / BÁN CỔ PHIẾU -->
+  <div class="modal-overlay" id="tradeModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title" id="tradeModalTitle"><span>⚡</span> ĐẶT LỆNH GIAO DỊCH MBS</div>
+        <button class="modal-close" onclick="closeModal('tradeModal')">&times;</button>
+      </div>
+
+      <div class="trade-tabs">
+        <button class="trade-tab trade-tab-buy active" id="tabBuyBtn" onclick="switchTradeType('BUY')">🟢 MUA CỔ PHIẾU</button>
+        <button class="trade-tab trade-tab-sell" id="tabSellBtn" onclick="switchTradeType('SELL')">🔴 BÁN CỔ PHIẾU</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Mã Cổ Phiếu</label>
+        <select class="form-select" id="tradeSymbol" onchange="onTradeSymbolChange()">
+          <option value="ACV">ACV - TCT Cảng Hàng Không VN (UPCoM)</option>
+          <option value="VHM">VHM - Vinhomes (RSI Quá Bán 17.3)</option>
+          <option value="VTP">VTP - Viettel Post (Vol Nổ 4.8x)</option>
+          <option value="GEX">GEX - Tập đoàn GELEX</option>
+          <option value="VIX">VIX - Chứng khoán VIX</option>
+          <option value="GEE">GEE - Điện lực Gelex</option>
+          <option value="VGC">VGC - Viglacera</option>
+          <option value="IDC">IDC - IDICO</option>
+          <option value="SSI">SSI - Chứng khoán SSI</option>
+          <option value="HPG">HPG - Tập đoàn Hòa Phát</option>
+          <option value="FPT">FPT - Tập đoàn FPT</option>
+          <option value="MWG">MWG - Thế Giới Di Động</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <span>Giá Đặt (k VNĐ)</span>
+          <span style="color:var(--mbs-cyan); font-weight:600;" id="tradeMarketPriceTip">Giá thị trường: 39.4k</span>
+        </label>
+        <input type="number" class="form-input" id="tradePrice" step="0.05" oninput="calcTradeSummary()">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <span>Khối Lượng Đặt (CP)</span>
+          <span id="tradeAvailableLimit" style="color:var(--text-muted);">Sức mua: 0 CP</span>
+        </label>
+        <input type="number" class="form-input" id="tradeQty" step="100" min="100" value="100" oninput="calcTradeSummary()">
+        
+        <div class="quick-chips" id="tradeQuickChips">
+          <!-- Populated by JS based on BUY / SELL -->
+        </div>
+      </div>
+
+      <div class="bank-info-box">
+        <div class="info-row">
+          <span style="color:var(--text-muted)">Giá trị lệnh khớp:</span>
+          <strong id="tradeOrderValue">0 đ</strong>
+        </div>
+        <div class="info-row">
+          <span style="color:var(--text-muted)">Thuế & Phí (0.6% MBS):</span>
+          <span id="tradeFeeValue" style="color:var(--text-dim)">0 đ</span>
+        </div>
+        <div class="info-row" style="border-top:1px solid rgba(51,65,85,0.4); margin-top:4px; padding-top:6px;">
+          <strong id="tradeTotalLabel">Tổng Thanh Toán:</strong>
+          <strong id="tradeTotalValue" style="font-size:16px; font-family:var(--font-mono); color:var(--quant-green);">0 đ</strong>
+        </div>
+      </div>
+
+      <button class="btn-submit btn-submit-deposit" id="tradeSubmitBtn" onclick="confirmTrade()">
+        ✓ XÁC NHẬN MUA CỔ PHIẾU (KHỚP LỆNH)
       </button>
     </div>
   </div>
@@ -1156,7 +1103,7 @@
   <div class="modal-overlay" id="historyModal">
     <div class="modal-box" style="max-width:600px;">
       <div class="modal-header">
-        <div class="modal-title"><span>📜</span> SỔ CÁI LỊCH SỬ GIAO DỊCH & LỆNH KHỚP</div>
+        <div class="modal-title"><span>📜</span> SỔ CÁI LỊCH SỬ GIAO DỊCH & DÒNG TIỀN</div>
         <button class="modal-close" onclick="closeModal('historyModal')">&times;</button>
       </div>
 
@@ -1191,7 +1138,7 @@
     let globalRadar = null;
     let currentTab = 'top3';
 
-    // State quản lý tiền mặt & danh mục cổ phiếu
+    // State quản lý tài sản: Tiền mặt, Cổ phiếu & Lịch sử
     let currentCash = 500000;
     let holdings = {
       "ACV": { symbol: "ACV", qty: 1250, avgPrice: 45.899, curPrice: 39.4, name: "TCT Cảng Hàng Không VN" }
@@ -1201,9 +1148,9 @@
       { id: "GD1000", time: "20/09/2026 14:00", type: "buy", amount: 57373750, balance: 500000, desc: "Khớp mua 1,250 ACV giá vốn 45.899k", status: "Thành công" }
     ];
 
-    let currentTradeType = 'BUY'; // 'BUY' hoặc 'SELL'
+    let currentTradeType = 'BUY';
 
-    // Khởi động dữ liệu từ localStorage
+    // Khởi tạo state
     function initPortfolioState() {
       try {
         const savedCash = localStorage.getItem('kwangtae_cash');
@@ -1227,7 +1174,6 @@
         localStorage.setItem('kwangtae_tx', JSON.stringify(transactions));
       } catch (e) {}
 
-      // Đồng bộ ngầm lên serverless /api/config
       fetch('/api/config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1248,12 +1194,11 @@
         const found = globalRadar.top3.find(r => r.symbol === sym);
         if (found) return found.price;
       }
-      const defaults = { ACV: 39.4, VHM: 65.4, VTP: 52.5, GEX: 23.6, VIX: 16.8, GEE: 42.1, VGC: 55.0, IDC: 58.2, SSI: 34.5, HPG: 28.2, FPT: 135.0, MWG: 68.0 };
+      const defaults = { ACV: 39.4, VHM: 65.4, VTP: 52.6, GEX: 24.1, VIX: 12.75, GEE: 70.9, VGC: 55.0, IDC: 58.2, SSI: 34.5, HPG: 28.2, FPT: 135.0, MWG: 68.0 };
       return defaults[sym] || 40.0;
     }
 
     function updatePortfolioUI() {
-      // 1. Tính toán giá trị cổ phiếu & P/L
       let totalStockValue = 0;
       let totalCost = 0;
       let holdingItems = Object.values(holdings).filter(h => h.qty > 0);
@@ -1282,13 +1227,12 @@
       document.getElementById('holdingCountSub').innerText = `${holdingItems.length} mã cổ phiếu`;
 
       renderHoldingsList(holdingItems);
-      updateAdviceText(currentCash, totalNAV);
     }
 
     function renderHoldingsList(items) {
       const container = document.getElementById('holdingsList');
       if (items.length === 0) {
-        container.innerHTML = '<div style="text-align:center; padding:12px; color:var(--text-muted); font-size:12px;">Đang không nắm giữ cổ phiếu nào. Bấm "+ Đặt Lệnh Mua" để giải ngân!</div>';
+        container.innerHTML = '<div style="text-align:center; padding:14px; color:var(--text-muted); font-size:12px;">Đang không nắm giữ cổ phiếu nào. Bấm "Đặt Lệnh Mua / Bán" để mở vị thế!</div>';
         return;
       }
 
@@ -1324,34 +1268,82 @@
       container.innerHTML = html;
     }
 
-    function updateAdviceText(cash, nav) {
-      const banner = document.getElementById('adviceText');
-      const acv = holdings["ACV"];
-      const acvQty = acv ? acv.qty : 0;
-
-      if (acvQty >= 1250) {
-        banner.innerHTML = `<strong>🎯 Kế hoạch cơ cấu danh mục đã thống nhất:</strong><br>
-        1. <strong>Bán 250 cổ ACV quanh 39.4k</strong>: Thu về ròng <strong>~9.82 triệu</strong>, đưa tiền mặt lên <strong>${formatVND(cash + 9825000)}</strong>.<br>
-        2. <strong>Khóa chặt 1,000 cổ ACV cất tủ dài hạn</strong>: Đón trọn chu kỳ khai trương Sân Bay Long Thành 2026. Dùng tiền mặt rình gom 1 lô <strong>VHM (RSI 17.3)</strong> hoặc <strong>VTP</strong>.`;
-      } else if (acvQty === 1000) {
-        banner.innerHTML = `<strong>🎯 Danh mục đã chuẩn hóa thành công:</strong><br>
-        ✓ Đã khóa chuẩn <strong>1,000 cổ ACV</strong> cất tủ chờ Long Thành 2026.<br>
-        ✓ Tiền mặt hiện có <strong>${formatVND(cash)}</strong> đang sẵn sàng để rình mồi lướt sóng nhịp hồi các mã bùng nổ (VHM quá bán sâu, VTP bùng nổ Vol)!`;
-      } else {
-        banner.innerHTML = `<strong>🎯 Phân bổ dòng tiền danh mục:</strong><br>
-        • Tiền mặt: <strong>${formatVND(cash)}</strong> | Tổng NAV: <strong>${(nav/1000000).toFixed(2)} Tr</strong>.<br>
-        • KwangTae khuyến nghị luôn duy trì ít nhất 20% tiền mặt phòng thủ, chỉ giải ngân theo lô 100 cổ tuân thủ Stop-loss ATR.`;
+    // XỬ LÝ NẠP TIỀN (TỰ ĐỘNG CỘNG TIỀN VÀO TÀI KHOẢN)
+    function openDepositModal() {
+      document.getElementById('depositModal').style.display = 'flex';
+    }
+    function setDepositAmount(amt) {
+      document.getElementById('depositAmount').value = amt;
+    }
+    function confirmDeposit() {
+      const amt = parseInt(document.getElementById('depositAmount').value);
+      if (!amt || amt < 50000) {
+        alert("Vui lòng nhập số tiền nạp tối thiểu 50,000 đ!");
+        return;
       }
+      currentCash += amt;
+      const nowStr = new Date().toLocaleString('vi-VN');
+      transactions.unshift({
+        id: "GD" + Math.floor(1000 + Math.random() * 9000),
+        time: nowStr,
+        type: "deposit",
+        amount: amt,
+        balance: currentCash,
+        desc: "Nộp tiền tài khoản MBS2512T51",
+        status: "Thành công"
+      });
+      savePortfolioState();
+      updatePortfolioUI();
+      closeModal('depositModal');
+      showToast(`✓ Đã nạp thành công +${formatVND(amt)} vào tài khoản MBS!`);
     }
 
-    // ĐẶT LỆNH MUA / BÁN (TRADE SYSTEM)
+    // XỬ LÝ RÚT TIỀN THỦ CÔNG (TỰ ĐỘNG TRỪ TIỀN TÀI KHOẢN)
+    function openWithdrawModal() {
+      document.getElementById('modalAvailCash').innerText = formatVND(currentCash);
+      document.getElementById('withdrawAmount').max = currentCash;
+      document.getElementById('withdrawModal').style.display = 'flex';
+    }
+    function setWithdrawPercent(pct) {
+      const amt = Math.floor(currentCash * pct);
+      document.getElementById('withdrawAmount').value = amt;
+    }
+    function confirmWithdraw() {
+      const amt = parseInt(document.getElementById('withdrawAmount').value);
+      if (!amt || amt < 50000) {
+        alert("Số tiền rút tối thiểu là 50,000 đ!");
+        return;
+      }
+      if (amt > currentCash) {
+        alert(`Số dư tiền mặt không đủ! Hiện tại anh chỉ có ${formatVND(currentCash)}.`);
+        return;
+      }
+      const bank = document.getElementById('withdrawBank').value;
+      const acc = document.getElementById('withdrawAccNo').value || "0988888888";
+      currentCash -= amt;
+      const nowStr = new Date().toLocaleString('vi-VN');
+      transactions.unshift({
+        id: "GD" + Math.floor(1000 + Math.random() * 9000),
+        time: nowStr,
+        type: "withdraw",
+        amount: amt,
+        balance: currentCash,
+        desc: `Rút tiền về ${bank} (${acc})`,
+        status: "Thành công"
+      });
+      savePortfolioState();
+      updatePortfolioUI();
+      closeModal('withdrawModal');
+      showToast(`✓ Đã rút -${formatVND(amt)}! Số dư tiền mặt còn: ${formatVND(currentCash)}`);
+    }
+
+    // ĐẶT LỆNH MUA / BÁN
     function openTradeModal(type) {
       currentTradeType = type || 'BUY';
       document.getElementById('tradeModal').style.display = 'flex';
       switchTradeType(currentTradeType);
       onTradeSymbolChange();
     }
-
     function openTradeForSymbol(sym, type) {
       currentTradeType = type || 'BUY';
       document.getElementById('tradeSymbol').value = sym;
@@ -1359,7 +1351,6 @@
       switchTradeType(currentTradeType);
       onTradeSymbolChange();
     }
-
     function switchTradeType(type) {
       currentTradeType = type;
       const buyTab = document.getElementById('tabBuyBtn');
@@ -1372,20 +1363,19 @@
         sellTab.className = 'trade-tab trade-tab-sell';
         submitBtn.className = 'btn-submit btn-submit-deposit';
         submitBtn.innerText = '✓ XÁC NHẬN MUA CỔ PHIẾU (KHỚP LỆNH)';
-        modalTitle.innerHTML = '<span style="color:var(--quant-green)">⚡</span> ĐẶT LỆNH MUA THÊM CỔ PHIẾU';
+        modalTitle.innerHTML = '<span style="color:var(--quant-green)">⚡</span> ĐẶT LỆNH MUA CỔ PHIẾU MBS';
         document.getElementById('tradeTotalLabel').innerText = 'Tổng Thanh Toán (Gồm 0.6% Phí):';
       } else {
         sellTab.className = 'trade-tab trade-tab-sell active';
         buyTab.className = 'trade-tab trade-tab-buy';
         submitBtn.className = 'btn-submit btn-submit-withdraw';
         submitBtn.innerText = '✓ XÁC NHẬN BÁN CỔ PHIẾU (KHỚP LỆNH)';
-        modalTitle.innerHTML = '<span style="color:var(--quant-red)">⚡</span> ĐẶT LỆNH BÁN CỔ PHIẾU';
+        modalTitle.innerHTML = '<span style="color:var(--quant-red)">⚡</span> ĐẶT LỆNH BÁN CỔ PHIẾU MBS';
         document.getElementById('tradeTotalLabel').innerText = 'Tổng Thu Về Ròng (Trừ 0.6% Thuế/Phí):';
       }
       renderTradeQuickChips();
       calcTradeSummary();
     }
-
     function onTradeSymbolChange() {
       const sym = document.getElementById('tradeSymbol').value;
       const curP = getStockCurrentPrice(sym);
@@ -1394,7 +1384,6 @@
       renderTradeQuickChips();
       calcTradeSummary();
     }
-
     function renderTradeQuickChips() {
       const sym = document.getElementById('tradeSymbol').value;
       const curP = parseFloat(document.getElementById('tradePrice').value) || getStockCurrentPrice(sym);
@@ -1402,11 +1391,9 @@
       const limitLabel = document.getElementById('tradeAvailableLimit');
 
       if (currentTradeType === 'BUY') {
-        // Sức mua tối đa = Tiền mặt / (Giá * 1000 * 1.006)
         const costPerShare = curP * 1000 * 1.006;
         const maxBuyShares = Math.floor(currentCash / costPerShare / 100) * 100;
         limitLabel.innerText = `Sức mua tối đa: ${maxBuyShares.toLocaleString('vi-VN')} CP`;
-
         chipsContainer.innerHTML = `
           <span class="chip" onclick="setTradeQty(100)">100 CP</span>
           <span class="chip" onclick="setTradeQty(200)">200 CP</span>
@@ -1415,39 +1402,28 @@
           <span class="chip" onclick="setTradeQty(${maxBuyShares})">Tối Đa (${maxBuyShares})</span>
         `;
       } else {
-        // Khối lượng khả dụng để bán
         const held = holdings[sym] ? holdings[sym].qty : 0;
         limitLabel.innerText = `Khả dụng bán: ${held.toLocaleString('vi-VN')} CP`;
-
-        let extraChip = '';
-        if (sym === 'ACV' && held >= 250) {
-          extraChip = `<span class="chip" style="color:#fbbf24; border-color:#fbbf24;" onclick="setTradeQty(250)">🎯 250 CP (Cơ Cấu)</span>`;
-        }
-
         chipsContainer.innerHTML = `
           <span class="chip" onclick="setTradeQty(100)">100 CP</span>
-          ${extraChip}
+          <span class="chip" onclick="setTradeQty(200)">200 CP</span>
           <span class="chip" onclick="setTradeQty(500)">500 CP</span>
           <span class="chip" onclick="setTradeQty(${Math.floor(held * 0.5 / 100) * 100})">50% CP</span>
           <span class="chip" onclick="setTradeQty(${held})">Bán Hết (${held})</span>
         `;
       }
     }
-
     function setTradeQty(q) {
       if (q > 0) {
         document.getElementById('tradeQty').value = q;
         calcTradeSummary();
       }
     }
-
     function calcTradeSummary() {
-      const sym = document.getElementById('tradeSymbol').value;
       const price = parseFloat(document.getElementById('tradePrice').value) || 0;
       const qty = parseInt(document.getElementById('tradeQty').value) || 0;
-
       const orderVal = qty * price * 1000;
-      const fee = orderVal * 0.006; // 0.6% phí thuế
+      const fee = orderVal * 0.006;
       document.getElementById('tradeOrderValue').innerText = formatVND(orderVal);
       document.getElementById('tradeFeeValue').innerText = formatVND(fee);
 
@@ -1478,14 +1454,11 @@
       if (currentTradeType === 'BUY') {
         const totalCost = orderVal + fee;
         if (totalCost > currentCash) {
-          alert(`Số dư tiền mặt không đủ! Cần ${formatVND(totalCost)}, hiện có ${formatVND(currentCash)}. Vui lòng nạp thêm tiền hoặc giảm số lượng!`);
+          alert(`Số dư tiền mặt không đủ! Cần ${formatVND(totalCost)}, hiện có ${formatVND(currentCash)}.`);
           return;
         }
-
-        // Trừ tiền mặt
         currentCash -= totalCost;
 
-        // Cập nhật cổ phiếu nắm giữ
         if (holdings[sym]) {
           const oldQty = holdings[sym].qty;
           const oldCost = oldQty * holdings[sym].avgPrice * 1000;
@@ -1495,16 +1468,9 @@
           holdings[sym].avgPrice = parseFloat(newAvgPrice.toFixed(3));
           holdings[sym].curPrice = price;
         } else {
-          holdings[sym] = {
-            symbol: sym,
-            qty: qty,
-            avgPrice: price,
-            curPrice: price,
-            name: `Cổ phiếu ${sym}`
-          };
+          holdings[sym] = { symbol: sym, qty: qty, avgPrice: price, curPrice: price, name: `Cổ phiếu ${sym}` };
         }
 
-        // Ghi sổ cái
         transactions.unshift({
           id: "KH" + Math.floor(1000 + Math.random() * 9000),
           time: nowStr,
@@ -1519,26 +1485,19 @@
         updatePortfolioUI();
         closeModal('tradeModal');
         showToast(`✓ Khớp MUA thành công +${qty} ${sym} giá ${price}k!`);
-
       } else {
-        // Lệnh BÁN
         const held = holdings[sym] ? holdings[sym].qty : 0;
         if (qty > held) {
           alert(`Không đủ cổ phiếu để bán! Anh chỉ đang nắm giữ ${held} CP ${sym}.`);
           return;
         }
-
         const netProceeds = orderVal - fee;
-        // Cộng tiền mặt
         currentCash += netProceeds;
-
-        // Cập nhật số lượng cổ phiếu
         holdings[sym].qty -= qty;
         if (holdings[sym].qty <= 0) {
           delete holdings[sym];
         }
 
-        // Ghi sổ cái
         transactions.unshift({
           id: "KH" + Math.floor(1000 + Math.random() * 9000),
           time: nowStr,
@@ -1556,88 +1515,12 @@
       }
     }
 
-    // XỬ LÝ MODAL NẠP / RÚT / SỔ CÁI
-    function openDepositModal() {
-      document.getElementById('depositModal').style.display = 'flex';
-      updateQrCode();
-    }
-    function openWithdrawModal() {
-      document.getElementById('modalAvailCash').innerText = formatVND(currentCash);
-      document.getElementById('withdrawAmount').max = currentCash;
-      document.getElementById('withdrawModal').style.display = 'flex';
-    }
     function openHistoryModal() {
       renderHistoryTable();
       document.getElementById('historyModal').style.display = 'flex';
     }
     function closeModal(id) {
       document.getElementById(id).style.display = 'none';
-    }
-
-    function setDepositAmount(amt) {
-      document.getElementById('depositAmount').value = amt;
-      updateQrCode();
-    }
-    function updateQrCode() {
-      const amt = parseInt(document.getElementById('depositAmount').value) || 0;
-      document.getElementById('qrAmountLabel').innerText = amt.toLocaleString('vi-VN') + ' VNĐ';
-      const qrUrl = `https://img.vietqr.io/image/MB-963855951966097-compact2.png?amount=${amt}&addInfo=MBS%20NOPTIEN%20QTHEEE&accountName=CTCP%20CHUNG%20KHOAN%20MB`;
-      document.getElementById('vietQrImg').src = qrUrl;
-    }
-    function confirmDeposit() {
-      const amt = parseInt(document.getElementById('depositAmount').value);
-      if (!amt || amt < 50000) {
-        alert("Vui lòng nhập số tiền nạp tối thiểu 50,000 đ!");
-        return;
-      }
-      currentCash += amt;
-      const nowStr = new Date().toLocaleString('vi-VN');
-      transactions.unshift({
-        id: "GD" + Math.floor(1000 + Math.random() * 9000),
-        time: nowStr,
-        type: "deposit",
-        amount: amt,
-        balance: currentCash,
-        desc: "Nạp tiền vào tài khoản MBS",
-        status: "Thành công"
-      });
-      savePortfolioState();
-      updatePortfolioUI();
-      closeModal('depositModal');
-      showToast(`✓ Nạp thành công +${formatVND(amt)} vào tài khoản!`);
-    }
-
-    function setWithdrawPercent(pct) {
-      const amt = Math.floor(currentCash * pct);
-      document.getElementById('withdrawAmount').value = amt;
-    }
-    function confirmWithdraw() {
-      const amt = parseInt(document.getElementById('withdrawAmount').value);
-      if (!amt || amt < 50000) {
-        alert("Số tiền rút tối thiểu là 50,000 đ!");
-        return;
-      }
-      if (amt > currentCash) {
-        alert(`Số dư khả dụng không đủ! Hiện anh chỉ có ${formatVND(currentCash)}.`);
-        return;
-      }
-      const bank = document.getElementById('withdrawBank').value;
-      const acc = document.getElementById('withdrawAccNo').value || "0988888888";
-      currentCash -= amt;
-      const nowStr = new Date().toLocaleString('vi-VN');
-      transactions.unshift({
-        id: "GD" + Math.floor(1000 + Math.random() * 9000),
-        time: nowStr,
-        type: "withdraw",
-        amount: amt,
-        balance: currentCash,
-        desc: `Rút tiền về ${bank} (${acc})`,
-        status: "Thành công"
-      });
-      savePortfolioState();
-      updatePortfolioUI();
-      closeModal('withdrawModal');
-      showToast(`✓ Đã chuyển lệnh rút -${formatVND(amt)} về ${bank}!`);
     }
 
     function renderHistoryTable() {
@@ -1669,7 +1552,7 @@
     }
 
     function resetTransactions() {
-      if (confirm("Anh có chắc muốn thiết lập lại danh mục gốc (1,250 ACV và 500,000 đ)?")) {
+      if (confirm("Anh có chắc muốn thiết lập lại danh mục gốc (1,250 ACV và 500.000 đ)?")) {
         currentCash = 500000;
         holdings = {
           "ACV": { symbol: "ACV", qty: 1250, avgPrice: 45.899, curPrice: 39.4, name: "TCT Cảng Hàng Không VN" }
@@ -1698,7 +1581,6 @@
       });
     }
 
-    // ĐỌC VÀ HIỂN THỊ DỮ LIỆU ĐỊNH LƯỢNG RADAR
     async function loadRadarData() {
       try {
         let res = await fetch('/kwangtae_radar.json?t=' + Date.now());
@@ -1739,16 +1621,16 @@
         circuit_breaker: false,
         top3: [
           { symbol: "VHM", price: 65.4, score: 68, rsi: 17.3, vol_surge: 1.83, action: "🎯 BẮT ĐÁY QUÁ BÁN", entry_min: 65.0, entry_max: 65.8, target: 73.6, stop_loss: 61.3, reward_pct: 12.6, risk_pct: 6.3 },
-          { symbol: "VTP", price: 52.5, score: 72, rsi: 54.2, vol_surge: 4.86, action: "🚀 NỔ VOL MUA THĂM DÒ", entry_min: 52.0, entry_max: 53.0, target: 60.5, stop_loss: 49.5, reward_pct: 15.2, risk_pct: 5.7 },
-          { symbol: "ACV", price: 39.4, score: 65, rsi: 41.2, vol_surge: 0.88, action: "🔒 GIỮ 1,000 / BÁN 250", entry_min: 39.0, entry_max: 40.0, target: 48.0, stop_loss: 36.5, reward_pct: 21.8, risk_pct: 7.4 }
+          { symbol: "VTP", price: 52.6, score: 72, rsi: 55.7, vol_surge: 4.86, action: "🚀 NỔ VOL MUA THĂM DÒ", entry_min: 52.0, entry_max: 53.0, target: 60.5, stop_loss: 49.5, reward_pct: 15.2, risk_pct: 5.7 },
+          { symbol: "ACV", price: 39.4, score: 65, rsi: 41.2, vol_surge: 0.88, action: "🟡 QUAN SÁT", entry_min: 39.0, entry_max: 40.0, target: 48.0, stop_loss: 36.5, reward_pct: 21.8, risk_pct: 7.4 }
         ],
         radar: [
-          { symbol: "ACV", price: 39.4, score: 65, rsi: 41.2, vol_surge: 0.88, action: "🔒 GIỮ 1,000 / BÁN 250", entry_min: 39.0, entry_max: 40.0, target: 48.0, stop_loss: 36.5, tag: "core" },
-          { symbol: "VHM", price: 65.4, score: 68, rsi: 17.3, vol_surge: 1.83, action: "🎯 BẮT ĐÁY QUÁ BÁN", entry_min: 65.0, entry_max: 65.8, target: 73.6, stop_loss: 61.3, tag: "dip" },
-          { symbol: "VTP", price: 52.5, score: 72, rsi: 54.2, vol_surge: 4.86, action: "🚀 NỔ VOL MUA THĂM DÒ", entry_min: 52.0, entry_max: 53.0, target: 60.5, stop_loss: 49.5, tag: "dip" },
-          { symbol: "GEX", price: 23.6, score: 58, rsi: 48.5, vol_surge: 1.15, action: "🟡 TÍCH LŨY QUAN SÁT", entry_min: 23.0, entry_max: 23.8, target: 27.2, stop_loss: 21.8, tag: "mượt" },
-          { symbol: "VIX", price: 16.8, score: 52, rsi: 46.2, vol_surge: 0.94, action: "🔴 ĐỨNG NGOÀI", entry_min: 16.2, entry_max: 17.0, target: 19.5, stop_loss: 15.5, tag: "mượt" },
-          { symbol: "GEE", price: 42.1, score: 55, rsi: 51.0, vol_surge: 1.02, action: "🟡 QUAN SÁT", entry_min: 41.5, entry_max: 42.5, target: 48.0, stop_loss: 39.0, tag: "mượt" }
+          { symbol: "ACV", price: 39.4, score: 65, rsi: 41.2, vol_surge: 0.88, action: "🟡 QUAN SÁT", entry_min: 39.0, entry_max: 40.0, target: 48.0, stop_loss: 36.5 },
+          { symbol: "VHM", price: 65.4, score: 68, rsi: 17.3, vol_surge: 1.83, action: "🎯 BẮT ĐÁY QUÁ BÁN", entry_min: 65.0, entry_max: 65.8, target: 73.6, stop_loss: 61.3 },
+          { symbol: "VTP", price: 52.6, score: 72, rsi: 55.7, vol_surge: 4.86, action: "🚀 NỔ VOL MUA THĂM DÒ", entry_min: 52.0, entry_max: 53.0, target: 60.5, stop_loss: 49.5 },
+          { symbol: "GEX", price: 24.1, score: 58, rsi: 39.3, vol_surge: 0.57, action: "🟡 TÍCH LŨY QUAN SÁT", entry_min: 23.0, entry_max: 24.2, target: 27.2, stop_loss: 22.5 },
+          { symbol: "VIX", price: 12.75, score: 52, rsi: 34.6, vol_surge: 0.69, action: "🔴 ĐỨNG NGOÀI", entry_min: 12.5, entry_max: 13.0, target: 14.5, stop_loss: 11.9 },
+          { symbol: "GEE", price: 70.9, score: 55, rsi: 64.6, vol_surge: 1.33, action: "🔴 ĐỨNG NGOÀI", entry_min: 70.5, entry_max: 71.5, target: 80.0, stop_loss: 66.0 }
         ]
       };
       globalRadar = fallback;
@@ -1773,23 +1655,18 @@
 
       let html = '';
       list.forEach(item => {
-        let tagHtml = '';
-        if (item.symbol === 'ACV') tagHtml = '<span class="sym-tag tag-core">Tài sản lõi</span>';
-        else if (['GEX','VIX','GEE','VGC','IDC'].includes(item.symbol)) tagHtml = '<span class="sym-tag tag-mượt">Tuấn Mượt</span>';
-        else if (item.rsi < 25) tagHtml = '<span class="sym-tag tag-dip">RSI Sâu</span>';
-
         let actClass = 'act-out';
         if (item.action.includes('MUA') || item.action.includes('BẮT ĐÁY')) actClass = 'act-buy';
-        else if (item.action.includes('GIỮ') || item.action.includes('TÍCH LŨY')) actClass = 'act-hold';
+        else if (item.action.includes('GIỮ') || item.action.includes('TÍCH LŨY') || item.action.includes('QUAN SÁT')) actClass = 'act-hold';
 
         let scoreColor = '#3b82f6';
-        if (item.score >= 70) scoreColor = '#10b981';
-        else if (item.score < 40) scoreColor = '#ef4444';
+        if (item.score >= 70) scoreColor = '#00d084';
+        else if (item.score < 40) scoreColor = '#ff3b30';
 
         html += `
           <tr>
             <td>
-              <div class="sym-badge">${item.symbol} ${tagHtml}</div>
+              <div class="sym-badge">${item.symbol}</div>
             </td>
             <td style="font-family:var(--font-mono); font-weight:700;">${item.price}k</td>
             <td>
@@ -1802,7 +1679,7 @@
             </td>
             <td><span class="action-badge ${actClass}">${item.action}</span></td>
             <td style="font-family:var(--font-mono); font-weight:700; color:${item.rsi < 30 ? 'var(--quant-green)' : (item.rsi > 70 ? 'var(--quant-red)' : 'var(--text-main)')};">${item.rsi}</td>
-            <td style="font-family:var(--font-mono); font-weight:700; color:${item.vol_surge > 2.0 ? 'var(--accent-cyan)' : 'var(--text-main)'};">${item.vol_surge}x</td>
+            <td style="font-family:var(--font-mono); font-weight:700; color:${item.vol_surge > 2.0 ? 'var(--mbs-cyan)' : 'var(--text-main)'};">${item.vol_surge}x</td>
             <td style="font-family:var(--font-mono); color:var(--text-muted);">${item.entry_min} - ${item.entry_max}k</td>
             <td style="font-family:var(--font-mono); color:var(--quant-green); font-weight:700;">${item.target}k</td>
             <td style="font-family:var(--font-mono); color:var(--quant-red); font-weight:700;">${item.stop_loss}k</td>
@@ -1821,7 +1698,6 @@
       }).catch(() => {});
     }
 
-    // Khởi chạy
     initPortfolioState();
     loadRadarData();
     setInterval(loadRadarData, 30000);
