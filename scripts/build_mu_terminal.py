@@ -1,4 +1,10 @@
-<!DOCTYPE html>
+# -*- coding: utf-8 -*-
+"""
+Builder for Manchester United Fan Edition Trading Terminal
+Exact match with user requested design and reference image.
+"""
+
+HTML = r'''<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -1739,3 +1745,12 @@
   </script>
 </body>
 </html>
+'''
+
+with open('index.html', 'w', encoding='utf-8') as f:
+    f.write(HTML)
+
+with open('public/index.html', 'w', encoding='utf-8') as f:
+    f.write(HTML)
+
+print("Generated Manchester United Fan Edition Trading Terminal in index.html and public/index.html successfully!")
