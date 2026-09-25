@@ -8,22 +8,6 @@
   "model_status": "DEPLOYED_APPROVED",
   "top3": [
     {
-      "symbol": "ACV",
-      "price": 39.4,
-      "score": 68,
-      "rsi": 27.8,
-      "vol_surge": 0.71,
-      "action": "🟢 NẮM GIỮ CỐT LÕI (LONG THÀNH)",
-      "pos_size_pct": 0.0,
-      "atr": 0.6,
-      "entry_min": 39.2,
-      "entry_max": 39.6,
-      "target": 43.18,
-      "stop_loss": 37.51,
-      "reward_pct": 9.6,
-      "risk_pct": 4.8
-    },
-    {
       "symbol": "VHM",
       "price": 66.0,
       "score": 72,
@@ -54,24 +38,40 @@
       "stop_loss": 49.59,
       "reward_pct": 9.6,
       "risk_pct": 4.8
+    },
+    {
+      "symbol": "FPT",
+      "price": 65.4,
+      "score": 62,
+      "rsi": 46.1,
+      "vol_surge": 0.68,
+      "action": "🟢 MUA TÍCH LŨY",
+      "pos_size_pct": 0.0,
+      "atr": 1.44,
+      "entry_min": 64.97,
+      "entry_max": 65.63,
+      "target": 71.67,
+      "stop_loss": 62.27,
+      "reward_pct": 9.6,
+      "risk_pct": 4.8
     }
   ],
   "radar": [
     {
       "symbol": "ACV",
-      "price": 39.4,
-      "score": 68,
-      "rsi": 27.8,
+      "price": 39.3,
+      "score": 58,
+      "rsi": 41.2,
       "vol_surge": 0.71,
-      "action": "🟢 NẮM GIỮ CỐT LÕI (LONG THÀNH)",
+      "action": "🟡 QUAN SÁT TÍCH LŨY",
       "pos_size_pct": 0.0,
       "atr": 0.6,
-      "entry_min": 39.2,
-      "entry_max": 39.6,
-      "target": 43.18,
-      "stop_loss": 37.51,
-      "reward_pct": 9.6,
-      "risk_pct": 4.8
+      "entry_min": 38.8,
+      "entry_max": 39.5,
+      "target": 42.5,
+      "stop_loss": 36.8,
+      "reward_pct": 8.1,
+      "risk_pct": 6.4
     },
     {
       "symbol": "VHM",

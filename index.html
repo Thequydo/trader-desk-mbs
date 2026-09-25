@@ -1458,7 +1458,7 @@
                   <td>
                     <div style="display:flex; align-items:center; gap:5px;">
                       <strong style="color:#fff; font-family:var(--font-mono); font-size:12px;">ACV</strong>
-                      <span class="sym-tag tag-core" style="font-size:8.5px; padding:1px 4px;">Cốt lõi</span>
+                      <span class="sym-tag tag-core" style="font-size:8.5px; padding:1px 4px;">Đang nắm giữ</span>
                     </div>
                   </td>
                   <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:#fff;" id="holdingQtyCell">1,250 CP</td>
@@ -1483,7 +1483,7 @@
           </div>
 
           <div class="holdings-footer-note" id="holdingsFooterNote">
-            🎯 <strong>Quy chế sàn UPCoM:</strong> Không có phiên ATC • Giá chốt phiên (Thị giá) = <strong>Giá bình quân gia quyền (<span id="holdingAvePriceNote">39.3k</span>)</strong> • Khớp lệnh cuối: <span style="color:#38bdf8; font-weight:700;">39.4k</span> • Tiền mặt thực có: <strong style="color:var(--mu-gold);">500,000 đ</strong> • Khóa <strong>1,000 CP ACV</strong> cất tủ dài hạn • Kế hoạch cơ cấu: <em>Nếu bán</em> <strong>250 CP ACV</strong> thu tiền mặt ~9.82 Tr thì mới nâng tiền mặt lên <strong>10.32 triệu</strong>
+            🎯 <strong>Quy chế sàn UPCoM:</strong> Không có phiên ATC • Giá chốt phiên (Thị giá) = <strong>Giá bình quân gia quyền (<span id="holdingAvePriceNote">39.3k</span>)</strong> • Khớp lệnh cuối: <span style="color:#38bdf8; font-weight:700;">39.4k</span> • Tiền mặt thực có: <strong style="color:var(--mu-gold);">500,000 đ</strong> • Đánh giá danh mục theo tín hiệu định lượng thị trường, tuân thủ kỷ luật giao dịch và quản trị rủi ro.
           </div>
         </div>
       </div>
@@ -2742,7 +2742,7 @@
         `⏱ <b>Thời điểm:</b> ${timeStr || new Date().toLocaleTimeString('vi-VN')} (Giờ VN)\n\n` +
         `💼 <b>LỜI KHUYÊN CHO ANH THẾ QUANG:</b>\n` +
         `• <b>Xu hướng:</b> ${advice}\n` +
-        `• <b>Vị thế ACV:</b> Tiếp tục khóa chặt 1,000 cổ cốt lõi cất tủ dài hạn, bán 250 cổ cơ cấu thu tiền mặt quanh 39.4k.\n\n` +
+        `• <b>Quản trị danh mục:</b> Đánh giá khách quan theo thị trường, chủ động cơ cấu chốt lời/hạ tỷ trọng tuân thủ kỷ luật.\n\n` +
         `🌐 <i>Theo dõi trực tiếp: https://trader-desk-mbs.vercel.app</i>`;
 
       try {
@@ -2864,15 +2864,15 @@
           if (globalRadar && globalRadar.radar && !globalRadar.radar.some(s => s.symbol === 'ACV')) {
             globalRadar.radar.unshift({
               symbol: "ACV",
-              price: 39.4,
-              score: 68,
+              price: 39.3,
+              score: 55,
               rsi: 41.2,
-              vol_surge: 1.15,
-              action: "🟢 NẮM GIỮ CỐT LÕI (LONG THÀNH)",
-              entry_min: 38.5,
+              vol_surge: 0.71,
+              action: "🟡 QUAN SÁT TÍCH LŨY",
+              entry_min: 38.8,
               entry_max: 39.5,
-              target: 48.0,
-              stop_loss: 36.5
+              target: 42.5,
+              stop_loss: 36.8
             });
           }
           renderUI(globalRadar);
@@ -2908,10 +2908,10 @@
         top3: [
           { symbol: "VHM", price: 65.4, score: 68, rsi: 17.3, vol_surge: 1.83, action: "🟢 CANH MUA NHỊP HỒI", entry_min: 65.07, entry_max: 65.73, target: 73.63, stop_loss: 61.29 },
           { symbol: "VTP", price: 52.6, score: 72, rsi: 55.7, vol_surge: 4.86, action: "🚀 NỔ VOL MUA THĂM DÒ", entry_min: 52.0, entry_max: 53.0, target: 60.5, stop_loss: 49.5 },
-          { symbol: "ACV", price: 39.4, score: 65, rsi: 41.2, vol_surge: 0.88, action: "🟡 QUAN SÁT", entry_min: 39.0, entry_max: 40.0, target: 48.0, stop_loss: 36.5 }
+          { symbol: "FPT", price: 65.3, score: 62, rsi: 50.1, vol_surge: 1.05, action: "🟡 TÍCH LŨY", entry_min: 64.5, entry_max: 66.0, target: 74.0, stop_loss: 61.0 }
         ],
         radar: [
-          { symbol: "ACV", price: 39.4, score: 65, rsi: 41.2, vol_surge: 0.88, action: "🟡 QUAN SÁT", entry_min: 39.0, entry_max: 40.0, target: 48.0, stop_loss: 36.5 },
+          { symbol: "ACV", price: 39.3, score: 55, rsi: 41.2, vol_surge: 0.71, action: "🟡 QUAN SÁT TÍCH LŨY", entry_min: 38.8, entry_max: 39.5, target: 42.5, stop_loss: 36.8 },
           { symbol: "VHM", price: 65.4, score: 68, rsi: 17.3, vol_surge: 1.83, action: "🟢 CANH MUA NHỊP HỒI", entry_min: 65.07, entry_max: 65.73, target: 73.63, stop_loss: 61.29 },
           { symbol: "VRE", price: 24.15, score: 50, rsi: 28.4, vol_surge: 1.0, action: "🔴 ĐỨNG NGOÀI", entry_min: 24.0, entry_max: 24.5, target: 26.8, stop_loss: 22.8 },
           { symbol: "VIC", price: 42.1, score: 52, rsi: 35.0, vol_surge: 0.95, action: "🔴 ĐỨNG NGOÀI", entry_min: 41.5, entry_max: 42.5, target: 46.0, stop_loss: 39.5 },
@@ -2945,17 +2945,15 @@
       const rsi = item.rsi || 50;
       const volSurge = item.vol_surge || 1.0;
 
-      // Phân bổ thông minh nếu action bị trùng lặp hoặc thiếu đa dạng
+      // Phân bổ thông minh nếu action bị trùng lặp hoặc thiếu đa dạng (ÁP DỤNG BÌNH ĐẲNG CHO MỌI MÃ)
       if (!act || act === '🔴 ĐỨNG NGOÀI / KHÔNG MUA') {
-        if (item.symbol === 'ACV') {
-          act = '🟢 NẮM GIỮ CỐT LÕI';
-        } else if (rsi < 28) {
+        if (rsi < 28) {
           act = '🟢 CANH MUA NHỊP HỒI';
         } else if (volSurge >= 2.0 && score >= 45) {
           act = '🟢 NỔ VOL MUA THĂM DÒ';
         } else if (score >= 60) {
           act = '🟢 MUA TÍCH LŨY';
-        } else if (score >= 45 || ['GEX', 'VIX', 'VIC', 'VRE', 'TCB', 'MBB', 'MWG', 'GAS', 'PLX'].includes(item.symbol)) {
+        } else if (score >= 45 || ['GEX', 'VIX', 'VIC', 'VRE', 'TCB', 'MBB', 'MWG', 'GAS', 'PLX', 'ACV'].includes(item.symbol)) {
           act = '🟡 XEM XÉT THÊM';
         } else {
           act = '🔴 ĐỨNG NGOÀI / KHÔNG MUA';
@@ -2994,18 +2992,18 @@
         list = radarList.filter(s => ownedSyms.includes(s.symbol));
         ownedSyms.forEach(sym => {
           if (!list.some(s => s.symbol === sym)) {
-            const q = liveQuotes[sym] || { price: 39.4, ref: 39.4, ot: 0, chg: 0, vol: 250000 };
+            const q = liveQuotes[sym] || { price: 39.3, ref: 39.2, ot: 0.1, chg: 0.26, vol: 18850 };
             list.unshift({
               symbol: sym,
               price: q.price,
-              score: 68,
+              score: 55,
               rsi: 41.2,
-              vol_surge: 1.15,
-              action: "🟢 NẮM GIỮ CỐT LÕI (LONG THÀNH)",
-              entry_min: 38.5,
-              entry_max: 39.5,
-              target: 48.0,
-              stop_loss: 36.5
+              vol_surge: 0.71,
+              action: "🟡 QUAN SÁT TÍCH LŨY",
+              entry_min: +(q.price * 0.995).toFixed(1),
+              entry_max: +(q.price * 1.005).toFixed(1),
+              target: +(q.price * 1.08).toFixed(1),
+              stop_loss: +(q.price * 0.95).toFixed(1)
             });
           }
         });

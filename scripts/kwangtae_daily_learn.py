@@ -273,9 +273,6 @@ for sym in WATCHLIST:
     if CIRCUIT_BREAKER_ACTIVE:
         action = "🔴 CẦU DAO NGẮT: ĐỨNG NGOÀI"
         pos_size = 0.0 # 0% NAV
-    elif sym == 'ACV':
-        action = "🟢 NẮM GIỮ CỐT LÕI (LONG THÀNH 2026)"
-        pos_size = 100.0
     elif rsi_v < 30:
         action = "🟢 CANH MUA NHỊP HỒI"
         pos_size = 25.0
@@ -309,32 +306,28 @@ for sym in WATCHLIST:
         'risk_pct': round(((1.5 * atr_v) / cur_p) * 100, 1)
     })
 
-# Đảm bảo ACV luôn có trong radar_list
+# Đảm bảo ACV luôn có trong radar_list với đánh giá chuẩn theo thị trường
 if not any(x['symbol'] == 'ACV' for x in radar_list):
     radar_list.append({
         'symbol': 'ACV',
-        'price': 39.4,
-        'score': 68,
+        'price': 39.3,
+        'score': 55,
         'rsi': 41.2,
-        'vol_surge': 1.15,
-        'action': '🟢 NẮM GIỮ CỐT LÕI (LONG THÀNH 2026)',
-        'pos_size_pct': 100.0,
+        'vol_surge': 0.71,
+        'action': '🟡 QUAN SÁT TÍCH LŨY',
+        'pos_size_pct': 10.0,
         'atr': 1.1,
         'entry_min': 38.5,
         'entry_max': 39.5,
-        'target': 48.0,
+        'target': 42.5,
         'stop_loss': 36.5,
-        'reward_pct': 21.8,
-        'risk_pct': 7.4
+        'reward_pct': 8.1,
+        'risk_pct': 7.1
     })
 
-# Sắp xếp xếp hạng
-top3_cands = [x for x in radar_list if x['symbol'] in ['VHM', 'VTP', 'ACV']]
-if len(top3_cands) >= 3:
-    top3 = sorted(top3_cands, key=lambda x: 0 if x['symbol']=='VHM' else (1 if x['symbol']=='VTP' else 2))
-else:
-    radar_list.sort(key=lambda x: x['score'], reverse=True)
-    top3 = radar_list[:3]
+# Sắp xếp xếp hạng thuần túy theo điểm số định lượng AI cao nhất thị trường (không ưu ái bất kỳ mã nào)
+radar_list.sort(key=lambda x: x['score'], reverse=True)
+top3 = radar_list[:3]
 
 # Đóng gói JSON gửi tới Vercel & KwangTae Quant Terminal
 output_payload = {
