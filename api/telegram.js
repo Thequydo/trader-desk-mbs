@@ -76,7 +76,8 @@ async function askGemini(userQuery, radarData) {
     portfolioContext = `
 HỒ SƠ TÀI SẢN CỦA ANH THẾ (CHỈ DÙNG KHI ANH THẾ HỎI VỀ DANH MỤC HOẶC ACV):
 - Cổ phiếu nắm giữ: 1,250 CP ACV (Giá vốn 45.899k, hiện tại ~39.4k).
-- Kế hoạch cơ cấu: Giữ tròn 1,000 cổ ACV cất tủ dài hạn đón sóng Sân bay Long Thành 2026, đặt bán 250 cổ quanh 39.4k để thu về ~9.82 triệu tiền mặt.`;
+- Tiền mặt thực tế hiện có trong tài khoản MBS: CHỈ CÓ 500,000 VNĐ (Năm trăm nghìn đồng)!
+- Kế hoạch cơ cấu (dự kiến): Giữ tròn 1,000 cổ ACV cất tủ dài hạn đón sóng Sân bay Long Thành 2026. Nếu đặt bán 250 cổ quanh 39.4k thì mới thu về thêm ~9.82 triệu tiền mặt (khi đó tổng tiền mặt mới đạt ~10.32 triệu). Hiện tại anh Thế CHƯA BÁN nên tiền mặt thực tế chỉ có 500k!`;
   }
 
   // 2. Tìm mã cổ phiếu được nhắc tới trong câu hỏi
@@ -174,7 +175,7 @@ function smartStockEngine(userQuery, radarData) {
 
   // 1. Hỏi về Danh mục / ACV / Cơ cấu
   if (q.includes('DANH MỤC') || q.includes('DANH MUC') || q.includes('CƠ CẤU') || q.includes('CO CAU') || q.includes('TÀI KHOẢN') || q.includes('ACV')) {
-    return `💼 <b>KẾ HOẠCH CƠ CẤU TÀI KHOẢN ANH THẾ:</b>\n\n• <b>Hiện có:</b> 1,250 CP ACV (Giá vốn 45.899k) + Tiền mặt.\n• <b>Khuyến nghị KwangTae:</b>\n  1. Đặt bán <b>250 cổ ACV</b> quanh giá 39.4k ➔ Thu về ròng <b>~9.82 triệu tiền mặt</b>.\n  2. Giữ tròn <b>1,000 cổ ACV</b> cất tủ dài hạn đón sóng Sân bay Long Thành 2026.\n  3. Tổng hầu bao sau cơ cấu: <b>~10.32 triệu</b> để chủ động săn cổ phiếu tiềm năng bùng nổ!`;
+    return `💼 <b>HỒ SƠ TÀI SẢN & KẾ HOẠCH CƠ CẤU ANH THẾ:</b>\n\n• <b>Hiện có:</b> 1,250 CP ACV (Giá vốn 45.899k) + <b>Tiền mặt thực tế: 500,000 đ</b>.\n• <b>Khuyến nghị KwangTae:</b>\n  1. Đặt bán <b>250 cổ ACV</b> quanh giá 39.4k ➔ Thu về ròng <b>~9.82 triệu tiền mặt</b>.\n  2. Giữ tròn <b>1,000 cổ ACV</b> cất tủ dài hạn đón sóng Sân bay Long Thành 2026.\n  3. Sau khi bán xong 250 cổ ACV, hầu bao tiền mặt mới dồn lên <b>~10.32 triệu</b> để chủ động săn cổ phiếu tiềm năng bùng nổ!`;
   }
 
   // 2. Hỏi về Bắt đáy (Bottom fishing)
