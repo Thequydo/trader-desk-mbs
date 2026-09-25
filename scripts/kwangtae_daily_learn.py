@@ -11,16 +11,26 @@ print("="*85)
 print("🚀 [KWANGTAE ENTERPRISE MLOPS] KHỞI ĐỘNG HỆ THỐNG ĐỊNH LƯỢNG TỰ TIẾN HÓA TOÀN DIỆN")
 print("="*85)
 
-# Danh mục 37 cổ phiếu mục tiêu
+# Danh mục 45 cổ phiếu chuẩn 5 cổ đầu ngành cho 9 nhóm ngành
 WATCHLIST = [
+    # 👑 Nhóm Vingroup & Trụ Cột VN30
+    "VIC", "VHM", "VRE", "BCM", "BVH",
+    # ⚡ Hệ Sinh Thái GELEX
     "GEX", "VIX", "GEE", "VGC", "IDC",
-    "VCB", "BID", "CTG", "TCB", "MBB", "ACB", "VPB", "STB", "HDB", "VIB", "TPB", "SHB", "SSB",
-    "VIC", "VHM", "VRE", "BCM",
-    "VNM", "MSN", "MWG", "SAB",
-    "FPT", "VTP",
-    "GAS", "PLX", "POW", "GVR", "HPG",
-    "SSI", "BVH",
-    "ACV", "VJC"
+    # 🏦 Nhóm Ngân Hàng
+    "VCB", "BID", "CTG", "TCB", "MBB",
+    # 📈 Nhóm Chứng Khoán
+    "SSI", "VND", "VCI", "HCM", "SHS",
+    # 🏗️ Nhóm Thép & VL
+    "HPG", "HSG", "NKG", "DGC", "DPM",
+    # 🏢 Nhóm Bất Động Sản
+    "KDH", "DXG", "PDR", "DIG", "NVL",
+    # 💻 Công Nghệ & Bán Lẻ
+    "FPT", "MWG", "FRT", "MSN", "VNM",
+    # 🚚 Logistics & Cảng
+    "ACV", "VTP", "GMD", "HAH", "VJC",
+    # ⚡ Dầu Khí & Năng Lượng
+    "GAS", "PLX", "PVD", "PVS", "POW"
 ]
 
 # =============================================================================
