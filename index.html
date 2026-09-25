@@ -344,6 +344,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
+      transition: all 0.3s ease;
     }
     .badge-live::before {
       content: '';
@@ -353,6 +354,28 @@
       border-radius: 50%;
       box-shadow: 0 0 8px #10b981;
       animation: pulseScale 1.5s infinite;
+    }
+    .badge-live.badge-closed {
+      background: rgba(251, 225, 34, 0.12);
+      color: #fbe122;
+      border-color: rgba(251, 225, 34, 0.35);
+    }
+    .badge-live.badge-closed::before {
+      background: #fbe122;
+      box-shadow: 0 0 8px #fbe122;
+    }
+    .upcom-ave-badge {
+      display: inline-block;
+      font-size: 9.5px;
+      color: #fbe122;
+      background: rgba(251, 225, 34, 0.12);
+      border: 1px solid rgba(251, 225, 34, 0.3);
+      border-radius: 3px;
+      padding: 0 4px;
+      margin-left: 3px;
+      vertical-align: middle;
+      font-weight: 600;
+      white-space: nowrap;
     }
 
     /* GRID 2 CARDS */
@@ -1277,7 +1300,8 @@
         <button class="header-btn" onclick="openAnalyticsModal()">
           <span>📉</span> Thống kê
         </button>
-        <span class="badge-live">LIVE VPS REALTIME</span>
+        <span class="badge-live" id="marketStatusBadge">LIVE VPS REALTIME</span>
+        <span id="marketLiveClock" style="font-family:var(--font-mono); font-size:11px; color:#fbe122; background:rgba(251,225,34,0.08); padding:4px 8px; border-radius:100px; border:1px solid rgba(251,225,34,0.25); display:inline-flex; align-items:center; gap:4px; font-weight:700;">--:--:-- (VN)</span>
       </div>
     </header>
 
@@ -1363,7 +1387,10 @@
                   </td>
                   <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:#fff;" id="holdingQtyCell">1,250 CP</td>
                   <td style="text-align:right; font-family:var(--font-mono); color:var(--text-muted);">45.899k</td>
-                  <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:#fff;" id="holdingPriceCell">39.40k</td>
+                  <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:#fff;" id="holdingPriceCell">
+                    <div>39.4k</div>
+                    <div style="font-size:9.5px; color:var(--mu-gold); font-weight:normal;" title="Giá bình quân gia quyền (Giá chốt phiên UPCoM)">Giá TB: 39.4k</div>
+                  </td>
                   <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:var(--quant-green);" id="holdingValueCell">49,250,000 đ</td>
                   <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:var(--quant-red);" id="holdingPlCell">
                     -8,123,750 đ <span style="font-size:9.5px;">(-14.16%)</span>
@@ -1379,8 +1406,8 @@
             </table>
           </div>
 
-          <div class="holdings-footer-note">
-            🎯 <strong>Chiến lược tài sản:</strong> Khóa <strong>1,000 cổ ACV</strong> cất tủ dài hạn đón Siêu Cảng Quốc Tế Long Thành 2026 • Kế hoạch cơ cấu bán <strong>250 cổ ACV</strong> quanh 39.4k thu về ròng ~9.82 Tr dồn tiền mặt lên <strong>10.32 triệu</strong>
+          <div class="holdings-footer-note" id="holdingsFooterNote">
+            🎯 <strong>Quy chế sàn UPCoM:</strong> Không có phiên ATC • Giá chốt phiên & Tham chiếu ngày mai = <strong>Giá bình quân gia quyền (WAP)</strong> • Danh mục định giá theo Giá TB: <strong>39.4k</strong> • Khóa <strong>1,000 CP ACV</strong> cất tủ dài hạn • Kế hoạch cơ cấu bán <strong>250 CP ACV</strong> thu tiền mặt ~9.82 Tr dồn tiền mặt lên <strong>10.32 triệu</strong>
           </div>
         </div>
       </div>
@@ -1920,8 +1947,10 @@
       setTimeout(initChart, 60);
       loadRadarData();
       fetchVPSRealtime();
-      setInterval(fetchVPSRealtime, 2500);
+      setInterval(fetchVPSRealtime, 2000);
       setInterval(pulseLiveCandle, 1000);
+      updateMarketStatusBadge();
+      setInterval(updateMarketStatusBadge, 1000);
       updatePortfolioUI();
       calcObTotal();
       renderJournalList();
@@ -2317,11 +2346,50 @@
       selectStock(q);
     }
 
-    // KÉO DỮ LIỆU VPS REALTIME
+    // ĐỒNG HỒ & TRẠNG THÁI PHIÊN GIAO DỊCH THỰC TẾ
+    function updateMarketStatusBadge() {
+      const now = new Date();
+      const day = now.getDay();
+      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+      const vnTime = new Date(utc + (3600000 * 7));
+      const vnHour = vnTime.getHours();
+      const vnMin = vnTime.getMinutes();
+      const vnSec = vnTime.getSeconds();
+      const totalMin = vnHour * 60 + vnMin;
+
+      const clockEl = document.getElementById('marketLiveClock');
+      if (clockEl) {
+        const pad = n => n < 10 ? '0' + n : n;
+        clockEl.innerText = `⏱ ${pad(vnHour)}:${pad(vnMin)}:${pad(vnSec)} (VN)`;
+      }
+
+      const badgeEl = document.getElementById('marketStatusBadge');
+      if (!badgeEl) return;
+
+      const isWeekend = (day === 0 || day === 6);
+      const isMorning = totalMin >= 540 && totalMin <= 690; // 09:00 - 11:30
+      const isAfternoon = totalMin >= 780 && totalMin <= 900; // 13:00 - 15:00
+      const isOpen = !isWeekend && (isMorning || isAfternoon);
+
+      if (isOpen) {
+        badgeEl.className = 'badge-live';
+        badgeEl.innerText = 'LIVE REALTIME • ĐANG KHỚP LỆNH';
+        badgeEl.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+        badgeEl.style.color = '#34d399';
+      } else {
+        badgeEl.className = 'badge-live badge-closed';
+        badgeEl.innerText = 'ĐÃ CHỐT PHIÊN • GIÁ BÌNH QUÂN UPCoM & ATC';
+        badgeEl.style.borderColor = 'rgba(251, 225, 34, 0.4)';
+        badgeEl.style.color = '#fbe122';
+      }
+    }
+
+    // KÉO DỮ LIỆU VPS REALTIME ĐỒNG BỘ THỜI GIAN THỰC
     async function fetchVPSRealtime() {
       const allSyms = Array.from(new Set([
         ...Object.keys(liveQuotes),
-        ...SECTOR_GROUPS.flatMap(g => g.symbols)
+        ...SECTOR_GROUPS.flatMap(g => g.symbols),
+        'ACV'
       ])).join(',');
 
       try {
@@ -2332,14 +2400,23 @@
             list.forEach(item => {
               const sym = item.sym;
               const rawLast = parseFloat(item.lastPrice) || parseFloat(item.r) || 0;
-              const ave = parseFloat(item.avePrice) || rawLast;
+              const rawAve = parseFloat(item.avePrice) || rawLast;
               const ref = parseFloat(item.r) || rawLast;
               const ceil = parseFloat(item.c) || 0;
               const floor = parseFloat(item.f) || 0;
               const m = item.marketId;
               const market = (m === 'UPX' || sym === 'ACV') ? 'UPCoM' : ((m === 'STX') ? 'HNX' : 'HOSE');
               const isUpcom = market === 'UPCoM';
-              const effectivePrice = isUpcom ? parseFloat(ave.toFixed(1)) : rawLast;
+              const dec = isUpcom ? 1 : 2;
+
+              // QUY CHUẨN GIÁ CHỐT PHIÊN VÀ THAM CHIẾU SÀN UPCoM (HNX Rule):
+              // 1. Trong phiên: rawLast là giá khớp lệnh gần nhất.
+              // 2. Chốt phiên cuối ngày: GIÁ CHỐT PHIÊN là GIÁ BÌNH QUÂN GIA QUYỀN (rawAve),
+              //    và đây cũng là Giá tham chiếu cho phiên tiếp theo (làm tròn bước giá 100đ = 0.1k).
+              // 3. Đối với HOSE/HNX: Giá chốt phiên là giá khớp lệnh ATC (rawLast).
+              const avePrice = isUpcom ? parseFloat(rawAve.toFixed(1)) : rawAve;
+              const lastPrice = isUpcom ? parseFloat(rawLast.toFixed(1)) : rawLast;
+              const effectivePrice = lastPrice > 0 ? lastPrice : avePrice;
               const ot = effectivePrice - ref;
               const chg = ref > 0 ? (ot / ref) * 100 : 0;
 
@@ -2347,21 +2424,85 @@
               const oldPrice = oldQuote ? oldQuote.price : effectivePrice;
 
               liveQuotes[sym] = {
-                sym, price: effectivePrice, open: parseFloat(item.o) || effectivePrice,
-                high: parseFloat(item.h) || effectivePrice, low: parseFloat(item.l) || effectivePrice,
-                ref, ceil, floor, ot, chg, market, vol: parseFloat(item.lot) || 0
+                sym,
+                price: effectivePrice,
+                lastPrice: lastPrice,
+                avePrice: avePrice,
+                open: parseFloat(item.o) || effectivePrice,
+                high: parseFloat(item.h) || effectivePrice,
+                low: parseFloat(item.l) || effectivePrice,
+                ref, ceil, floor, ot, chg,
+                market, isUpcom,
+                vol: parseFloat(item.lot) || (oldQuote ? oldQuote.vol : 0)
               };
 
+              // 1. CẬP NHẬT CỘT GIÁ TRÊN BẢNG ĐIỆN TỬ
+              const priceEl = document.getElementById(`price_${sym}`);
+              if (priceEl) {
+                if (isUpcom) {
+                  priceEl.innerHTML = `
+                    <span style="font-weight:800; color:#fff;">${effectivePrice.toFixed(1)}k</span>
+                    <span class="upcom-ave-badge" title="Giá bình quân gia quyền (Giá chốt phiên UPCoM)">TB: ${avePrice.toFixed(1)}k</span>
+                  `;
+                } else {
+                  priceEl.innerText = `${effectivePrice.toFixed(2)}k`;
+                }
+              }
+
+              // 2. CẬP NHẬT CỘT BIẾN ĐỘNG (TC / TRẦN / SÀN)
+              const chgEl = document.getElementById(`chg_${sym}`);
+              if (chgEl) {
+                const col = ot > 0 ? 'var(--quant-green)' : (ot < 0 ? 'var(--quant-red)' : 'var(--mu-gold)');
+                const sign = ot >= 0 ? '+' : '';
+                chgEl.innerHTML = `
+                  <span style="color:${col}; font-weight:700;">${sign}${ot.toFixed(dec)} (${sign}${chg.toFixed(2)}%)</span>
+                  <span style="color:var(--text-dim); margin-left:4px;">TC: ${ref.toFixed(dec)}k</span>
+                  ${isUpcom ? '<span style="font-size:9px; color:#60a5fa; background:rgba(59,130,246,0.12); padding:1px 4px; border-radius:2px; margin-left:3px;" title="Sàn UPCoM không có ATC - Giá chốt phiên = Giá bình quân gia quyền">UPCoM</span>' : ''}
+                `;
+              }
+
+              // 3. CẬP NHẬT CỘT KHỐI LƯỢNG KHỚP
+              const volEl = document.getElementById(`vol_${sym}`);
+              if (volEl) {
+                volEl.innerText = (parseFloat(item.lot) || 0).toLocaleString('vi-VN');
+              }
+
+              // 4. HIỆU ỨNG FLASH XANH/ĐỎ KHI CÓ BIẾN ĐỘNG GIÁ
               if (effectivePrice !== oldPrice) {
-                const el = document.getElementById(`price_${sym}`);
-                if (el) {
-                  el.innerText = `${effectivePrice}k`;
-                  const row = document.getElementById(`row_${sym}`);
-                  if (row) {
-                    const cls = effectivePrice > oldPrice ? 'flash-up' : 'flash-down';
-                    row.classList.add(cls);
-                    setTimeout(() => row.classList.remove(cls), 750);
+                const row = document.getElementById(`row_${sym}`);
+                if (row) {
+                  const cls = effectivePrice > oldPrice ? 'flash-up' : 'flash-down';
+                  row.classList.add(cls);
+                  setTimeout(() => row.classList.remove(cls), 800);
+                }
+              }
+
+              // 5. NẾU LÀ MÃ ĐANG XEM TRÊN BIỂU ĐỒ (activeStock):
+              if (sym === activeStock) {
+                const ohlcCEl = document.getElementById('ohlcC');
+                const ohlcChgEl = document.getElementById('ohlcChg');
+                const ohlcHEl = document.getElementById('ohlcH');
+                const ohlcLEl = document.getElementById('ohlcL');
+
+                if (ohlcCEl) {
+                  ohlcCEl.innerText = effectivePrice.toFixed(dec);
+                  const col = ot > 0 ? 'var(--quant-green)' : (ot < 0 ? 'var(--quant-red)' : 'var(--mu-gold)');
+                  ohlcCEl.style.color = col;
+                  if (ohlcChgEl) {
+                    const sign = ot >= 0 ? '+' : '';
+                    ohlcChgEl.innerText = `${sign}${ot.toFixed(dec)} (${sign}${chg.toFixed(2)}%)`;
+                    ohlcChgEl.style.color = col;
                   }
+                }
+                if (ohlcHEl && item.h) ohlcHEl.innerText = parseFloat(item.h).toFixed(dec);
+                if (ohlcLEl && item.l) ohlcLEl.innerText = parseFloat(item.l).toFixed(dec);
+
+                // Cập nhật nến live trên biểu đồ TradingView
+                if (candleSeries && currentCandleData) {
+                  currentCandleData.close = effectivePrice;
+                  if (effectivePrice > currentCandleData.high) currentCandleData.high = effectivePrice;
+                  if (effectivePrice < currentCandleData.low) currentCandleData.low = effectivePrice;
+                  candleSeries.update(currentCandleData);
                 }
               }
             });
@@ -2377,9 +2518,14 @@
       const holdingItems = Object.values(holdings).filter(h => h.qty > 0);
 
       holdingItems.forEach(h => {
-        const q = liveQuotes[h.symbol] || { price: 39.4 };
-        h.curPrice = q.price;
-        totalStockValue += h.qty * h.curPrice * 1000;
+        const q = liveQuotes[h.symbol] || { price: 39.4, avePrice: 39.4, lastPrice: 39.4 };
+        // Chuẩn quy chế sàn UPCoM: Tài sản được hạch toán NAV theo Giá bình quân gia quyền chốt phiên (avePrice)!
+        // Đối với HOSE/HNX: hạch toán theo giá khớp ATC / lastPrice.
+        const isUpcom = (q.market === 'UPCoM' || h.symbol === 'ACV');
+        const effectiveValPrice = isUpcom ? (q.avePrice || q.price) : q.price;
+        h.curPrice = effectiveValPrice;
+
+        totalStockValue += h.qty * effectiveValPrice * 1000;
         totalCost += h.qty * h.avgPrice * 1000;
       });
 
@@ -2402,21 +2548,30 @@
       const holdingValueCell = document.getElementById('holdingValueCell');
       const holdingPlCell = document.getElementById('holdingPlCell');
       const holdingQtyCell = document.getElementById('holdingQtyCell');
+      const holdingNoteEl = document.getElementById('holdingAvePriceNote');
 
       const acv = holdings['ACV'];
       if (acv && holdingPriceCell && holdingValueCell && holdingPlCell) {
-        const curP = liveQuotes['ACV'] ? liveQuotes['ACV'].price : 39.4;
-        const curVal = acv.qty * curP * 1000;
+        const q = liveQuotes['ACV'] || { price: 39.4, avePrice: 39.4, lastPrice: 39.4 };
+        const lastP = q.lastPrice || q.price || 39.4;
+        const aveP = q.avePrice || lastP;
+
+        // Theo luật sàn UPCoM: Giá hạch toán lãi lỗ cuối ngày = Giá bình quân gia quyền cả phiên (aveP)
+        const curVal = acv.qty * aveP * 1000;
         const costVal = acv.qty * acv.avgPrice * 1000;
         const pl = curVal - costVal;
         const plPct = costVal > 0 ? (pl / costVal) * 100 : 0;
         const sSign = pl >= 0 ? '+' : '';
 
         if (holdingQtyCell) holdingQtyCell.innerText = `${acv.qty.toLocaleString()} CP`;
-        holdingPriceCell.innerText = `${curP.toFixed(1)}k`;
+        holdingPriceCell.innerHTML = `
+          <div style="font-weight:800; color:#fff; font-size:12px;">${lastP.toFixed(1)}k</div>
+          <div style="font-size:9.5px; color:var(--mu-gold); margin-top:2px;" title="Giá bình quân gia quyền (Giá chốt phiên UPCoM)">Giá TB: ${aveP.toFixed(1)}k</div>
+        `;
         holdingValueCell.innerText = `${Math.round(curVal).toLocaleString('vi-VN')} đ`;
         holdingPlCell.innerHTML = `${sSign}${Math.round(pl).toLocaleString('vi-VN')} đ <span style="font-size:9.5px;">(${sSign}${plPct.toFixed(2)}%)</span>`;
         holdingPlCell.style.color = pl >= 0 ? 'var(--quant-green)' : 'var(--quant-red)';
+        if (holdingNoteEl) holdingNoteEl.innerText = `${aveP.toFixed(1)}k`;
       }
     }
 
@@ -2594,8 +2749,10 @@
       list.forEach(item => {
         const sym = item.symbol;
         const q = liveQuotes[sym] || { price: item.price, ot: 0, chg: 0, ref: item.price, ceil: item.price*1.07, floor: item.price*0.93, vol: 150000 };
-        const isUpcom = sym === 'ACV';
+        const isUpcom = (q.market === 'UPCoM' || sym === 'ACV');
         const dec = isUpcom ? 1 : 2;
+        const lastP = q.lastPrice || q.price;
+        const aveP = q.avePrice || lastP;
 
         const badge = resolveActionBadge(item);
 
@@ -2615,13 +2772,17 @@
               </div>
             </td>
             <td id="price_${sym}" style="font-family:var(--font-mono); font-weight:800; color:#fff;">
-              ${q.price.toFixed(dec)}k
+              ${isUpcom ? `
+                <span style="font-weight:800; color:#fff;">${lastP.toFixed(1)}k</span>
+                <span class="upcom-ave-badge" title="Giá bình quân gia quyền (Giá chốt phiên UPCoM)">TB: ${aveP.toFixed(1)}k</span>
+              ` : `${lastP.toFixed(2)}k`}
             </td>
-            <td style="font-family:var(--font-mono); font-size:11px; white-space:nowrap;">
+            <td id="chg_${sym}" style="font-family:var(--font-mono); font-size:11px; white-space:nowrap;">
               <span style="color:${col}; font-weight:700;">${sign}${q.ot.toFixed(dec)} (${sign}${q.chg.toFixed(2)}%)</span>
               <span style="color:var(--text-dim); margin-left:4px;">TC: ${(q.ref||q.price).toFixed(dec)}k</span>
+              ${isUpcom ? '<span style="font-size:9px; color:#60a5fa; background:rgba(59,130,246,0.12); padding:1px 4px; border-radius:2px; margin-left:3px;" title="Sàn UPCoM không có ATC - Giá chốt phiên = Giá bình quân gia quyền">UPCoM</span>' : ''}
             </td>
-            <td style="font-family:var(--font-mono); color:var(--text-muted);">${(q.vol||150000).toLocaleString('vi-VN')}</td>
+            <td id="vol_${sym}" style="font-family:var(--font-mono); color:var(--text-muted);">${(q.vol||150000).toLocaleString('vi-VN')}</td>
             <td>
               <div class="score-bar-wrap">
                 <div class="score-bar-bg">
