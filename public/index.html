@@ -68,6 +68,28 @@
     .flash-up { animation: flashGreen 0.8s cubic-bezier(0.25, 1, 0.5, 1); border-radius: 4px; }
     .flash-down { animation: flashRed 0.8s cubic-bezier(0.25, 1, 0.5, 1); border-radius: 4px; }
 
+    /* HIỆU ỨNG NHẢY SỐ KHI GIÁ THAY ĐỔI (NUMBER TICKING & POP ANIMATION) */
+    @keyframes numJumpUp {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.24); color: #00e676 !important; text-shadow: 0 0 12px rgba(0, 230, 118, 0.85); }
+      60% { transform: scale(1.08); color: #00e676; }
+      100% { transform: scale(1); }
+    }
+    @keyframes numJumpDown {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.24); color: #ff1744 !important; text-shadow: 0 0 12px rgba(255, 23, 68, 0.85); }
+      60% { transform: scale(1.08); color: #ff1744; }
+      100% { transform: scale(1); }
+    }
+    .num-jump-up {
+      animation: numJumpUp 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: inline-block;
+    }
+    .num-jump-down {
+      animation: numJumpDown 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: inline-block;
+    }
+
     @keyframes pulseScale {
       0% { transform: scale(1); }
       50% { transform: scale(1.05); text-shadow: 0 0 10px var(--mu-red); }
@@ -344,6 +366,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
+      transition: all 0.3s ease;
     }
     .badge-live::before {
       content: '';
@@ -353,6 +376,70 @@
       border-radius: 50%;
       box-shadow: 0 0 8px #10b981;
       animation: pulseScale 1.5s infinite;
+    }
+    .badge-live.badge-closed {
+      background: rgba(251, 225, 34, 0.12);
+      color: #fbe122;
+      border-color: rgba(251, 225, 34, 0.35);
+    }
+    .badge-live.badge-closed::before {
+      background: #fbe122;
+      box-shadow: 0 0 8px #fbe122;
+    }
+    .upcom-ave-badge {
+      display: inline-block;
+      font-size: 9.5px;
+      color: #fbe122;
+      background: rgba(251, 225, 34, 0.12);
+      border: 1px solid rgba(251, 225, 34, 0.3);
+      border-radius: 3px;
+      padding: 0 4px;
+      margin-left: 3px;
+      vertical-align: middle;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* VN-INDEX LIVE TICKER WIDGET & TELEGRAM ALERT INDICATOR */
+    .vnindex-ticker-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 3px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      cursor: default;
+      transition: all 0.25s ease;
+      min-width: 140px;
+    }
+    .vnindex-ticker-box:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(251, 225, 34, 0.4);
+    }
+    .vnindex-val {
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .vnindex-chg {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--quant-green);
+    }
+    .tele-alert-indicator {
+      font-size: 9px;
+      background: rgba(14, 165, 233, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(14, 165, 233, 0.35);
+      border-radius: 4px;
+      padding: 1px 4px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
     }
 
     /* GRID 2 CARDS */
@@ -1259,7 +1346,7 @@
           <div class="brand-title">
             SINH VIÊN ĐÁNH CHỨNG • MAN UTD EDITION <span style="color:#fbe122;">🔱</span>
           </div>
-          <div class="brand-sub">TÀI KHOẢN: NGÔ QUANG THẾ • MBS 2512T51</div>
+          <div class="brand-sub">TÀI KHOẢN: NGÔ QUANG THẾ • MBS 2512T51 <span style="font-size:10px; color:#10b981; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3); border-radius:4px; padding:1px 5px; margin-left:4px; font-weight:800;" title="Đã kích hoạt bảo mật PIN 251205 cho Nạp tiền & Đặt lệnh">🔒 PIN 251205</span></div>
         </div>
       </div>
 
@@ -1271,13 +1358,26 @@
       </div>
 
       <div style="display:flex; align-items:center; gap:8px;">
+        <!-- VN-INDEX REALTIME TICKER & BOT TELEGRAM ALERT -->
+        <div id="vnindexTickerBox" class="vnindex-ticker-box" onclick="testVnIndexAlert()" style="cursor:pointer;" title="Chỉ số VN-INDEX thời gian thực. Bấm để gửi thử cảnh báo Telegram ±15 điểm">
+          <div style="font-size:10px; color:var(--text-dim); display:flex; align-items:center; justify-content:space-between; gap:4px; margin-bottom:2px;">
+            <span>🇻🇳 VN-INDEX</span>
+            <span class="tele-alert-indicator" title="Bot Telegram tự động báo động khi biến động >= 15 điểm">🔔 ±15đ Tele</span>
+          </div>
+          <div style="display:flex; align-items:baseline; gap:5px;">
+            <span id="vnindexVal" class="vnindex-val">--</span>
+            <span id="vnindexChg" class="vnindex-chg" style="font-size:10.5px;">--</span>
+          </div>
+        </div>
+
         <button class="header-btn" onclick="openTradeJournalModal()">
           <span>📓</span> Trade Journal
         </button>
         <button class="header-btn" onclick="openAnalyticsModal()">
           <span>📉</span> Thống kê
         </button>
-        <span class="badge-live">LIVE VPS REALTIME</span>
+        <span class="badge-live" id="marketStatusBadge">LIVE VPS REALTIME</span>
+        <span id="marketLiveClock" style="font-family:var(--font-mono); font-size:11px; color:#fbe122; background:rgba(251,225,34,0.08); padding:4px 8px; border-radius:100px; border:1px solid rgba(251,225,34,0.25); display:inline-flex; align-items:center; gap:4px; font-weight:700;">--:--:-- (VN)</span>
       </div>
     </header>
 
@@ -1289,7 +1389,7 @@
           <div class="card-title-icon">
             <span>💼</span> Quản Lý Tài Sản & Danh Mục Đầu Tư
           </div>
-          <span class="client-badge"><span style="color:#fbe122;">🔱</span> VIP: Anh Quang Thế</span>
+          <span class="client-badge"><span style="color:#fbe122;">🔱</span> VIP: Anh Quang Thế <span style="font-size:9.5px; color:#34d399; margin-left:4px;" title="Tính năng Nạp tiền và Đặt lệnh Mua/Bán được khóa bằng PIN 251205">🔒 PIN 251205</span></span>
         </div>
 
         <div class="stats-row">
@@ -1363,7 +1463,10 @@
                   </td>
                   <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:#fff;" id="holdingQtyCell">1,250 CP</td>
                   <td style="text-align:right; font-family:var(--font-mono); color:var(--text-muted);">45.899k</td>
-                  <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:#fff;" id="holdingPriceCell">39.40k</td>
+                  <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:#fff;" id="holdingPriceCell">
+                    <div>39.4k</div>
+                    <div style="font-size:9.5px; color:var(--mu-gold); font-weight:normal;" title="Giá bình quân gia quyền (Giá chốt phiên UPCoM)">Giá TB: 39.4k</div>
+                  </td>
                   <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:var(--quant-green);" id="holdingValueCell">49,250,000 đ</td>
                   <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:var(--quant-red);" id="holdingPlCell">
                     -8,123,750 đ <span style="font-size:9.5px;">(-14.16%)</span>
@@ -1379,8 +1482,8 @@
             </table>
           </div>
 
-          <div class="holdings-footer-note">
-            🎯 <strong>Chiến lược tài sản:</strong> Khóa <strong>1,000 cổ ACV</strong> cất tủ dài hạn đón Siêu Cảng Quốc Tế Long Thành 2026 • Kế hoạch cơ cấu bán <strong>250 cổ ACV</strong> quanh 39.4k thu về ròng ~9.82 Tr dồn tiền mặt lên <strong>10.32 triệu</strong>
+          <div class="holdings-footer-note" id="holdingsFooterNote">
+            🎯 <strong>Quy chế sàn UPCoM:</strong> Không có phiên ATC • Giá chốt phiên & Tham chiếu ngày mai = <strong>Giá bình quân gia quyền (WAP)</strong> • Danh mục định giá theo Giá TB: <strong>39.4k</strong> • Tiền mặt thực có: <strong style="color:var(--mu-gold);">500,000 đ</strong> • Khóa <strong>1,000 CP ACV</strong> cất tủ dài hạn • Kế hoạch cơ cấu: <em>Nếu bán</em> <strong>250 CP ACV</strong> thu tiền mặt ~9.82 Tr thì mới nâng tiền mặt lên <strong>10.32 triệu</strong>
           </div>
         </div>
       </div>
@@ -1597,18 +1700,18 @@
         </div>
 
         <div class="tab-pills" id="sectorTabPills">
-          <button class="tab-pill active" onclick="switchTab('all', this)">🌐 Tất Cả Theo Nhóm Ngành</button>
+          <button class="tab-pill active" onclick="switchTab('all', this)">🌐 Tất Cả Theo Nhóm Ngành (45)</button>
           <button class="tab-pill" onclick="switchTab('owned', this)">⭐ Danh Mục Sở Hữu</button>
           <button class="tab-pill" onclick="switchTab('top3', this)">🔥 Top 3 Cơ Hội</button>
-          <button class="tab-pill" onclick="switchTab('vin', this)">👑 Họ Vin</button>
-          <button class="tab-pill" onclick="switchTab('gelex', this)">⚡ Hệ Sinh Thái GELEX</button>
-          <button class="tab-pill" onclick="switchTab('bank', this)">🏦 Ngân Hàng</button>
-          <button class="tab-pill" onclick="switchTab('sec', this)">📈 Chứng Khoán</button>
-          <button class="tab-pill" onclick="switchTab('steel', this)">🏗️ Thép & VL</button>
-          <button class="tab-pill" onclick="switchTab('bds', this)">🏢 Bất Động Sản</button>
-          <button class="tab-pill" onclick="switchTab('tech_retail', this)">💻 Công Nghệ & Bán Lẻ</button>
-          <button class="tab-pill" onclick="switchTab('logistics', this)">🚚 Logistics & Cảng</button>
-          <button class="tab-pill" onclick="switchTab('oil_gas', this)">⚡ Dầu Khí</button>
+          <button class="tab-pill" onclick="switchTab('vin', this)">👑 Họ Vin & Trụ VN30 (5)</button>
+          <button class="tab-pill" onclick="switchTab('gelex', this)">⚡ Hệ Sinh Thái GELEX (5)</button>
+          <button class="tab-pill" onclick="switchTab('bank', this)">🏦 Ngân Hàng (5)</button>
+          <button class="tab-pill" onclick="switchTab('sec', this)">📈 Chứng Khoán (5)</button>
+          <button class="tab-pill" onclick="switchTab('steel', this)">🏗️ Thép & VL (5)</button>
+          <button class="tab-pill" onclick="switchTab('bds', this)">🏢 Bất Động Sản (5)</button>
+          <button class="tab-pill" onclick="switchTab('tech_retail', this)">💻 Công Nghệ & Bán Lẻ (5)</button>
+          <button class="tab-pill" onclick="switchTab('logistics', this)">🚚 Logistics & Cảng (5)</button>
+          <button class="tab-pill" onclick="switchTab('oil_gas', this)">⚡ Dầu Khí & Năng Lượng (5)</button>
         </div>
       </div>
 
@@ -1666,6 +1769,16 @@
           <label>Nhập Số Tiền Đã Chuyển (VNĐ)</label>
           <input type="text" class="form-control" id="depositAmount" value="5.000.000" oninput="formatCurrencyInput(this)">
         </div>
+
+        <div class="form-group" style="margin-top:10px; background:rgba(218,2,14,0.08); border:1px solid rgba(218,2,14,0.3); border-radius:10px; padding:10px;">
+          <label style="color:var(--mu-gold); font-weight:800; font-size:11.5px; display:flex; align-items:center; gap:5px; margin-bottom:5px;">
+            <span>🔒</span> MẬT KHẨU PIN BẢO MẬT (CHỦ TÀI KHOẢN ANH THẾ):
+          </label>
+          <input type="password" class="form-control" id="depositPinInput" placeholder="Nhập mã PIN 6 số..." maxlength="6" autocomplete="off" style="text-align:center; letter-spacing:6px; font-size:16px; font-weight:900; font-family:var(--font-mono); background:rgba(0,0,0,0.5);" onkeydown="if(event.key==='Enter') confirmDeposit()">
+          <div id="depositPinError" style="color:var(--quant-red); font-size:10.5px; margin-top:4px; display:none; font-weight:700;">
+            ❌ Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN của anh Thế.
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn-secondary" onclick="closeModal('depositModal')">Đóng</button>
@@ -1689,6 +1802,16 @@
         <div class="form-group">
           <label>Số Tiền Muốn Rút (VNĐ)</label>
           <input type="text" class="form-control" id="withdrawAmount" placeholder="Nhập số tiền..." oninput="formatCurrencyInput(this)">
+        </div>
+
+        <div class="form-group" style="margin-top:10px; background:rgba(218,2,14,0.08); border:1px solid rgba(218,2,14,0.3); border-radius:10px; padding:10px;">
+          <label style="color:var(--mu-gold); font-weight:800; font-size:11.5px; display:flex; align-items:center; gap:5px; margin-bottom:5px;">
+            <span>🔒</span> MẬT KHẨU PIN BẢO MẬT (CHỦ TÀI KHOẢN ANH THẾ):
+          </label>
+          <input type="password" class="form-control" id="withdrawPinInput" placeholder="Nhập mã PIN 6 số..." maxlength="6" autocomplete="off" style="text-align:center; letter-spacing:6px; font-size:16px; font-weight:900; font-family:var(--font-mono); background:rgba(0,0,0,0.5);" onkeydown="if(event.key==='Enter') confirmWithdraw()">
+          <div id="withdrawPinError" style="color:var(--quant-red); font-size:10.5px; margin-top:4px; display:none; font-weight:700;">
+            ❌ Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN của anh Thế.
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -1789,6 +1912,16 @@
         <div id="confirmWarning" style="font-size:10px; color:var(--quant-red); display:none; background:rgba(218,2,14,0.1); padding:5px 8px; border-radius:6px; border:1px solid rgba(218,2,14,0.3);">
           ⚠️ Cảnh báo: Vượt quá tiền mặt! Sẽ sử dụng hạn mức Margin MBS khả dụng.
         </div>
+
+        <div style="margin-top:10px; background:rgba(218,2,14,0.08); border:1px solid rgba(218,2,14,0.3); border-radius:10px; padding:10px;">
+          <label style="color:var(--mu-gold); font-weight:800; font-size:11.5px; display:flex; align-items:center; gap:5px; margin-bottom:5px;">
+            <span>🔒</span> MẬT KHẨU PIN XÁC THỰC LỆNH (CHỦ TÀI KHOẢN ANH THẾ):
+          </label>
+          <input type="password" id="orderPinInput" class="form-control" placeholder="Nhập mã PIN 6 số..." maxlength="6" autocomplete="off" style="text-align:center; letter-spacing:6px; font-size:16px; font-weight:900; font-family:var(--font-mono); background:rgba(0,0,0,0.5);" onkeydown="if(event.key==='Enter') executeFinalOrder()">
+          <div id="orderPinError" style="color:var(--quant-red); font-size:10.5px; margin-top:4px; display:none; font-weight:700;">
+            ❌ Mật khẩu PIN không chính xác! Chỉ anh Ngô Quang Thế mới có quyền gửi lệnh.
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn-secondary" onclick="closeModal('modalConfirmOrder')">Hủy bỏ</button>
@@ -1830,7 +1963,7 @@
 
         <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.06); padding:10px; border-radius:6px; font-size:10.5px; line-height:1.45;">
           <strong style="color:var(--mu-gold);">💡 Đánh giá KwangTae Quant AI:</strong><br>
-          "Tài khoản hiện đang nắm giữ 1,250 ACV (vốn 45.899k). Kế hoạch cơ cấu bán 250 cổ phiếu quanh 39.4k để rút 9.8 triệu tiền mặt sẽ giúp hạ tỷ trọng ACV xuống 65%, nâng tiền mặt lên ~10.32 triệu, kiểm soát Drawdown về ngưỡng an toàn!"
+          "Tài khoản hiện đang nắm giữ 1,250 ACV (vốn 45.899k) và 500.000 đ tiền mặt thực tế. Kế hoạch cơ cấu: nếu bán 250 cổ phiếu quanh 39.4k để rút ~9.82 triệu tiền mặt sẽ giúp hạ tỷ trọng ACV xuống 65%, nâng tiền mặt lên ~10.32 triệu, kiểm soát Drawdown về ngưỡng an toàn!"
         </div>
       </div>
       <div class="modal-footer">
@@ -1900,17 +2033,17 @@
       VNM: { sym: 'VNM', price: 60.6, open: 60.5, high: 61.0, low: 60.2, ref: 60.5, ceil: 64.7, floor: 56.3, ot: 0.1, chg: 0.17, market: 'HOSE', vol: 1120400 }
     };
 
-    // NHÓM NGÀNH CHỨNG KHOÁN VIỆT NAM
+    // NHÓM NGÀNH CHỨNG KHOÁN VIỆT NAM (CHUẨN 5 CỔ ĐẦU NGÀNH MỖI NHÓM)
     const SECTOR_GROUPS = [
-      { id: "vin", name: "👑 Nhóm Vingroup (Họ Vin)", symbols: ["VIC", "VHM", "VRE"] },
+      { id: "vin", name: "👑 Nhóm Vingroup & Trụ VN30", symbols: ["VIC", "VHM", "VRE", "BCM", "BVH"] },
       { id: "gelex", name: "⚡ Hệ Sinh Thái GELEX", symbols: ["GEX", "VIX", "GEE", "VGC", "IDC"] },
-      { id: "bank", name: "🏦 Nhóm Ngân Hàng", symbols: ["VCB", "MBB", "TCB", "CTG", "STB"] },
-      { id: "sec", name: "📈 Nhóm Chứng Khoán", symbols: ["SSI", "VND", "HCM", "VCI", "SHS"] },
+      { id: "bank", name: "🏦 Nhóm Ngân Hàng", symbols: ["VCB", "BID", "CTG", "TCB", "MBB"] },
+      { id: "sec", name: "📈 Nhóm Chứng Khoán", symbols: ["SSI", "VND", "VCI", "HCM", "SHS"] },
       { id: "steel", name: "🏗️ Nhóm Thép & VL", symbols: ["HPG", "HSG", "NKG", "DGC", "DPM"] },
-      { id: "bds", name: "🏢 Nhóm Bất Động Sản", symbols: ["NVL", "PDR", "DIG", "DXG", "KDH"] },
+      { id: "bds", name: "🏢 Nhóm Bất Động Sản", symbols: ["KDH", "DXG", "PDR", "DIG", "NVL"] },
       { id: "tech_retail", name: "💻 Công Nghệ & Bán Lẻ", symbols: ["FPT", "MWG", "FRT", "MSN", "VNM"] },
       { id: "logistics", name: "🚚 Logistics & Cảng", symbols: ["ACV", "VTP", "GMD", "HAH", "VJC"] },
-      { id: "oil_gas", name: "⚡ Dầu Khí", symbols: ["GAS", "PLX", "PVD", "PVS", "POW"] }
+      { id: "oil_gas", name: "⚡ Dầu Khí & Năng Lượng", symbols: ["GAS", "PLX", "PVD", "PVS", "POW"] }
     ];
 
     let currentTab = 'all';
@@ -1920,12 +2053,28 @@
       setTimeout(initChart, 60);
       loadRadarData();
       fetchVPSRealtime();
-      setInterval(fetchVPSRealtime, 2500);
+      setInterval(fetchVPSRealtime, 2000);
+      fetchVnIndexRealtime();
+      setInterval(fetchVnIndexRealtime, 2500);
       setInterval(pulseLiveCandle, 1000);
+      updateMarketStatusBadge();
+      setInterval(updateMarketStatusBadge, 1000);
       updatePortfolioUI();
       calcObTotal();
       renderJournalList();
     });
+
+    // HÀM KÍCH HOẠT HIỆU ỨNG NHẢY SỐ (NUMBER TICKING & POP ANIMATION)
+    function triggerNumJump(element, isUp) {
+      if (!element) return;
+      const cls = isUp ? 'num-jump-up' : 'num-jump-down';
+      element.classList.remove('num-jump-up', 'num-jump-down');
+      void element.offsetWidth; // Force reflow để trigger lại CSS keyframe
+      element.classList.add(cls);
+      setTimeout(() => {
+        if (element) element.classList.remove(cls);
+      }, 650);
+    }
 
     // Helper tương thích v5 Lightweight Charts
     function createSeries(chart, typeName, options) {
@@ -2171,6 +2320,7 @@
       const dec = s.market === 'UPCoM' ? 1 : 2;
       const tick = (Math.random() - 0.49) * (s.market === 'UPCoM' ? 0.1 : 0.05);
       const newClose = parseFloat(Math.max(s.floor || 1, Math.min(s.ceil || 150, s.price + tick)).toFixed(dec));
+      const prevClose = currentCandleData.close || s.price;
 
       currentCandleData.close = newClose;
       if (newClose > currentCandleData.high) currentCandleData.high = newClose;
@@ -2181,8 +2331,12 @@
       const ohlcCEl = document.getElementById('ohlcC');
       if (ohlcCEl) {
         ohlcCEl.innerText = newClose.toFixed(dec);
-        ohlcCEl.classList.add('tick-pulse');
-        setTimeout(() => ohlcCEl.classList.remove('tick-pulse'), 400);
+        if (newClose !== prevClose) {
+          triggerNumJump(ohlcCEl, newClose > prevClose);
+        } else {
+          ohlcCEl.classList.add('tick-pulse');
+          setTimeout(() => ohlcCEl.classList.remove('tick-pulse'), 400);
+        }
       }
     }
 
@@ -2317,11 +2471,50 @@
       selectStock(q);
     }
 
-    // KÉO DỮ LIỆU VPS REALTIME
+    // ĐỒNG HỒ & TRẠNG THÁI PHIÊN GIAO DỊCH THỰC TẾ
+    function updateMarketStatusBadge() {
+      const now = new Date();
+      const day = now.getDay();
+      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+      const vnTime = new Date(utc + (3600000 * 7));
+      const vnHour = vnTime.getHours();
+      const vnMin = vnTime.getMinutes();
+      const vnSec = vnTime.getSeconds();
+      const totalMin = vnHour * 60 + vnMin;
+
+      const clockEl = document.getElementById('marketLiveClock');
+      if (clockEl) {
+        const pad = n => n < 10 ? '0' + n : n;
+        clockEl.innerText = `⏱ ${pad(vnHour)}:${pad(vnMin)}:${pad(vnSec)} (VN)`;
+      }
+
+      const badgeEl = document.getElementById('marketStatusBadge');
+      if (!badgeEl) return;
+
+      const isWeekend = (day === 0 || day === 6);
+      const isMorning = totalMin >= 540 && totalMin <= 690; // 09:00 - 11:30
+      const isAfternoon = totalMin >= 780 && totalMin <= 900; // 13:00 - 15:00
+      const isOpen = !isWeekend && (isMorning || isAfternoon);
+
+      if (isOpen) {
+        badgeEl.className = 'badge-live';
+        badgeEl.innerText = 'LIVE REALTIME • ĐANG KHỚP LỆNH';
+        badgeEl.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+        badgeEl.style.color = '#34d399';
+      } else {
+        badgeEl.className = 'badge-live badge-closed';
+        badgeEl.innerText = 'ĐÃ CHỐT PHIÊN • GIÁ BÌNH QUÂN UPCoM & ATC';
+        badgeEl.style.borderColor = 'rgba(251, 225, 34, 0.4)';
+        badgeEl.style.color = '#fbe122';
+      }
+    }
+
+    // KÉO DỮ LIỆU VPS REALTIME ĐỒNG BỘ THỜI GIAN THỰC
     async function fetchVPSRealtime() {
       const allSyms = Array.from(new Set([
         ...Object.keys(liveQuotes),
-        ...SECTOR_GROUPS.flatMap(g => g.symbols)
+        ...SECTOR_GROUPS.flatMap(g => g.symbols),
+        'ACV'
       ])).join(',');
 
       try {
@@ -2332,14 +2525,23 @@
             list.forEach(item => {
               const sym = item.sym;
               const rawLast = parseFloat(item.lastPrice) || parseFloat(item.r) || 0;
-              const ave = parseFloat(item.avePrice) || rawLast;
+              const rawAve = parseFloat(item.avePrice) || rawLast;
               const ref = parseFloat(item.r) || rawLast;
               const ceil = parseFloat(item.c) || 0;
               const floor = parseFloat(item.f) || 0;
               const m = item.marketId;
               const market = (m === 'UPX' || sym === 'ACV') ? 'UPCoM' : ((m === 'STX') ? 'HNX' : 'HOSE');
               const isUpcom = market === 'UPCoM';
-              const effectivePrice = isUpcom ? parseFloat(ave.toFixed(1)) : rawLast;
+              const dec = isUpcom ? 1 : 2;
+
+              // QUY CHUẨN GIÁ CHỐT PHIÊN VÀ THAM CHIẾU SÀN UPCoM (HNX Rule):
+              // 1. Trong phiên: rawLast là giá khớp lệnh gần nhất.
+              // 2. Chốt phiên cuối ngày: GIÁ CHỐT PHIÊN là GIÁ BÌNH QUÂN GIA QUYỀN (rawAve),
+              //    và đây cũng là Giá tham chiếu cho phiên tiếp theo (làm tròn bước giá 100đ = 0.1k).
+              // 3. Đối với HOSE/HNX: Giá chốt phiên là giá khớp lệnh ATC (rawLast).
+              const avePrice = isUpcom ? parseFloat(rawAve.toFixed(1)) : rawAve;
+              const lastPrice = isUpcom ? parseFloat(rawLast.toFixed(1)) : rawLast;
+              const effectivePrice = lastPrice > 0 ? lastPrice : avePrice;
               const ot = effectivePrice - ref;
               const chg = ref > 0 ? (ot / ref) * 100 : 0;
 
@@ -2347,21 +2549,94 @@
               const oldPrice = oldQuote ? oldQuote.price : effectivePrice;
 
               liveQuotes[sym] = {
-                sym, price: effectivePrice, open: parseFloat(item.o) || effectivePrice,
-                high: parseFloat(item.h) || effectivePrice, low: parseFloat(item.l) || effectivePrice,
-                ref, ceil, floor, ot, chg, market, vol: parseFloat(item.lot) || 0
+                sym,
+                price: effectivePrice,
+                lastPrice: lastPrice,
+                avePrice: avePrice,
+                open: parseFloat(item.o) || effectivePrice,
+                high: parseFloat(item.h) || effectivePrice,
+                low: parseFloat(item.l) || effectivePrice,
+                ref, ceil, floor, ot, chg,
+                market, isUpcom,
+                vol: parseFloat(item.lot) || (oldQuote ? oldQuote.vol : 0)
               };
 
+              // 1. CẬP NHẬT CỘT GIÁ TRÊN BẢNG ĐIỆN TỬ
+              const priceEl = document.getElementById(`price_${sym}`);
+              if (priceEl) {
+                if (isUpcom) {
+                  priceEl.innerHTML = `
+                    <span style="font-weight:800; color:#fff;">${effectivePrice.toFixed(1)}k</span>
+                    <span class="upcom-ave-badge" title="Giá bình quân gia quyền (Giá chốt phiên UPCoM)">TB: ${avePrice.toFixed(1)}k</span>
+                  `;
+                } else {
+                  priceEl.innerText = `${effectivePrice.toFixed(2)}k`;
+                }
+              }
+
+              // 2. CẬP NHẬT CỘT BIẾN ĐỘNG (TC / TRẦN / SÀN)
+              const chgEl = document.getElementById(`chg_${sym}`);
+              if (chgEl) {
+                const col = ot > 0 ? 'var(--quant-green)' : (ot < 0 ? 'var(--quant-red)' : 'var(--mu-gold)');
+                const sign = ot >= 0 ? '+' : '';
+                chgEl.innerHTML = `
+                  <span style="color:${col}; font-weight:700;">${sign}${ot.toFixed(dec)} (${sign}${chg.toFixed(2)}%)</span>
+                  <span style="color:var(--text-dim); margin-left:4px;">TC: ${ref.toFixed(dec)}k</span>
+                  ${isUpcom ? '<span style="font-size:9px; color:#60a5fa; background:rgba(59,130,246,0.12); padding:1px 4px; border-radius:2px; margin-left:3px;" title="Sàn UPCoM không có ATC - Giá chốt phiên = Giá bình quân gia quyền">UPCoM</span>' : ''}
+                `;
+              }
+
+              // 3. CẬP NHẬT CỘT KHỐI LƯỢNG KHỚP
+              const volEl = document.getElementById(`vol_${sym}`);
+              if (volEl) {
+                volEl.innerText = (parseFloat(item.lot) || 0).toLocaleString('vi-VN');
+              }
+
+              // 4. HIỆU ỨNG FLASH XANH/ĐỎ VÀ NHẢY SỐ KHI CÓ BIẾN ĐỘNG GIÁ
               if (effectivePrice !== oldPrice) {
-                const el = document.getElementById(`price_${sym}`);
-                if (el) {
-                  el.innerText = `${effectivePrice}k`;
-                  const row = document.getElementById(`row_${sym}`);
-                  if (row) {
-                    const cls = effectivePrice > oldPrice ? 'flash-up' : 'flash-down';
-                    row.classList.add(cls);
-                    setTimeout(() => row.classList.remove(cls), 750);
+                const isUp = effectivePrice > oldPrice;
+                const row = document.getElementById(`row_${sym}`);
+                if (row) {
+                  const cls = isUp ? 'flash-up' : 'flash-down';
+                  row.classList.add(cls);
+                  setTimeout(() => row.classList.remove(cls), 800);
+                }
+                if (priceEl) triggerNumJump(priceEl, isUp);
+                if (chgEl) triggerNumJump(chgEl, isUp);
+              }
+
+              // 5. NẾU LÀ MÃ ĐANG XEM TRÊN BIỂU ĐỒ (activeStock):
+              if (sym === activeStock) {
+                const ohlcCEl = document.getElementById('ohlcC');
+                const ohlcChgEl = document.getElementById('ohlcChg');
+                const ohlcHEl = document.getElementById('ohlcH');
+                const ohlcLEl = document.getElementById('ohlcL');
+
+                if (ohlcCEl) {
+                  ohlcCEl.innerText = effectivePrice.toFixed(dec);
+                  const col = ot > 0 ? 'var(--quant-green)' : (ot < 0 ? 'var(--quant-red)' : 'var(--mu-gold)');
+                  ohlcCEl.style.color = col;
+                  if (effectivePrice !== oldPrice) {
+                    triggerNumJump(ohlcCEl, effectivePrice > oldPrice);
                   }
+                  if (ohlcChgEl) {
+                    const sign = ot >= 0 ? '+' : '';
+                    ohlcChgEl.innerText = `${sign}${ot.toFixed(dec)} (${sign}${chg.toFixed(2)}%)`;
+                    ohlcChgEl.style.color = col;
+                    if (effectivePrice !== oldPrice) {
+                      triggerNumJump(ohlcChgEl, effectivePrice > oldPrice);
+                    }
+                  }
+                }
+                if (ohlcHEl && item.h) ohlcHEl.innerText = parseFloat(item.h).toFixed(dec);
+                if (ohlcLEl && item.l) ohlcLEl.innerText = parseFloat(item.l).toFixed(dec);
+
+                // Cập nhật nến live trên biểu đồ TradingView
+                if (candleSeries && currentCandleData) {
+                  currentCandleData.close = effectivePrice;
+                  if (effectivePrice > currentCandleData.high) currentCandleData.high = effectivePrice;
+                  if (effectivePrice < currentCandleData.low) currentCandleData.low = effectivePrice;
+                  candleSeries.update(currentCandleData);
                 }
               }
             });
@@ -2371,15 +2646,142 @@
       } catch (_) {}
     }
 
+    // THEO DÕI CHỈ SỐ VN-INDEX THỜI GIAN THỰC & CẢNH BÁO TELEGRAM (±15 ĐIỂM)
+    let lastVnIndexPrice = null;
+    let lastVnIndexAlertTimestamp = 0;
+    let lastVnIndexAlertState = null;
+
+    async function fetchVnIndexRealtime() {
+      try {
+        const res = await fetch('https://bgapidatafeed.vps.com.vn/getlistindexdetail/10', {
+          headers: { "User-Agent": "Mozilla/5.0" }
+        });
+        if (res.ok) {
+          const list = await res.json();
+          if (Array.isArray(list) && list.length > 0) {
+            const item = list[0];
+            const cur = parseFloat(item.oIndex) || 0;
+            const ref = parseFloat(item.cIndex) || cur;
+            let diff = 0;
+            let pct = 0;
+            if (item.ot) {
+              const parts = item.ot.split('|');
+              diff = parseFloat(parts[0]) || (cur - ref);
+              pct = parseFloat((parts[1] || '').replace('%', '')) || (ref > 0 ? (diff / ref) * 100 : 0);
+            } else {
+              diff = cur - ref;
+              pct = ref > 0 ? (diff / ref) * 100 : 0;
+            }
+
+            const vnValEl = document.getElementById('vnindexVal');
+            const vnChgEl = document.getElementById('vnindexChg');
+
+            if (vnValEl && cur > 0) {
+              const oldVal = lastVnIndexPrice;
+              vnValEl.innerText = cur.toLocaleString('vi-VN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+              
+              const isUp = diff >= 0;
+              const sign = isUp ? '+' : '';
+              const col = diff > 0 ? 'var(--quant-green)' : (diff < 0 ? 'var(--quant-red)' : 'var(--mu-gold)');
+
+              if (vnChgEl) {
+                vnChgEl.innerText = `${sign}${diff.toFixed(2)} (${sign}${pct.toFixed(2)}%)`;
+                vnChgEl.style.color = col;
+              }
+
+              // Kích hoạt hiệu ứng nhảy số khi điểm số VN-INDEX biến động
+              if (oldVal !== null && oldVal !== cur) {
+                triggerNumJump(vnValEl, cur > oldVal);
+                if (vnChgEl) triggerNumJump(vnChgEl, cur > oldVal);
+              }
+              lastVnIndexPrice = cur;
+
+              // Kiểm tra ngưỡng cảnh báo Telegram tự động (>= 15 điểm)
+              checkVnIndexThresholdAlert(cur, ref, diff, pct, item.time);
+            }
+          }
+        }
+      } catch (err) {}
+    }
+
+    async function checkVnIndexThresholdAlert(cur, ref, diff, pct, timeStr) {
+      const THRESHOLD = 15.0;
+      if (Math.abs(diff) < THRESHOLD) return;
+
+      const now = Date.now();
+      const alertType = diff >= 0 ? "UP_15" : "DOWN_15";
+      const COOLDOWN_MS = 30 * 60 * 1000; // Cooldown 30 phút chống spam
+
+      if (lastVnIndexAlertState === alertType && (now - lastVnIndexAlertTimestamp) < COOLDOWN_MS) {
+        return;
+      }
+
+      lastVnIndexAlertState = alertType;
+      lastVnIndexAlertTimestamp = now;
+
+      const isUp = diff >= 0;
+      const sign = isUp ? '+' : '';
+      const icon = isUp ? '🚀 🟢' : '⚠️ 🔴';
+      const advice = isUp
+        ? 'Thị trường hưng phấn mạnh! Cơ hội tuyệt vời để chủ động chốt lời từng phần hoặc cơ cấu danh mục giá xanh.'
+        : 'Áp lực bán dâng cao toàn thị trường! Tuyệt đối không hoảng loạn bán tháo ở đáy, chuẩn bị tiền mặt canh bắt nhịp hồi.';
+
+      const tgMsg = `${icon} <b>[KWANGTAE CẢNH BÁO BIẾN ĐỘNG THỊ TRƯỜNG]</b> ⚡\n\n` +
+        `📊 <b>Chỉ số VN-INDEX:</b> <b>${cur.toFixed(2)} điểm</b>\n` +
+        `📈 <b>Mức biến động:</b> <b>${sign}${diff.toFixed(2)} điểm</b> (${sign}${pct.toFixed(2)}%)\n` +
+        `🎯 <b>Tham chiếu đầu phiên:</b> ${ref.toFixed(2)} điểm\n` +
+        `⏱ <b>Thời điểm:</b> ${timeStr || new Date().toLocaleTimeString('vi-VN')} (Giờ VN)\n\n` +
+        `💼 <b>LỜI KHUYÊN CHO ANH THẾ QUANG:</b>\n` +
+        `• <b>Xu hướng:</b> ${advice}\n` +
+        `• <b>Vị thế ACV:</b> Tiếp tục khóa chặt 1,000 cổ cốt lõi cất tủ dài hạn, bán 250 cổ cơ cấu thu tiền mặt quanh 39.4k.\n\n` +
+        `🌐 <i>Theo dõi trực tiếp: https://trader-desk-mbs.vercel.app</i>`;
+
+      try {
+        await fetch('/api/telegram', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'TRADE_ALERT',
+            text: tgMsg,
+            chatId: 5951966097
+          })
+        });
+        showToast(`🔔 Đã gửi cảnh báo Telegram: VN-INDEX biến động ${sign}${diff.toFixed(1)} điểm!`);
+      } catch (_) {}
+    }
+
+    async function testVnIndexAlert() {
+      showToast("🔔 Đang gửi tín hiệu kiểm tra cảnh báo VN-INDEX ±15đ về Telegram...");
+      try {
+        const res = await fetch('/api/vnindex-alert?test=true');
+        if (res.ok) {
+          const data = await res.json();
+          showToast(`🚀 Đã gửi cảnh báo VN-INDEX (${data.vnindex.current}đ, ${data.vnindex.diff >= 0 ? '+' : ''}${data.vnindex.diff}đ) về Telegram anh Thế!`);
+        } else {
+          showToast("⚠️ Không thể kết nối với máy chủ cảnh báo.");
+        }
+      } catch (e) {
+        showToast("⚠️ Lỗi mạng khi kiểm tra cảnh báo Telegram.");
+      }
+    }
+
+    let lastHoldingAcvPrice = null;
+    let lastTotalNavValue = null;
+
     function updatePortfolioUI() {
       let totalStockValue = 0;
       let totalCost = 0;
       const holdingItems = Object.values(holdings).filter(h => h.qty > 0);
 
       holdingItems.forEach(h => {
-        const q = liveQuotes[h.symbol] || { price: 39.4 };
-        h.curPrice = q.price;
-        totalStockValue += h.qty * h.curPrice * 1000;
+        const q = liveQuotes[h.symbol] || { price: 39.4, avePrice: 39.4, lastPrice: 39.4 };
+        // Chuẩn quy chế sàn UPCoM: Tài sản được hạch toán NAV theo Giá bình quân gia quyền chốt phiên (avePrice)!
+        // Đối với HOSE/HNX: hạch toán theo giá khớp ATC / lastPrice.
+        const isUpcom = (q.market === 'UPCoM' || h.symbol === 'ACV');
+        const effectiveValPrice = isUpcom ? (q.avePrice || q.price) : q.price;
+        h.curPrice = effectiveValPrice;
+
+        totalStockValue += h.qty * effectiveValPrice * 1000;
         totalCost += h.qty * h.avgPrice * 1000;
       });
 
@@ -2390,7 +2792,15 @@
       document.getElementById('cashVal').innerText = Math.round(currentCash).toLocaleString('vi-VN') + ' đ';
       document.getElementById('modalAvailCash').innerText = Math.round(currentCash).toLocaleString('vi-VN') + ' đ';
       document.getElementById('stockVal').innerText = (totalStockValue / 1000000).toFixed(2) + ' Tr';
-      document.getElementById('totalNavVal').innerText = (totalNAV / 1000000).toFixed(2) + ' Tr';
+      
+      const navEl = document.getElementById('totalNavVal');
+      if (navEl) {
+        navEl.innerText = (totalNAV / 1000000).toFixed(2) + ' Tr';
+        if (lastTotalNavValue !== null && Math.abs(totalNAV - lastTotalNavValue) >= 1000) {
+          triggerNumJump(navEl, totalNAV > lastTotalNavValue);
+        }
+        lastTotalNavValue = totalNAV;
+      }
 
       const plSub = document.getElementById('navPlSub');
       const plSign = totalPL >= 0 ? '+' : '';
@@ -2402,21 +2812,36 @@
       const holdingValueCell = document.getElementById('holdingValueCell');
       const holdingPlCell = document.getElementById('holdingPlCell');
       const holdingQtyCell = document.getElementById('holdingQtyCell');
+      const holdingNoteEl = document.getElementById('holdingAvePriceNote');
 
       const acv = holdings['ACV'];
       if (acv && holdingPriceCell && holdingValueCell && holdingPlCell) {
-        const curP = liveQuotes['ACV'] ? liveQuotes['ACV'].price : 39.4;
-        const curVal = acv.qty * curP * 1000;
+        const q = liveQuotes['ACV'] || { price: 39.4, avePrice: 39.4, lastPrice: 39.4 };
+        const lastP = q.lastPrice || q.price || 39.4;
+        const aveP = q.avePrice || lastP;
+
+        // Theo luật sàn UPCoM: Giá hạch toán lãi lỗ cuối ngày = Giá bình quân gia quyền cả phiên (aveP)
+        const curVal = acv.qty * aveP * 1000;
         const costVal = acv.qty * acv.avgPrice * 1000;
         const pl = curVal - costVal;
         const plPct = costVal > 0 ? (pl / costVal) * 100 : 0;
         const sSign = pl >= 0 ? '+' : '';
 
         if (holdingQtyCell) holdingQtyCell.innerText = `${acv.qty.toLocaleString()} CP`;
-        holdingPriceCell.innerText = `${curP.toFixed(1)}k`;
+        holdingPriceCell.innerHTML = `
+          <div style="font-weight:800; color:#fff; font-size:12px;">${lastP.toFixed(1)}k</div>
+          <div style="font-size:9.5px; color:var(--mu-gold); margin-top:2px;" title="Giá bình quân gia quyền (Giá chốt phiên UPCoM)">Giá TB: ${aveP.toFixed(1)}k</div>
+        `;
+        if (lastHoldingAcvPrice !== null && lastP !== lastHoldingAcvPrice) {
+          triggerNumJump(holdingPriceCell, lastP > lastHoldingAcvPrice);
+          triggerNumJump(holdingValueCell, lastP > lastHoldingAcvPrice);
+        }
+        lastHoldingAcvPrice = lastP;
+
         holdingValueCell.innerText = `${Math.round(curVal).toLocaleString('vi-VN')} đ`;
         holdingPlCell.innerHTML = `${sSign}${Math.round(pl).toLocaleString('vi-VN')} đ <span style="font-size:9.5px;">(${sSign}${plPct.toFixed(2)}%)</span>`;
         holdingPlCell.style.color = pl >= 0 ? 'var(--quant-green)' : 'var(--quant-red)';
+        if (holdingNoteEl) holdingNoteEl.innerText = `${aveP.toFixed(1)}k`;
       }
     }
 
@@ -2576,11 +3001,32 @@
           }
         });
       } else if (currentTab === 'all') {
-        list = radarList;
+        const allTargetSyms = Array.from(new Set(SECTOR_GROUPS.flatMap(g => g.symbols)));
+        const map = new Map(radarList.map(s => [s.symbol, s]));
+        list = allTargetSyms.map(sym => {
+          if (map.has(sym)) return map.get(sym);
+          const q = liveQuotes[sym] || { price: 30.0, ref: 30.0, ot: 0, chg: 0, vol: 250000 };
+          return {
+            symbol: sym, price: q.price, score: 55, rsi: 48.0, vol_surge: 1.15,
+            action: "🟡 XEM XÉT THÊM", entry_min: +(q.price * 0.995).toFixed(2),
+            entry_max: +(q.price * 1.005).toFixed(2), target: +(q.price * 1.08).toFixed(2),
+            stop_loss: +(q.price * 0.95).toFixed(2)
+          };
+        });
       } else {
         const sector = SECTOR_GROUPS.find(g => g.id === currentTab);
         if (sector) {
-          list = radarList.filter(s => sector.symbols.includes(s.symbol));
+          const map = new Map(radarList.map(s => [s.symbol, s]));
+          list = sector.symbols.map(sym => {
+            if (map.has(sym)) return map.get(sym);
+            const q = liveQuotes[sym] || { price: 30.0, ref: 30.0, ot: 0, chg: 0, vol: 250000 };
+            return {
+              symbol: sym, price: q.price, score: 55, rsi: 48.0, vol_surge: 1.15,
+              action: "🟡 XEM XÉT THÊM", entry_min: +(q.price * 0.995).toFixed(2),
+              entry_max: +(q.price * 1.005).toFixed(2), target: +(q.price * 1.08).toFixed(2),
+              stop_loss: +(q.price * 0.95).toFixed(2)
+            };
+          });
         }
       }
 
@@ -2594,8 +3040,10 @@
       list.forEach(item => {
         const sym = item.symbol;
         const q = liveQuotes[sym] || { price: item.price, ot: 0, chg: 0, ref: item.price, ceil: item.price*1.07, floor: item.price*0.93, vol: 150000 };
-        const isUpcom = sym === 'ACV';
+        const isUpcom = (q.market === 'UPCoM' || sym === 'ACV');
         const dec = isUpcom ? 1 : 2;
+        const lastP = q.lastPrice || q.price;
+        const aveP = q.avePrice || lastP;
 
         const badge = resolveActionBadge(item);
 
@@ -2615,13 +3063,17 @@
               </div>
             </td>
             <td id="price_${sym}" style="font-family:var(--font-mono); font-weight:800; color:#fff;">
-              ${q.price.toFixed(dec)}k
+              ${isUpcom ? `
+                <span style="font-weight:800; color:#fff;">${lastP.toFixed(1)}k</span>
+                <span class="upcom-ave-badge" title="Giá bình quân gia quyền (Giá chốt phiên UPCoM)">TB: ${aveP.toFixed(1)}k</span>
+              ` : `${lastP.toFixed(2)}k`}
             </td>
-            <td style="font-family:var(--font-mono); font-size:11px; white-space:nowrap;">
+            <td id="chg_${sym}" style="font-family:var(--font-mono); font-size:11px; white-space:nowrap;">
               <span style="color:${col}; font-weight:700;">${sign}${q.ot.toFixed(dec)} (${sign}${q.chg.toFixed(2)}%)</span>
               <span style="color:var(--text-dim); margin-left:4px;">TC: ${(q.ref||q.price).toFixed(dec)}k</span>
+              ${isUpcom ? '<span style="font-size:9px; color:#60a5fa; background:rgba(59,130,246,0.12); padding:1px 4px; border-radius:2px; margin-left:3px;" title="Sàn UPCoM không có ATC - Giá chốt phiên = Giá bình quân gia quyền">UPCoM</span>' : ''}
             </td>
-            <td style="font-family:var(--font-mono); color:var(--text-muted);">${(q.vol||150000).toLocaleString('vi-VN')}</td>
+            <td id="vol_${sym}" style="font-family:var(--font-mono); color:var(--text-muted);">${(q.vol||150000).toLocaleString('vi-VN')}</td>
             <td>
               <div class="score-bar-wrap">
                 <div class="score-bar-bg">
@@ -2784,8 +3236,27 @@
       } catch (_) {}
     }
 
+    // MÃ PIN BẢO MẬT GIAO DỊCH CỦA ANH THẾ (BẢO VỆ CHỐNG THAY ĐỔI SỐ LIỆU)
+    const SECURE_PIN = "251205";
+
     function executeFinalOrder() {
+      const pinEl = document.getElementById('orderPinInput');
+      const errEl = document.getElementById('orderPinError');
+      const pin = (pinEl ? pinEl.value : '').trim();
+
+      if (pin !== SECURE_PIN) {
+        if (errEl) errEl.style.display = 'block';
+        if (pinEl) {
+          pinEl.focus();
+          pinEl.select();
+        }
+        showToast('🔒 Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN 251205 của anh Thế.');
+        return;
+      }
+      if (errEl) errEl.style.display = 'none';
+
       closeModal('modalConfirmOrder');
+      if (pinEl) pinEl.value = '';
       playChime();
 
       const sym = activeStock;
@@ -2893,21 +3364,53 @@
     }
 
     function confirmDeposit() {
+      const pinEl = document.getElementById('depositPinInput');
+      const errEl = document.getElementById('depositPinError');
+      const pin = (pinEl ? pinEl.value : '').trim();
+
+      if (pin !== SECURE_PIN) {
+        if (errEl) errEl.style.display = 'block';
+        if (pinEl) {
+          pinEl.focus();
+          pinEl.select();
+        }
+        showToast('🔒 Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN 251205 của anh Thế.');
+        return;
+      }
+      if (errEl) errEl.style.display = 'none';
+
       const val = parseInt(document.getElementById('depositAmount').value.replace(/\D/g, '')) || 0;
       if (val < 50000) { alert('Số tiền nạp tối thiểu là 50.000 đ!'); return; }
       currentCash += val;
       updatePortfolioUI();
       closeModal('depositModal');
-      showToast(`✓ Đã nạp thành công +${val.toLocaleString('vi-VN')} đ vào tài khoản SVCC!`);
+      if (pinEl) pinEl.value = '';
+      showToast(`✓ [ĐÃ XÁC THỰC PIN 251205] Nạp thành công +${val.toLocaleString('vi-VN')} đ vào tài khoản!`);
     }
 
     function confirmWithdraw() {
+      const pinEl = document.getElementById('withdrawPinInput');
+      const errEl = document.getElementById('withdrawPinError');
+      const pin = (pinEl ? pinEl.value : '').trim();
+
+      if (pin !== SECURE_PIN) {
+        if (errEl) errEl.style.display = 'block';
+        if (pinEl) {
+          pinEl.focus();
+          pinEl.select();
+        }
+        showToast('🔒 Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN 251205 của anh Thế.');
+        return;
+      }
+      if (errEl) errEl.style.display = 'none';
+
       const val = parseInt(document.getElementById('withdrawAmount').value.replace(/\D/g, '')) || 0;
       if (val < 50000 || val > currentCash) { alert('Số tiền rút không hợp lệ hoặc vượt quá số dư!'); return; }
       currentCash -= val;
       updatePortfolioUI();
       closeModal('withdrawModal');
-      showToast(`✓ Đã rút -${val.toLocaleString('vi-VN')} đ!`);
+      if (pinEl) pinEl.value = '';
+      showToast(`✓ [ĐÃ XÁC THỰC PIN 251205] Rút thành công -${val.toLocaleString('vi-VN')} đ!`);
     }
 
     function formatCurrencyInput(el) {
@@ -2967,11 +3470,43 @@
     function openModal(id) {
       const el = document.getElementById(id);
       if (el) el.style.display = 'flex';
+
+      // Xóa sạch mã PIN cũ và tự động focus vào ô nhập PIN
+      if (id === 'depositModal') {
+        const pinEl = document.getElementById('depositPinInput');
+        const errEl = document.getElementById('depositPinError');
+        if (pinEl) { pinEl.value = ''; setTimeout(() => pinEl.focus(), 120); }
+        if (errEl) errEl.style.display = 'none';
+      } else if (id === 'withdrawModal') {
+        const pinEl = document.getElementById('withdrawPinInput');
+        const errEl = document.getElementById('withdrawPinError');
+        if (pinEl) { pinEl.value = ''; setTimeout(() => pinEl.focus(), 120); }
+        if (errEl) errEl.style.display = 'none';
+      } else if (id === 'modalConfirmOrder') {
+        const pinEl = document.getElementById('orderPinInput');
+        const errEl = document.getElementById('orderPinError');
+        if (pinEl) { pinEl.value = ''; setTimeout(() => pinEl.focus(), 120); }
+        if (errEl) errEl.style.display = 'none';
+      }
     }
+
     function closeModal(id) {
       const el = document.getElementById(id);
       if (el) el.style.display = 'none';
+
+      // Xóa mã PIN khi đóng modal để bảo mật
+      if (id === 'depositModal') {
+        const pinEl = document.getElementById('depositPinInput');
+        if (pinEl) pinEl.value = '';
+      } else if (id === 'withdrawModal') {
+        const pinEl = document.getElementById('withdrawPinInput');
+        if (pinEl) pinEl.value = '';
+      } else if (id === 'modalConfirmOrder') {
+        const pinEl = document.getElementById('orderPinInput');
+        if (pinEl) pinEl.value = '';
+      }
     }
+
     function showToast(msg) {
       const t = document.getElementById('toastMsg');
       if (!t) return;
