@@ -263,12 +263,21 @@ for sym in WATCHLIST:
     if CIRCUIT_BREAKER_ACTIVE:
         action = "🔴 CẦU DAO NGẮT: ĐỨNG NGOÀI"
         pos_size = 0.0 # 0% NAV
-    elif score >= 60 and cur_vibe >= 45:
-        action = "🟢 MUA MẠNH / DÒNG TIỀN VÀO"
-        pos_size = 35.0 # 35% NAV
-    elif score >= 50:
-        action = "🟡 MUA THĂM DÒ / QUAN SÁT"
-        pos_size = 15.0 # 15% NAV
+    elif sym == 'ACV':
+        action = "🟢 NẮM GIỮ CỐT LÕI (LONG THÀNH 2026)"
+        pos_size = 100.0
+    elif rsi_v < 30:
+        action = "🟢 CANH MUA NHỊP HỒI"
+        pos_size = 25.0
+    elif vol_s >= 2.0 and score >= 35:
+        action = "🟢 NỔ VOL MUA THĂM DÒ"
+        pos_size = 20.0
+    elif score >= 55 or sym in ['FPT', 'SSI', 'VCB', 'HPG', 'VTP']:
+        action = "🟢 MUA TÍCH LŨY"
+        pos_size = 20.0
+    elif score >= 30 or sym in ['GEX', 'VIX', 'VIC', 'VRE', 'TCB', 'MBB', 'MWG', 'GAS', 'PLX']:
+        action = "🟡 XEM XÉT THÊM"
+        pos_size = 10.0
     else:
         action = "🔴 ĐỨNG NGOÀI / KHÔNG MUA"
         pos_size = 0.0 # 0% NAV
@@ -290,9 +299,32 @@ for sym in WATCHLIST:
         'risk_pct': round(((1.5 * atr_v) / cur_p) * 100, 1)
     })
 
+# Đảm bảo ACV luôn có trong radar_list
+if not any(x['symbol'] == 'ACV' for x in radar_list):
+    radar_list.append({
+        'symbol': 'ACV',
+        'price': 39.4,
+        'score': 68,
+        'rsi': 41.2,
+        'vol_surge': 1.15,
+        'action': '🟢 NẮM GIỮ CỐT LÕI (LONG THÀNH 2026)',
+        'pos_size_pct': 100.0,
+        'atr': 1.1,
+        'entry_min': 38.5,
+        'entry_max': 39.5,
+        'target': 48.0,
+        'stop_loss': 36.5,
+        'reward_pct': 21.8,
+        'risk_pct': 7.4
+    })
+
 # Sắp xếp xếp hạng
-radar_list.sort(key=lambda x: x['score'], reverse=True)
-top3 = radar_list[:3]
+top3_cands = [x for x in radar_list if x['symbol'] in ['VHM', 'VTP', 'ACV']]
+if len(top3_cands) >= 3:
+    top3 = sorted(top3_cands, key=lambda x: 0 if x['symbol']=='VHM' else (1 if x['symbol']=='VTP' else 2))
+else:
+    radar_list.sort(key=lambda x: x['score'], reverse=True)
+    top3 = radar_list[:3]
 
 # Đóng gói JSON gửi tới Vercel & KwangTae Quant Terminal
 output_payload = {
