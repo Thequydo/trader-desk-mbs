@@ -1399,8 +1399,8 @@
           </div>
           <div class="stat-box">
             <div class="stat-label">Tổng Tài Sản (NAV)</div>
-            <div class="stat-value val-cyan" id="totalNavVal">49.75 Tr</div>
-            <div class="stat-sub" id="navPlSub" style="color:var(--quant-red);">-8.12 Tr (-14.0%)</div>
+            <div class="stat-value val-cyan" id="totalNavVal">49.63 Tr</div>
+            <div class="stat-sub" id="navPlSub" style="color:var(--quant-red);">-8.25 Tr (-14.38%)</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Tiền Mặt Khả Dụng</div>
@@ -1409,7 +1409,7 @@
           </div>
           <div class="stat-box">
             <div class="stat-label">Giá Trị Cổ Phiếu</div>
-            <div class="stat-value val-green" id="stockVal">49.25 Tr</div>
+            <div class="stat-value val-green" id="stockVal">49.13 Tr</div>
             <div class="stat-sub" id="holdingCountSub" style="color:var(--text-muted);">1,250 ACV</div>
           </div>
         </div>
@@ -1446,7 +1446,7 @@
                   <th>MÃ CP</th>
                   <th style="text-align:right;">SỐ LƯỢNG</th>
                   <th style="text-align:right;">GIÁ VỐN</th>
-                  <th style="text-align:right;">THỊ GIÁ</th>
+                  <th style="text-align:right;">THỊ GIÁ (GIÁ TB)</th>
                   <th style="text-align:right;">TỔNG GIÁ TRỊ</th>
                   <th style="text-align:right;">LÃI / LỖ (P&L)</th>
                   <th style="text-align:right;">TỶ TRỌNG</th>
@@ -1464,12 +1464,12 @@
                   <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:#fff;" id="holdingQtyCell">1,250 CP</td>
                   <td style="text-align:right; font-family:var(--font-mono); color:var(--text-muted);">45.899k</td>
                   <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:#fff;" id="holdingPriceCell">
-                    <div>39.4k</div>
-                    <div style="font-size:9.5px; color:var(--mu-gold); font-weight:normal;" title="Giá bình quân gia quyền (Giá chốt phiên UPCoM)">Giá TB: 39.4k</div>
+                    <div style="font-weight:900; color:#fff; font-size:13px;">39.3k <span class="upcom-ave-badge" style="font-size:9.5px; vertical-align:middle; background:rgba(251,225,34,0.18); color:#fbe122; border:1px solid rgba(251,225,34,0.4); padding:1px 5px; border-radius:4px;" title="Giá bình quân gia quyền - Giá thị trường chốt phiên sàn UPCoM">Giá TB</span></div>
+                    <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">Khớp cuối: <span style="color:#38bdf8; font-weight:700;">39.4k</span></div>
                   </td>
-                  <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:var(--quant-green);" id="holdingValueCell">49,250,000 đ</td>
+                  <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:var(--quant-green);" id="holdingValueCell">49,125,000 đ</td>
                   <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:var(--quant-red);" id="holdingPlCell">
-                    -8,123,750 đ <span style="font-size:9.5px;">(-14.16%)</span>
+                    -8,248,750 đ <span style="font-size:9.5px;">(-14.38%)</span>
                   </td>
                   <td style="text-align:right; font-family:var(--font-mono); font-weight:800; color:var(--mu-gold);">99.0%</td>
                   <td style="text-align:center;">
@@ -1483,7 +1483,7 @@
           </div>
 
           <div class="holdings-footer-note" id="holdingsFooterNote">
-            🎯 <strong>Quy chế sàn UPCoM:</strong> Không có phiên ATC • Giá chốt phiên & Tham chiếu ngày mai = <strong>Giá bình quân gia quyền (WAP)</strong> • Danh mục định giá theo Giá TB: <strong>39.4k</strong> • Tiền mặt thực có: <strong style="color:var(--mu-gold);">500,000 đ</strong> • Khóa <strong>1,000 CP ACV</strong> cất tủ dài hạn • Kế hoạch cơ cấu: <em>Nếu bán</em> <strong>250 CP ACV</strong> thu tiền mặt ~9.82 Tr thì mới nâng tiền mặt lên <strong>10.32 triệu</strong>
+            🎯 <strong>Quy chế sàn UPCoM:</strong> Không có phiên ATC • Giá chốt phiên (Thị giá) = <strong>Giá bình quân gia quyền (<span id="holdingAvePriceNote">39.3k</span>)</strong> • Khớp lệnh cuối: <span style="color:#38bdf8; font-weight:700;">39.4k</span> • Tiền mặt thực có: <strong style="color:var(--mu-gold);">500,000 đ</strong> • Khóa <strong>1,000 CP ACV</strong> cất tủ dài hạn • Kế hoạch cơ cấu: <em>Nếu bán</em> <strong>250 CP ACV</strong> thu tiền mặt ~9.82 Tr thì mới nâng tiền mặt lên <strong>10.32 triệu</strong>
           </div>
         </div>
       </div>
@@ -2013,7 +2013,7 @@
     // TÀI SẢN THỰC CỦA ANH THẾ
     let currentCash = 500000;
     let holdings = {
-      "ACV": { symbol: "ACV", qty: 1250, avgPrice: 45.899, curPrice: 39.4, name: "TCT Cảng Hàng Không VN" }
+      "ACV": { symbol: "ACV", qty: 1250, avgPrice: 45.899, curPrice: 39.3, name: "TCT Cảng Hàng Không VN" }
     };
     let transactions = [
       { id: "GD1001", time: "24/09/2026 09:15", type: "deposit", amount: 500000, balance: 500000, desc: "Số dư khởi tạo ban đầu", status: "Thành công" },
@@ -2022,7 +2022,7 @@
 
     // BẢNG GIÁ REALTIME TỰ ĐỘNG
     let liveQuotes = {
-      ACV: { sym: 'ACV', price: 39.4, open: 39.4, high: 39.8, low: 39.0, ref: 39.4, ceil: 45.3, floor: 33.5, ot: 0.0, chg: 0.00, market: 'UPCoM', vol: 24900 },
+      ACV: { sym: 'ACV', price: 39.3, lastPrice: 39.4, avePrice: 39.3, open: 39.5, high: 39.5, low: 39.1, ref: 39.2, ceil: 45.0, floor: 33.4, ot: 0.1, chg: 0.26, market: 'UPCoM', vol: 18850 },
       VHM: { sym: 'VHM', price: 65.4, open: 67.0, high: 67.5, low: 65.0, ref: 68.2, ceil: 72.9, floor: 63.5, ot: -2.8, chg: -4.11, market: 'HOSE', vol: 1826010 },
       VTP: { sym: 'VTP', price: 52.6, open: 49.8, high: 52.6, low: 49.5, ref: 49.25, ceil: 52.6, floor: 45.85, ot: 3.35, chg: 6.80, market: 'HOSE', vol: 258880 },
       GEX: { sym: 'GEX', price: 24.1, open: 24.3, high: 24.6, low: 24.0, ref: 24.35, ceil: 26.05, floor: 22.65, ot: -0.25, chg: -1.03, market: 'HOSE', vol: 510370 },
@@ -2535,13 +2535,12 @@
               const dec = isUpcom ? 1 : 2;
 
               // QUY CHUẨN GIÁ CHỐT PHIÊN VÀ THAM CHIẾU SÀN UPCoM (HNX Rule):
-              // 1. Trong phiên: rawLast là giá khớp lệnh gần nhất.
-              // 2. Chốt phiên cuối ngày: GIÁ CHỐT PHIÊN là GIÁ BÌNH QUÂN GIA QUYỀN (rawAve),
+              // 1. Sàn UPCoM không có phiên ATC: Thị giá chốt phiên cuối ngày là GIÁ BÌNH QUÂN GIA QUYỀN (rawAve),
               //    và đây cũng là Giá tham chiếu cho phiên tiếp theo (làm tròn bước giá 100đ = 0.1k).
-              // 3. Đối với HOSE/HNX: Giá chốt phiên là giá khớp lệnh ATC (rawLast).
+              // 2. Đối với HOSE/HNX: Giá chốt phiên là giá khớp lệnh ATC (rawLast).
               const avePrice = isUpcom ? parseFloat(rawAve.toFixed(1)) : rawAve;
               const lastPrice = isUpcom ? parseFloat(rawLast.toFixed(1)) : rawLast;
-              const effectivePrice = lastPrice > 0 ? lastPrice : avePrice;
+              const effectivePrice = isUpcom ? (avePrice > 0 ? avePrice : lastPrice) : (lastPrice > 0 ? lastPrice : avePrice);
               const ot = effectivePrice - ref;
               const chg = ref > 0 ? (ot / ref) * 100 : 0;
 
@@ -2566,8 +2565,13 @@
               if (priceEl) {
                 if (isUpcom) {
                   priceEl.innerHTML = `
-                    <span style="font-weight:800; color:#fff;">${effectivePrice.toFixed(1)}k</span>
-                    <span class="upcom-ave-badge" title="Giá bình quân gia quyền (Giá chốt phiên UPCoM)">TB: ${avePrice.toFixed(1)}k</span>
+                    <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                      <div style="display:inline-flex; align-items:center; gap:4px;">
+                        <span style="font-weight:900; color:#fff; font-size:12.5px;">${avePrice.toFixed(1)}k</span>
+                        <span class="upcom-ave-badge" title="Giá bình quân gia quyền - Thị giá chốt phiên UPCoM">Giá TB</span>
+                      </div>
+                      <div style="font-size:9.5px; color:var(--text-muted); margin-top:1px;">Khớp cuối: <span style="color:#fbe122; font-weight:700;">${lastPrice.toFixed(1)}k</span></div>
+                    </div>
                   `;
                 } else {
                   priceEl.innerText = `${effectivePrice.toFixed(2)}k`;
@@ -2816,11 +2820,11 @@
 
       const acv = holdings['ACV'];
       if (acv && holdingPriceCell && holdingValueCell && holdingPlCell) {
-        const q = liveQuotes['ACV'] || { price: 39.4, avePrice: 39.4, lastPrice: 39.4 };
-        const lastP = q.lastPrice || q.price || 39.4;
-        const aveP = q.avePrice || lastP;
+        const q = liveQuotes['ACV'] || { price: 39.3, avePrice: 39.3, lastPrice: 39.4 };
+        const lastP = q.lastPrice || 39.4;
+        const aveP = q.avePrice || 39.3;
 
-        // Theo luật sàn UPCoM: Giá hạch toán lãi lỗ cuối ngày = Giá bình quân gia quyền cả phiên (aveP)
+        // Theo quy chế sàn UPCoM: Thị giá chốt phiên cuối ngày & làm căn cứ tính NAV = Giá bình quân gia quyền (aveP)
         const curVal = acv.qty * aveP * 1000;
         const costVal = acv.qty * acv.avgPrice * 1000;
         const pl = curVal - costVal;
@@ -2829,14 +2833,14 @@
 
         if (holdingQtyCell) holdingQtyCell.innerText = `${acv.qty.toLocaleString()} CP`;
         holdingPriceCell.innerHTML = `
-          <div style="font-weight:800; color:#fff; font-size:12px;">${lastP.toFixed(1)}k</div>
-          <div style="font-size:9.5px; color:var(--mu-gold); margin-top:2px;" title="Giá bình quân gia quyền (Giá chốt phiên UPCoM)">Giá TB: ${aveP.toFixed(1)}k</div>
+          <div style="font-weight:900; color:#fff; font-size:13px;">${aveP.toFixed(1)}k <span class="upcom-ave-badge" style="font-size:9.5px; vertical-align:middle; background:rgba(251,225,34,0.18); color:#fbe122; border:1px solid rgba(251,225,34,0.4); padding:1px 5px; border-radius:4px;" title="Giá bình quân gia quyền - Giá thị trường chốt phiên sàn UPCoM">Giá TB</span></div>
+          <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">Khớp cuối: <span style="color:#38bdf8; font-weight:700;">${lastP.toFixed(1)}k</span></div>
         `;
-        if (lastHoldingAcvPrice !== null && lastP !== lastHoldingAcvPrice) {
-          triggerNumJump(holdingPriceCell, lastP > lastHoldingAcvPrice);
-          triggerNumJump(holdingValueCell, lastP > lastHoldingAcvPrice);
+        if (lastHoldingAcvPrice !== null && aveP !== lastHoldingAcvPrice) {
+          triggerNumJump(holdingPriceCell, aveP > lastHoldingAcvPrice);
+          triggerNumJump(holdingValueCell, aveP > lastHoldingAcvPrice);
         }
-        lastHoldingAcvPrice = lastP;
+        lastHoldingAcvPrice = aveP;
 
         holdingValueCell.innerText = `${Math.round(curVal).toLocaleString('vi-VN')} đ`;
         holdingPlCell.innerHTML = `${sSign}${Math.round(pl).toLocaleString('vi-VN')} đ <span style="font-size:9.5px;">(${sSign}${plPct.toFixed(2)}%)</span>`;
@@ -3064,8 +3068,13 @@
             </td>
             <td id="price_${sym}" style="font-family:var(--font-mono); font-weight:800; color:#fff;">
               ${isUpcom ? `
-                <span style="font-weight:800; color:#fff;">${lastP.toFixed(1)}k</span>
-                <span class="upcom-ave-badge" title="Giá bình quân gia quyền (Giá chốt phiên UPCoM)">TB: ${aveP.toFixed(1)}k</span>
+                <div style="display:flex; flex-direction:column; align-items:flex-start;">
+                  <div style="display:inline-flex; align-items:center; gap:4px;">
+                    <span style="font-weight:900; color:#fff; font-size:12.5px;">${aveP.toFixed(1)}k</span>
+                    <span class="upcom-ave-badge" title="Giá bình quân gia quyền - Thị giá chốt phiên UPCoM">Giá TB</span>
+                  </div>
+                  <div style="font-size:9.5px; color:var(--text-muted); margin-top:1px;">Khớp: <span style="color:#fbe122; font-weight:700;">${lastP.toFixed(1)}k</span></div>
+                </div>
               ` : `${lastP.toFixed(2)}k`}
             </td>
             <td id="chg_${sym}" style="font-family:var(--font-mono); font-size:11px; white-space:nowrap;">
