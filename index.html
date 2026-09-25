@@ -1401,7 +1401,7 @@
                 <span>🤖</span> KWANGTAE QUANT BROKER:
               </div>
               Chào anh <strong>Thế Quang 🔱</strong>! Em đã kết nối hệ thống phân tích định lượng & dữ liệu VPS thời gian thực.<br><br>
-              Anh bấm các phím tắt bên dưới hoặc gõ trực tiếp câu hỏi (điểm cắt lỗ, target chốt lời, vùng bắt đáy) để em soi ngay nhé!
+              Anh bấm các phím tắt bên dưới hoặc gõ trực tiếp câu hỏi (điểm cắt lỗ, target chốt lời, vùng canh mua nhịp hồi) để em soi ngay nhé!
             </div>
           </div>
 
@@ -1412,7 +1412,7 @@
 
           <div class="quick-prompts">
             <span class="prompt-chip" style="font-size:11.5px; padding:6px 12px;" onclick="quickAiPrompt('Tìm điểm cắt lỗ và target chốt lời')">🎯 Cắt lỗ & Target</span>
-            <span class="prompt-chip" style="font-size:11.5px; padding:6px 12px;" onclick="quickAiPrompt('Soi kỹ thuật mã VHM bắt đáy được chưa?')">🎯 Bắt đáy VHM</span>
+            <span class="prompt-chip" style="font-size:11.5px; padding:6px 12px;" onclick="quickAiPrompt('Soi kỹ thuật mã VHM đã canh mua nhịp hồi được chưa?')">🎯 Canh mua VHM</span>
             <span class="prompt-chip" style="font-size:11.5px; padding:6px 12px;" onclick="quickAiPrompt('Phân tích dòng tiền mã VTP')">🚀 Soi mã VTP</span>
             <span class="prompt-chip" style="font-size:11.5px; padding:6px 12px;" onclick="quickAiPrompt('Nhịp đập thị trường và chỉ số Vibe')">📡 Vibe Thị Trường</span>
           </div>
@@ -1736,7 +1736,7 @@
           <select class="form-control" id="journalReasonSelect">
             <option value="Breakout nền tích lũy cạn kiệt khối lượng">Breakout nền tích lũy cạn kiệt khối lượng</option>
             <option value="Test hỗ trợ MA50 / MA200 rút chân">Test hỗ trợ MA50 / MA200 rút chân</option>
-            <option value="Bắt đáy RSI quá bán sâu (<35)">Bắt đáy RSI quá bán sâu (<35)</option>
+            <option value="Canh mua nhịp hồi (Giá chiết khấu sâu RSI < 30)">Canh mua nhịp hồi (Giá chiết khấu sâu RSI < 30)</option>
             <option value="Đón sóng KQKD quý & Siêu Cảng Hàng Không Long Thành">Đón sóng KQKD quý & Siêu Cảng Hàng Không Long Thành</option>
             <option value="Cắt lỗ vi phạm quy tắc kỷ luật (-5%)">Cắt lỗ vi phạm quy tắc kỷ luật (-5%)</option>
             <option value="Chốt lời đạt target mục tiêu (+10% ~ +15%)">Chốt lời đạt target mục tiêu (+10% ~ +15%)</option>
@@ -2472,13 +2472,13 @@
         validation_auc: 0.631,
         circuit_breaker: false,
         top3: [
-          { symbol: "VHM", price: 65.4, score: 68, rsi: 17.3, vol_surge: 1.83, action: "🎯 BẮT ĐÁY QUÁ BÁN", entry_min: 65.07, entry_max: 65.73, target: 73.63, stop_loss: 61.29 },
+          { symbol: "VHM", price: 65.4, score: 68, rsi: 17.3, vol_surge: 1.83, action: "🟢 CANH MUA NHỊP HỒI", entry_min: 65.07, entry_max: 65.73, target: 73.63, stop_loss: 61.29 },
           { symbol: "VTP", price: 52.6, score: 72, rsi: 55.7, vol_surge: 4.86, action: "🚀 NỔ VOL MUA THĂM DÒ", entry_min: 52.0, entry_max: 53.0, target: 60.5, stop_loss: 49.5 },
           { symbol: "ACV", price: 39.4, score: 65, rsi: 41.2, vol_surge: 0.88, action: "🟡 QUAN SÁT", entry_min: 39.0, entry_max: 40.0, target: 48.0, stop_loss: 36.5 }
         ],
         radar: [
           { symbol: "ACV", price: 39.4, score: 65, rsi: 41.2, vol_surge: 0.88, action: "🟡 QUAN SÁT", entry_min: 39.0, entry_max: 40.0, target: 48.0, stop_loss: 36.5 },
-          { symbol: "VHM", price: 65.4, score: 68, rsi: 17.3, vol_surge: 1.83, action: "🎯 BẮT ĐÁY QUÁ BÁN", entry_min: 65.07, entry_max: 65.73, target: 73.63, stop_loss: 61.29 },
+          { symbol: "VHM", price: 65.4, score: 68, rsi: 17.3, vol_surge: 1.83, action: "🟢 CANH MUA NHỊP HỒI", entry_min: 65.07, entry_max: 65.73, target: 73.63, stop_loss: 61.29 },
           { symbol: "VRE", price: 24.15, score: 50, rsi: 28.4, vol_surge: 1.0, action: "🔴 ĐỨNG NGOÀI", entry_min: 24.0, entry_max: 24.5, target: 26.8, stop_loss: 22.8 },
           { symbol: "VIC", price: 42.1, score: 52, rsi: 35.0, vol_surge: 0.95, action: "🔴 ĐỨNG NGOÀI", entry_min: 41.5, entry_max: 42.5, target: 46.0, stop_loss: 39.5 },
           { symbol: "GEX", price: 24.1, score: 58, rsi: 39.3, vol_surge: 0.57, action: "🟡 TÍCH LŨY QUAN SÁT", entry_min: 23.8, entry_max: 24.5, target: 27.5, stop_loss: 22.5 },
@@ -2516,7 +2516,7 @@
         if (item.symbol === 'ACV') {
           act = '🟢 NẮM GIỮ CỐT LÕI';
         } else if (rsi < 28) {
-          act = '🟢 BẮT ĐÁY QUÁ BÁN';
+          act = '🟢 CANH MUA NHỊP HỒI';
         } else if (volSurge >= 2.0 && score >= 45) {
           act = '🟢 NỔ VOL MUA THĂM DÒ';
         } else if (score >= 60) {
