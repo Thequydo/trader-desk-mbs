@@ -1557,19 +1557,19 @@
           <div class="cp-tools-bar">
             <button class="btn-chart-tool active" id="btnToggleMa" onclick="toggleMaLines()">📈 MA Lines</button>
             <button class="btn-chart-tool active" id="btnToggleVol" onclick="toggleVolume()">📊 Volume</button>
-            <button class="btn-chart-tool" onclick="addHorizontalLine()">➖ Kẻ hỗ trợ</button>
+            <button class="btn-chart-tool" id="btnToggleSupport" onclick="toggleSupportLine()">➖ Kẻ hỗ trợ</button>
             <button class="btn-chart-tool" onclick="fitChart()">⛶ Fit</button>
           </div>
         </div>
 
         <!-- OHLC ROW (REALTIME RUNNING) -->
         <div class="cp-ohlc-row">
-          <span>O <strong id="ohlcO" style="color:#fff;">39.40</strong></span>
-          <span>H <strong id="ohlcH" style="color:#fff;">39.80</strong></span>
-          <span>L <strong id="ohlcL" style="color:#fff;">39.00</strong></span>
-          <span>C <strong id="ohlcC" style="color:var(--mu-gold); font-weight:800;">39.40</strong></span>
-          <span id="ohlcChg" style="color:var(--mu-gold); font-weight:800;">0.00 (0.00%)</span>
-          <span style="font-size:10px; color:var(--text-dim); margin-left:auto;">🟢 LIVE CANDLE PULSE</span>
+          <span>O <strong id="ohlcO" style="color:#fff;">39.5</strong></span>
+          <span>H <strong id="ohlcH" style="color:#fff;">39.5</strong></span>
+          <span>L <strong id="ohlcL" style="color:#fff;">39.1</strong></span>
+          <span>C <strong id="ohlcC" style="color:var(--mu-gold); font-weight:800;">39.3</strong></span>
+          <span id="ohlcChg" style="color:var(--quant-green); font-weight:800;">+0.1 (+0.26%)</span>
+          <span id="liveCandlePulseBadge" style="font-size:10px; color:var(--text-dim); margin-left:auto; display:inline-flex; align-items:center; gap:4px;">🔒 ĐÃ ĐÓNG PHIÊN (GIÁ CHỐT)</span>
         </div>
 
         <!-- CANVAS -->
@@ -2059,7 +2059,6 @@
       setInterval(fetchVPSRealtime, 2000);
       fetchVnIndexRealtime();
       setInterval(fetchVnIndexRealtime, 2500);
-      setInterval(pulseLiveCandle, 1000);
       updateMarketStatusBadge();
       setInterval(updateMarketStatusBadge, 1000);
       updatePortfolioUI();
@@ -2214,6 +2213,20 @@
     // TẢI DỮ LIỆU CỔ PHIẾU ĐA NIÊN ĐẠI (MULTI-YEAR REAL DATA TỪ SÀN)
     async function loadStockData(sym) {
       if (!candleSeries) return;
+
+      // Xóa sạch các đường hỗ trợ cũ khi chuyển mã để tránh đè chồng
+      if (drawnPriceLines.length > 0) {
+        drawnPriceLines.forEach(l => {
+          try { candleSeries.removePriceLine(l); } catch(_) {}
+        });
+        drawnPriceLines = [];
+        const btn = document.getElementById('btnToggleSupport');
+        if (btn) {
+          btn.classList.remove('active');
+          btn.innerHTML = '➖ Kẻ hỗ trợ';
+        }
+      }
+
       const data = liveQuotes[sym] || liveQuotes.ACV;
       const dec = data.market === 'UPCoM' ? 1 : 2;
 
@@ -2316,31 +2329,10 @@
     }
 
     function pulseLiveCandle() {
-      if (!candleSeries || !currentCandleData) return;
-      const s = liveQuotes[activeStock];
-      if (!s) return;
-
-      const dec = s.market === 'UPCoM' ? 1 : 2;
-      const tick = (Math.random() - 0.49) * (s.market === 'UPCoM' ? 0.1 : 0.05);
-      const newClose = parseFloat(Math.max(s.floor || 1, Math.min(s.ceil || 150, s.price + tick)).toFixed(dec));
-      const prevClose = currentCandleData.close || s.price;
-
-      currentCandleData.close = newClose;
-      if (newClose > currentCandleData.high) currentCandleData.high = newClose;
-      if (newClose < currentCandleData.low) currentCandleData.low = newClose;
-
-      candleSeries.update(currentCandleData);
-
-      const ohlcCEl = document.getElementById('ohlcC');
-      if (ohlcCEl) {
-        ohlcCEl.innerText = newClose.toFixed(dec);
-        if (newClose !== prevClose) {
-          triggerNumJump(ohlcCEl, newClose > prevClose);
-        } else {
-          ohlcCEl.classList.add('tick-pulse');
-          setTimeout(() => ohlcCEl.classList.remove('tick-pulse'), 400);
-        }
-      }
+      // Đã loại bỏ hoàn toàn việc tạo tick ngẫu nhiên giả lập (Math.random).
+      // Biểu đồ chỉ nhận dữ liệu khớp lệnh thật từ sàn qua VPS Realtime (fetchVPSRealtime).
+      // Khi hết phiên giao dịch hoặc ngoài giờ (sau 15:00, cuối tuần), nến đứng yên hoàn toàn ở giá chốt phiên.
+      return;
     }
 
     // BƯỚC GIÁ THEO LUẬT SÀN
@@ -2499,16 +2491,26 @@
       const isAfternoon = totalMin >= 780 && totalMin <= 900; // 13:00 - 15:00
       const isOpen = !isWeekend && (isMorning || isAfternoon);
 
+      const pulseBadge = document.getElementById('liveCandlePulseBadge');
+
       if (isOpen) {
         badgeEl.className = 'badge-live';
         badgeEl.innerText = 'LIVE REALTIME • ĐANG KHỚP LỆNH';
         badgeEl.style.borderColor = 'rgba(16, 185, 129, 0.5)';
         badgeEl.style.color = '#34d399';
+        if (pulseBadge) {
+          pulseBadge.innerHTML = '<span style="color:#10b981;">🟢</span> LIVE REALTIME (VPS)';
+          pulseBadge.style.color = '#34d399';
+        }
       } else {
         badgeEl.className = 'badge-live badge-closed';
         badgeEl.innerText = 'ĐÃ CHỐT PHIÊN • GIÁ BÌNH QUÂN UPCoM & ATC';
         badgeEl.style.borderColor = 'rgba(251, 225, 34, 0.4)';
         badgeEl.style.color = '#fbe122';
+        if (pulseBadge) {
+          pulseBadge.innerHTML = '<span style="color:var(--text-dim);">🔒</span> ĐÃ ĐÓNG PHIÊN (GIÁ CHỐT)';
+          pulseBadge.style.color = 'var(--text-dim)';
+        }
       }
     }
 
@@ -3480,16 +3482,45 @@
       }
     }
 
-    function addHorizontalLine() {
+    function toggleSupportLine() {
       if (!candleSeries) return;
-      const p = liveQuotes[activeStock]?.price || 39.4;
-      const line = candleSeries.createPriceLine({
-        price: p, color: '#da020e', lineWidth: 1.5, lineStyle: 2,
-        axisLabelVisible: true, title: `HỖ TRỢ ${activeStock} (${p}k)`
-      });
-      drawnPriceLines.push(line);
-      showToast(`➖ Đã vẽ đường hỗ trợ tại ${p}k`);
+      const btn = document.getElementById('btnToggleSupport');
+
+      if (drawnPriceLines.length > 0) {
+        // TẮT & XÓA TOÀN BỘ ĐƯỜNG HỖ TRỢ TRÊN BIỂU ĐỒ (TRÁNH BỊ ĐÈ CHỒNG NHÃN TRỤC GIÁ)
+        drawnPriceLines.forEach(line => {
+          try {
+            candleSeries.removePriceLine(line);
+          } catch (_) {}
+        });
+        drawnPriceLines = [];
+        if (btn) {
+          btn.classList.remove('active');
+          btn.innerHTML = '➖ Kẻ hỗ trợ';
+        }
+        showToast('✓ Đã tắt và xóa đường hỗ trợ trên biểu đồ');
+      } else {
+        // BẬT KẺ ĐƯỜNG HỖ TRỢ THEO MỨC GIÁ CHUẨN CỦA MÃ HIỆN TẠI
+        const s = liveQuotes[activeStock] || { price: 39.3, avePrice: 39.3 };
+        const isUpcom = (s.market === 'UPCoM' || activeStock === 'ACV');
+        const p = isUpcom ? (s.avePrice || s.price || 39.3) : (s.price || 39.3);
+        const line = candleSeries.createPriceLine({
+          price: p,
+          color: '#da020e',
+          lineWidth: 2,
+          lineStyle: 2,
+          axisLabelVisible: true,
+          title: `HỖ TRỢ ${activeStock} (${p}k)`
+        });
+        drawnPriceLines.push(line);
+        if (btn) {
+          btn.classList.add('active');
+          btn.innerHTML = '✖ Tắt hỗ trợ';
+        }
+        showToast(`➖ Đã bật đường hỗ trợ ${activeStock} tại ${p}k (Bấm lại để tắt)`);
+      }
     }
+    window.addHorizontalLine = toggleSupportLine;
 
     function fitChart() {
       if (tvChart) tvChart.timeScale().fitContent();
