@@ -1346,7 +1346,7 @@
           <div class="brand-title">
             SINH VIÊN ĐÁNH CHỨNG • MAN UTD EDITION <span style="color:#fbe122;">🔱</span>
           </div>
-          <div class="brand-sub">TÀI KHOẢN: NGÔ QUANG THẾ • MBS 2512T51 <span style="font-size:10px; color:#10b981; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3); border-radius:4px; padding:1px 5px; margin-left:4px; font-weight:800;" title="Đã kích hoạt bảo mật PIN 251205 cho Nạp tiền & Đặt lệnh">🔒 PIN 251205</span></div>
+          <div class="brand-sub">TÀI KHOẢN: NGÔ QUANG THẾ • MBS 2512T51 <span style="font-size:10px; color:#10b981; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3); border-radius:4px; padding:1px 5px; margin-left:4px; font-weight:800;" title="Đã kích hoạt bảo mật mã PIN cho giao dịch Nạp/Rút và Đặt lệnh">🔒 ĐÃ BẬT BẢO MẬT PIN</span></div>
         </div>
       </div>
 
@@ -1389,7 +1389,7 @@
           <div class="card-title-icon">
             <span>💼</span> Quản Lý Tài Sản & Danh Mục Đầu Tư
           </div>
-          <span class="client-badge"><span style="color:#fbe122;">🔱</span> VIP: Anh Quang Thế <span style="font-size:9.5px; color:#34d399; margin-left:4px;" title="Tính năng Nạp tiền và Đặt lệnh Mua/Bán được khóa bằng PIN 251205">🔒 PIN 251205</span></span>
+          <span class="client-badge"><span style="color:#fbe122;">🔱</span> VIP: Anh Quang Thế <span style="font-size:9.5px; color:#34d399; margin-left:4px;" title="Tài khoản được bảo vệ bằng mã PIN bảo mật cá nhân">🔒 ĐÃ BẬT BẢO MẬT</span></span>
         </div>
 
         <div class="stats-row">
@@ -1772,11 +1772,11 @@
 
         <div class="form-group" style="margin-top:10px; background:rgba(218,2,14,0.08); border:1px solid rgba(218,2,14,0.3); border-radius:10px; padding:10px;">
           <label style="color:var(--mu-gold); font-weight:800; font-size:11.5px; display:flex; align-items:center; gap:5px; margin-bottom:5px;">
-            <span>🔒</span> MẬT KHẨU PIN BẢO MẬT (CHỦ TÀI KHOẢN ANH THẾ):
+            <span>🔒</span> MẬT KHẨU PIN BẢO MẬT (6 SỐ):
           </label>
-          <input type="password" class="form-control" id="depositPinInput" placeholder="Nhập mã PIN 6 số..." maxlength="6" autocomplete="off" style="text-align:center; letter-spacing:6px; font-size:16px; font-weight:900; font-family:var(--font-mono); background:rgba(0,0,0,0.5);" onkeydown="if(event.key==='Enter') confirmDeposit()">
+          <input type="password" class="form-control" id="depositPinInput" placeholder="••••••" maxlength="6" autocomplete="off" style="text-align:center; letter-spacing:8px; font-size:16px; font-weight:900; font-family:var(--font-mono); background:rgba(0,0,0,0.5);" onkeydown="if(event.key==='Enter') confirmDeposit()">
           <div id="depositPinError" style="color:var(--quant-red); font-size:10.5px; margin-top:4px; display:none; font-weight:700;">
-            ❌ Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN của anh Thế.
+            ❌ Mật khẩu PIN không chính xác! Vui lòng kiểm tra lại.
           </div>
         </div>
       </div>
@@ -1806,11 +1806,11 @@
 
         <div class="form-group" style="margin-top:10px; background:rgba(218,2,14,0.08); border:1px solid rgba(218,2,14,0.3); border-radius:10px; padding:10px;">
           <label style="color:var(--mu-gold); font-weight:800; font-size:11.5px; display:flex; align-items:center; gap:5px; margin-bottom:5px;">
-            <span>🔒</span> MẬT KHẨU PIN BẢO MẬT (CHỦ TÀI KHOẢN ANH THẾ):
+            <span>🔒</span> MẬT KHẨU PIN BẢO MẬT (6 SỐ):
           </label>
-          <input type="password" class="form-control" id="withdrawPinInput" placeholder="Nhập mã PIN 6 số..." maxlength="6" autocomplete="off" style="text-align:center; letter-spacing:6px; font-size:16px; font-weight:900; font-family:var(--font-mono); background:rgba(0,0,0,0.5);" onkeydown="if(event.key==='Enter') confirmWithdraw()">
+          <input type="password" class="form-control" id="withdrawPinInput" placeholder="••••••" maxlength="6" autocomplete="off" style="text-align:center; letter-spacing:8px; font-size:16px; font-weight:900; font-family:var(--font-mono); background:rgba(0,0,0,0.5);" onkeydown="if(event.key==='Enter') confirmWithdraw()">
           <div id="withdrawPinError" style="color:var(--quant-red); font-size:10.5px; margin-top:4px; display:none; font-weight:700;">
-            ❌ Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN của anh Thế.
+            ❌ Mật khẩu PIN không chính xác! Vui lòng kiểm tra lại.
           </div>
         </div>
       </div>
@@ -1915,11 +1915,11 @@
 
         <div style="margin-top:10px; background:rgba(218,2,14,0.08); border:1px solid rgba(218,2,14,0.3); border-radius:10px; padding:10px;">
           <label style="color:var(--mu-gold); font-weight:800; font-size:11.5px; display:flex; align-items:center; gap:5px; margin-bottom:5px;">
-            <span>🔒</span> MẬT KHẨU PIN XÁC THỰC LỆNH (CHỦ TÀI KHOẢN ANH THẾ):
+            <span>🔒</span> MẬT KHẨU PIN XÁC THỰC LỆNH (6 SỐ):
           </label>
-          <input type="password" id="orderPinInput" class="form-control" placeholder="Nhập mã PIN 6 số..." maxlength="6" autocomplete="off" style="text-align:center; letter-spacing:6px; font-size:16px; font-weight:900; font-family:var(--font-mono); background:rgba(0,0,0,0.5);" onkeydown="if(event.key==='Enter') executeFinalOrder()">
+          <input type="password" id="orderPinInput" class="form-control" placeholder="••••••" maxlength="6" autocomplete="off" style="text-align:center; letter-spacing:8px; font-size:16px; font-weight:900; font-family:var(--font-mono); background:rgba(0,0,0,0.5);" onkeydown="if(event.key==='Enter') executeFinalOrder()">
           <div id="orderPinError" style="color:var(--quant-red); font-size:10.5px; margin-top:4px; display:none; font-weight:700;">
-            ❌ Mật khẩu PIN không chính xác! Chỉ anh Ngô Quang Thế mới có quyền gửi lệnh.
+            ❌ Mật khẩu PIN không chính xác! Vui lòng kiểm tra lại.
           </div>
         </div>
       </div>
@@ -3236,21 +3236,35 @@
       } catch (_) {}
     }
 
-    // MÃ PIN BẢO MẬT GIAO DỊCH CỦA ANH THẾ (BẢO VỆ CHỐNG THAY ĐỔI SỐ LIỆU)
-    const SECURE_PIN = "251205";
+    // HASH SHA-256 BẢO MẬT (TUYỆT ĐỐI KHÔNG LƯU MÃ PIN RÕ TRÊN CLIENT HOẶC DEVTOOLS)
+    const PIN_HASH = "5c08be8accb9f88d063f0c022a85a3cacd47dd90bc61212f46929cf6734ef62c";
 
-    function executeFinalOrder() {
+    async function verifySecurePin(enteredPin) {
+      if (!enteredPin || enteredPin.length !== 6) return false;
+      try {
+        const msgUint8 = new TextEncoder().encode(enteredPin);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex === PIN_HASH;
+      } catch (_) {
+        return false;
+      }
+    }
+
+    async function executeFinalOrder() {
       const pinEl = document.getElementById('orderPinInput');
       const errEl = document.getElementById('orderPinError');
       const pin = (pinEl ? pinEl.value : '').trim();
 
-      if (pin !== SECURE_PIN) {
+      const isValid = await verifySecurePin(pin);
+      if (!isValid) {
         if (errEl) errEl.style.display = 'block';
         if (pinEl) {
           pinEl.focus();
           pinEl.select();
         }
-        showToast('🔒 Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN 251205 của anh Thế.');
+        showToast('🔒 Mật khẩu PIN không chính xác! Vui lòng thử lại.');
         return;
       }
       if (errEl) errEl.style.display = 'none';
@@ -3363,18 +3377,19 @@
       `).join('');
     }
 
-    function confirmDeposit() {
+    async function confirmDeposit() {
       const pinEl = document.getElementById('depositPinInput');
       const errEl = document.getElementById('depositPinError');
       const pin = (pinEl ? pinEl.value : '').trim();
 
-      if (pin !== SECURE_PIN) {
+      const isValid = await verifySecurePin(pin);
+      if (!isValid) {
         if (errEl) errEl.style.display = 'block';
         if (pinEl) {
           pinEl.focus();
           pinEl.select();
         }
-        showToast('🔒 Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN 251205 của anh Thế.');
+        showToast('🔒 Mật khẩu PIN không chính xác! Vui lòng thử lại.');
         return;
       }
       if (errEl) errEl.style.display = 'none';
@@ -3385,21 +3400,22 @@
       updatePortfolioUI();
       closeModal('depositModal');
       if (pinEl) pinEl.value = '';
-      showToast(`✓ [ĐÃ XÁC THỰC PIN 251205] Nạp thành công +${val.toLocaleString('vi-VN')} đ vào tài khoản!`);
+      showToast(`✓ [XÁC THỰC THÀNH CÔNG] Đã nạp +${val.toLocaleString('vi-VN')} đ vào tài khoản!`);
     }
 
-    function confirmWithdraw() {
+    async function confirmWithdraw() {
       const pinEl = document.getElementById('withdrawPinInput');
       const errEl = document.getElementById('withdrawPinError');
       const pin = (pinEl ? pinEl.value : '').trim();
 
-      if (pin !== SECURE_PIN) {
+      const isValid = await verifySecurePin(pin);
+      if (!isValid) {
         if (errEl) errEl.style.display = 'block';
         if (pinEl) {
           pinEl.focus();
           pinEl.select();
         }
-        showToast('🔒 Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN 251205 của anh Thế.');
+        showToast('🔒 Mật khẩu PIN không chính xác! Vui lòng thử lại.');
         return;
       }
       if (errEl) errEl.style.display = 'none';
@@ -3410,7 +3426,7 @@
       updatePortfolioUI();
       closeModal('withdrawModal');
       if (pinEl) pinEl.value = '';
-      showToast(`✓ [ĐÃ XÁC THỰC PIN 251205] Rút thành công -${val.toLocaleString('vi-VN')} đ!`);
+      showToast(`✓ [XÁC THỰC THÀNH CÔNG] Đã rút -${val.toLocaleString('vi-VN')} đ!`);
     }
 
     function formatCurrencyInput(el) {
