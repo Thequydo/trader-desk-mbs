@@ -1346,7 +1346,7 @@
           <div class="brand-title">
             SINH VIÊN ĐÁNH CHỨNG • MAN UTD EDITION <span style="color:#fbe122;">🔱</span>
           </div>
-          <div class="brand-sub">TÀI KHOẢN: NGÔ QUANG THẾ • MBS 2512T51</div>
+          <div class="brand-sub">TÀI KHOẢN: NGÔ QUANG THẾ • MBS 2512T51 <span style="font-size:10px; color:#10b981; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3); border-radius:4px; padding:1px 5px; margin-left:4px; font-weight:800;" title="Đã kích hoạt bảo mật PIN 251205 cho Nạp tiền & Đặt lệnh">🔒 PIN 251205</span></div>
         </div>
       </div>
 
@@ -1389,7 +1389,7 @@
           <div class="card-title-icon">
             <span>💼</span> Quản Lý Tài Sản & Danh Mục Đầu Tư
           </div>
-          <span class="client-badge"><span style="color:#fbe122;">🔱</span> VIP: Anh Quang Thế</span>
+          <span class="client-badge"><span style="color:#fbe122;">🔱</span> VIP: Anh Quang Thế <span style="font-size:9.5px; color:#34d399; margin-left:4px;" title="Tính năng Nạp tiền và Đặt lệnh Mua/Bán được khóa bằng PIN 251205">🔒 PIN 251205</span></span>
         </div>
 
         <div class="stats-row">
@@ -1769,6 +1769,16 @@
           <label>Nhập Số Tiền Đã Chuyển (VNĐ)</label>
           <input type="text" class="form-control" id="depositAmount" value="5.000.000" oninput="formatCurrencyInput(this)">
         </div>
+
+        <div class="form-group" style="margin-top:10px; background:rgba(218,2,14,0.08); border:1px solid rgba(218,2,14,0.3); border-radius:10px; padding:10px;">
+          <label style="color:var(--mu-gold); font-weight:800; font-size:11.5px; display:flex; align-items:center; gap:5px; margin-bottom:5px;">
+            <span>🔒</span> MẬT KHẨU PIN BẢO MẬT (CHỦ TÀI KHOẢN ANH THẾ):
+          </label>
+          <input type="password" class="form-control" id="depositPinInput" placeholder="Nhập mã PIN 6 số..." maxlength="6" autocomplete="off" style="text-align:center; letter-spacing:6px; font-size:16px; font-weight:900; font-family:var(--font-mono); background:rgba(0,0,0,0.5);" onkeydown="if(event.key==='Enter') confirmDeposit()">
+          <div id="depositPinError" style="color:var(--quant-red); font-size:10.5px; margin-top:4px; display:none; font-weight:700;">
+            ❌ Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN của anh Thế.
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn-secondary" onclick="closeModal('depositModal')">Đóng</button>
@@ -1792,6 +1802,16 @@
         <div class="form-group">
           <label>Số Tiền Muốn Rút (VNĐ)</label>
           <input type="text" class="form-control" id="withdrawAmount" placeholder="Nhập số tiền..." oninput="formatCurrencyInput(this)">
+        </div>
+
+        <div class="form-group" style="margin-top:10px; background:rgba(218,2,14,0.08); border:1px solid rgba(218,2,14,0.3); border-radius:10px; padding:10px;">
+          <label style="color:var(--mu-gold); font-weight:800; font-size:11.5px; display:flex; align-items:center; gap:5px; margin-bottom:5px;">
+            <span>🔒</span> MẬT KHẨU PIN BẢO MẬT (CHỦ TÀI KHOẢN ANH THẾ):
+          </label>
+          <input type="password" class="form-control" id="withdrawPinInput" placeholder="Nhập mã PIN 6 số..." maxlength="6" autocomplete="off" style="text-align:center; letter-spacing:6px; font-size:16px; font-weight:900; font-family:var(--font-mono); background:rgba(0,0,0,0.5);" onkeydown="if(event.key==='Enter') confirmWithdraw()">
+          <div id="withdrawPinError" style="color:var(--quant-red); font-size:10.5px; margin-top:4px; display:none; font-weight:700;">
+            ❌ Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN của anh Thế.
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -1891,6 +1911,16 @@
         </div>
         <div id="confirmWarning" style="font-size:10px; color:var(--quant-red); display:none; background:rgba(218,2,14,0.1); padding:5px 8px; border-radius:6px; border:1px solid rgba(218,2,14,0.3);">
           ⚠️ Cảnh báo: Vượt quá tiền mặt! Sẽ sử dụng hạn mức Margin MBS khả dụng.
+        </div>
+
+        <div style="margin-top:10px; background:rgba(218,2,14,0.08); border:1px solid rgba(218,2,14,0.3); border-radius:10px; padding:10px;">
+          <label style="color:var(--mu-gold); font-weight:800; font-size:11.5px; display:flex; align-items:center; gap:5px; margin-bottom:5px;">
+            <span>🔒</span> MẬT KHẨU PIN XÁC THỰC LỆNH (CHỦ TÀI KHOẢN ANH THẾ):
+          </label>
+          <input type="password" id="orderPinInput" class="form-control" placeholder="Nhập mã PIN 6 số..." maxlength="6" autocomplete="off" style="text-align:center; letter-spacing:6px; font-size:16px; font-weight:900; font-family:var(--font-mono); background:rgba(0,0,0,0.5);" onkeydown="if(event.key==='Enter') executeFinalOrder()">
+          <div id="orderPinError" style="color:var(--quant-red); font-size:10.5px; margin-top:4px; display:none; font-weight:700;">
+            ❌ Mật khẩu PIN không chính xác! Chỉ anh Ngô Quang Thế mới có quyền gửi lệnh.
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -3206,8 +3236,27 @@
       } catch (_) {}
     }
 
+    // MÃ PIN BẢO MẬT GIAO DỊCH CỦA ANH THẾ (BẢO VỆ CHỐNG THAY ĐỔI SỐ LIỆU)
+    const SECURE_PIN = "251205";
+
     function executeFinalOrder() {
+      const pinEl = document.getElementById('orderPinInput');
+      const errEl = document.getElementById('orderPinError');
+      const pin = (pinEl ? pinEl.value : '').trim();
+
+      if (pin !== SECURE_PIN) {
+        if (errEl) errEl.style.display = 'block';
+        if (pinEl) {
+          pinEl.focus();
+          pinEl.select();
+        }
+        showToast('🔒 Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN 251205 của anh Thế.');
+        return;
+      }
+      if (errEl) errEl.style.display = 'none';
+
       closeModal('modalConfirmOrder');
+      if (pinEl) pinEl.value = '';
       playChime();
 
       const sym = activeStock;
@@ -3315,21 +3364,53 @@
     }
 
     function confirmDeposit() {
+      const pinEl = document.getElementById('depositPinInput');
+      const errEl = document.getElementById('depositPinError');
+      const pin = (pinEl ? pinEl.value : '').trim();
+
+      if (pin !== SECURE_PIN) {
+        if (errEl) errEl.style.display = 'block';
+        if (pinEl) {
+          pinEl.focus();
+          pinEl.select();
+        }
+        showToast('🔒 Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN 251205 của anh Thế.');
+        return;
+      }
+      if (errEl) errEl.style.display = 'none';
+
       const val = parseInt(document.getElementById('depositAmount').value.replace(/\D/g, '')) || 0;
       if (val < 50000) { alert('Số tiền nạp tối thiểu là 50.000 đ!'); return; }
       currentCash += val;
       updatePortfolioUI();
       closeModal('depositModal');
-      showToast(`✓ Đã nạp thành công +${val.toLocaleString('vi-VN')} đ vào tài khoản SVCC!`);
+      if (pinEl) pinEl.value = '';
+      showToast(`✓ [ĐÃ XÁC THỰC PIN 251205] Nạp thành công +${val.toLocaleString('vi-VN')} đ vào tài khoản!`);
     }
 
     function confirmWithdraw() {
+      const pinEl = document.getElementById('withdrawPinInput');
+      const errEl = document.getElementById('withdrawPinError');
+      const pin = (pinEl ? pinEl.value : '').trim();
+
+      if (pin !== SECURE_PIN) {
+        if (errEl) errEl.style.display = 'block';
+        if (pinEl) {
+          pinEl.focus();
+          pinEl.select();
+        }
+        showToast('🔒 Mật khẩu PIN không chính xác! Vui lòng nhập đúng PIN 251205 của anh Thế.');
+        return;
+      }
+      if (errEl) errEl.style.display = 'none';
+
       const val = parseInt(document.getElementById('withdrawAmount').value.replace(/\D/g, '')) || 0;
       if (val < 50000 || val > currentCash) { alert('Số tiền rút không hợp lệ hoặc vượt quá số dư!'); return; }
       currentCash -= val;
       updatePortfolioUI();
       closeModal('withdrawModal');
-      showToast(`✓ Đã rút -${val.toLocaleString('vi-VN')} đ!`);
+      if (pinEl) pinEl.value = '';
+      showToast(`✓ [ĐÃ XÁC THỰC PIN 251205] Rút thành công -${val.toLocaleString('vi-VN')} đ!`);
     }
 
     function formatCurrencyInput(el) {
@@ -3389,11 +3470,43 @@
     function openModal(id) {
       const el = document.getElementById(id);
       if (el) el.style.display = 'flex';
+
+      // Xóa sạch mã PIN cũ và tự động focus vào ô nhập PIN
+      if (id === 'depositModal') {
+        const pinEl = document.getElementById('depositPinInput');
+        const errEl = document.getElementById('depositPinError');
+        if (pinEl) { pinEl.value = ''; setTimeout(() => pinEl.focus(), 120); }
+        if (errEl) errEl.style.display = 'none';
+      } else if (id === 'withdrawModal') {
+        const pinEl = document.getElementById('withdrawPinInput');
+        const errEl = document.getElementById('withdrawPinError');
+        if (pinEl) { pinEl.value = ''; setTimeout(() => pinEl.focus(), 120); }
+        if (errEl) errEl.style.display = 'none';
+      } else if (id === 'modalConfirmOrder') {
+        const pinEl = document.getElementById('orderPinInput');
+        const errEl = document.getElementById('orderPinError');
+        if (pinEl) { pinEl.value = ''; setTimeout(() => pinEl.focus(), 120); }
+        if (errEl) errEl.style.display = 'none';
+      }
     }
+
     function closeModal(id) {
       const el = document.getElementById(id);
       if (el) el.style.display = 'none';
+
+      // Xóa mã PIN khi đóng modal để bảo mật
+      if (id === 'depositModal') {
+        const pinEl = document.getElementById('depositPinInput');
+        if (pinEl) pinEl.value = '';
+      } else if (id === 'withdrawModal') {
+        const pinEl = document.getElementById('withdrawPinInput');
+        if (pinEl) pinEl.value = '';
+      } else if (id === 'modalConfirmOrder') {
+        const pinEl = document.getElementById('orderPinInput');
+        if (pinEl) pinEl.value = '';
+      }
     }
+
     function showToast(msg) {
       const t = document.getElementById('toastMsg');
       if (!t) return;
