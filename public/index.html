@@ -2669,18 +2669,10 @@
           const list = await res.json();
           if (Array.isArray(list) && list.length > 0) {
             const item = list[0];
-            const cur = parseFloat(item.oIndex) || 0;
-            const ref = parseFloat(item.cIndex) || cur;
-            let diff = 0;
-            let pct = 0;
-            if (item.ot) {
-              const parts = item.ot.split('|');
-              diff = parseFloat(parts[0]) || (cur - ref);
-              pct = parseFloat((parts[1] || '').replace('%', '')) || (ref > 0 ? (diff / ref) * 100 : 0);
-            } else {
-              diff = cur - ref;
-              pct = ref > 0 ? (diff / ref) * 100 : 0;
-            }
+            const cur = parseFloat(item.cIndex) || 0;
+            const ref = parseFloat(item.oIndex) || cur;
+            const diff = cur - ref;
+            const pct = ref > 0 ? (diff / ref) * 100 : 0;
 
             const vnValEl = document.getElementById('vnindexVal');
             const vnChgEl = document.getElementById('vnindexChg');

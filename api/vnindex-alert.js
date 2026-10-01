@@ -52,8 +52,8 @@ export default async function handler(req, res) {
         const vpsData = await vpsRes.json();
         if (Array.isArray(vpsData) && vpsData.length > 0) {
           const item = vpsData[0];
-          curIndex = parseFloat(item.oIndex) || 0;
-          refIndex = parseFloat(item.cIndex) || curIndex;
+          curIndex = parseFloat(item.cIndex) || 0;
+          refIndex = parseFloat(item.oIndex) || curIndex;
           diff = curIndex - refIndex;
           pct = refIndex > 0 ? (diff / refIndex) * 100 : 0;
           timeStr = item.time || "";

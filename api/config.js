@@ -93,8 +93,10 @@ export default async function handler(req, res) {
           const idxData = await idxRes.json();
           if (idxData && idxData.length > 0) {
             const cIdx = parseFloat(idxData[0].cIndex) || 0;
-            const chg = parseFloat(idxData[0].changePercent) || 0;
-            items.push({ sym: "VN-INDEX", price: cIdx, chg: chg, vol: 0 });
+            const oIdx = parseFloat(idxData[0].oIndex) || cIdx;
+            const ot = cIdx - oIdx;
+            const chg = oIdx > 0 ? (ot / oIdx) * 100 : 0;
+            items.push({ sym: "VN-INDEX", price: cIdx, chg: chg, ot: ot, vol: idxData[0].vol || 0 });
           }
         } catch (_) {
           items.push({ sym: "VN-INDEX", price: 1775.09, chg: 0.0, vol: 0 });
