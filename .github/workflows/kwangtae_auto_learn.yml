@@ -2,8 +2,8 @@ name: KwangTae Autonomous Daily Learning
 
 on:
   schedule:
-    # 08:30 UTC = 15:30 Giờ Việt Nam (UTC+7), từ Thứ 2 đến Thứ 6 hàng tuần
-    - cron: '30 8 * * 1-5'
+    # 10:00 UTC = 17:00 Giờ Việt Nam (UTC+7), từ Thứ 2 đến Thứ 6 hàng tuần
+    - cron: '0 10 * * 1-5'
   workflow_dispatch:
 
 permissions:
@@ -30,6 +30,10 @@ jobs:
       - name: Chạy cỗ máy tự học KwangTae Cloud
         run: |
           python scripts/kwangtae_daily_learn.py
+
+      - name: Gửi báo cáo tổng kết 17h tới Telegram anh Thế
+        run: |
+          python scripts/send_daily_17h_report.py
 
       - name: Lưu trữ & Triển khai kết quả mới lên Cloud
         run: |

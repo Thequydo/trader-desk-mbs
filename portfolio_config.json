@@ -1,0 +1,12 @@
+{
+  "investor_name": "Quang Thế (QTheee)",
+  "cash": 500000,
+  "holdings": [
+    {
+      "symbol": "ACV",
+      "name": "TCT Cảng Hàng Không VN",
+      "qty": 1250,
+      "avg_price": 45.899
+    }
+  ]
+}
